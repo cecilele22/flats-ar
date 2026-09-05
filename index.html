@@ -455,15 +455,19 @@
             </div>
 
 
-          <model-viewer
-  src="https://raw.githubusercontent.com/js-easy-school/kin-house-bim/main/project/kin-house.glb"
-  camera-controls
-  auto-rotate
-  shadow-intensity="1"
-  exposure="1"
-  ar
-  ar-modes="webxr scene-viewer quick-look"
-  alt="Architectural house">
+     <model-viewer
+    id="modelViewer"
+    src="models/building.glb"
+    camera-controls
+    auto-rotate
+    auto-rotate-delay="1000"
+    rotation-per-second="20deg"
+    shadow-intensity="1"
+    exposure="1"
+    environment-image="neutral"
+    ar
+    ar-modes="webxr scene-viewer quick-look"
+    alt="Condominium building">
 </model-viewer>
 
             <button id="fullscreen" aria-label="Enter fullscreen" title="Fullscreen">
