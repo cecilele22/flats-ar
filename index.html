@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,8 +9,9 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 
     <!-- Model Viewer -->
     <script
@@ -18,6 +20,10 @@
     </script>
 
     <style>
+
+        /* =========================
+           RESET
+        ========================= */
 
         * {
             box-sizing: border-box;
@@ -31,6 +37,7 @@
             color: white;
             overflow-x: hidden;
         }
+
 
         /* =========================
            INTRO
@@ -48,8 +55,8 @@
             justify-content: center;
 
             transition:
-                opacity 1s ease,
-                visibility 1s ease;
+                opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 1.2s ease;
         }
 
         #intro.hide {
@@ -58,56 +65,65 @@
             pointer-events: none;
         }
 
-      .logo {
-    width: 120px;
-    max-width: 60vw;
 
-    opacity: 0;
-    transform: translateY(30px) scale(0.85);
-    filter: blur(10px);
+        /* =========================
+           LOGO
+        ========================= */
 
-    animation: logoReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
+        .logo {
+            width: 120px;
+            max-width: 60vw;
 
-.logo img {
-    width: 100%;
-    height: auto;
-    display: block;
+            opacity: 0;
 
-    animation: logoFloat 4s ease-in-out 1.4s infinite;
-}
+            transform:
+                translateY(20px)
+                scale(0.94);
 
-/* Cinematic entrance */
-@keyframes logoReveal {
-    0% {
-        opacity: 0;
-        transform: translateY(30px) scale(0.85);
-        filter: blur(10px);
-    }
+            filter: blur(6px);
 
-    60% {
-        opacity: 1;
-        transform: translateY(-5px) scale(1.04);
-        filter: blur(0);
-    }
+            animation:
+                logoReveal
+                2s
+                cubic-bezier(0.22, 1, 0.36, 1)
+                forwards;
+        }
 
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        filter: blur(0);
-    }
-}
+        .logo img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
 
-/* Subtle floating after entrance */
-@keyframes logoFloat {
-    0%, 100% {
-        transform: translateY(0);
-    }
+        @keyframes logoReveal {
 
-    50% {
-        transform: translateY(-6px);
-    }
-}
+            0% {
+                opacity: 0;
+
+                transform:
+                    translateY(20px)
+                    scale(0.94);
+
+                filter: blur(6px);
+            }
+
+            40% {
+                opacity: 0.7;
+                filter: blur(2px);
+            }
+
+            100% {
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+
+                filter: blur(0);
+            }
+
+        }
+
 
         /* =========================
            MAIN SITE
@@ -118,13 +134,18 @@
 
             opacity: 0;
 
+            transform: translateY(10px);
+
             transition:
-                opacity 1.2s ease;
+                opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         #site.show {
             opacity: 1;
+            transform: translateY(0);
         }
+
 
         /* =========================
            HEADER
@@ -132,14 +153,20 @@
 
         .top {
             text-align: center;
-            padding: 60px 20px 25px;
+
+            padding:
+                60px
+                20px
+                25px;
         }
 
         .top small {
             display: block;
 
             font-size: 10px;
+
             letter-spacing: 4px;
+
             text-transform: uppercase;
 
             opacity: 0.45;
@@ -150,7 +177,12 @@
         .top h2 {
             font-family: "Playfair Display", serif;
 
-            font-size: clamp(32px, 6vw, 58px);
+            font-size:
+                clamp(
+                    32px,
+                    6vw,
+                    58px
+                );
 
             font-weight: 500;
         }
@@ -158,7 +190,10 @@
         .top p {
             max-width: 520px;
 
-            margin: 15px auto 0;
+            margin:
+                15px
+                auto
+                0;
 
             line-height: 1.7;
 
@@ -167,17 +202,29 @@
             opacity: 0.65;
         }
 
+
         /* =========================
            3D VIEWER
         ========================= */
 
         .viewer-wrapper {
 
-            width: min(1100px, 92%);
+            width:
+                min(
+                    1100px,
+                    92%
+                );
 
-            height: min(650px, 70vh);
+            height:
+                min(
+                    650px,
+                    70vh
+                );
 
-            margin: 35px auto 0;
+            margin:
+                35px
+                auto
+                0;
 
             position: relative;
 
@@ -188,7 +235,9 @@
             overflow: hidden;
 
             box-shadow:
-                0 25px 80px rgba(0,0,0,0.08);
+                0 25px
+                80px
+                rgba(0,0,0,0.08);
         }
 
         model-viewer {
@@ -196,15 +245,17 @@
             width: 100%;
             height: 100%;
 
-            background: #dedbd5;
+            background: white;
 
             --poster-color: transparent;
 
             --progress-bar-color: white;
+
             --progress-mask: #dedbd5;
 
             --ar-button-display: none;
         }
+
 
         /* =========================
            LOADING
@@ -227,7 +278,8 @@
 
             pointer-events: none;
 
-            transition: opacity 0.5s ease;
+            transition:
+                opacity 0.6s ease;
         }
 
         .loading.hidden {
@@ -259,7 +311,8 @@
 
             height: 1px;
 
-            background: rgba(0,0,0,0.15);
+            background:
+                rgba(0,0,0,0.15);
 
             overflow: hidden;
         }
@@ -272,59 +325,79 @@
 
             background: #1d1d1b;
 
-            animation: loading 1.3s infinite ease-in-out;
+            animation:
+                loading
+                1.3s
+                infinite
+                ease-in-out;
         }
 
         @keyframes loading {
 
             0% {
-                transform: translateX(-100%);
+                transform:
+                    translateX(-100%);
             }
 
             100% {
-                transform: translateX(450%);
+                transform:
+                    translateX(450%);
             }
 
         }
+
 
         /* =========================
            FULLSCREEN
         ========================= */
 
-       #fullscreen {
-    position: absolute;
-    right: 18px;
-    bottom: 18px;
-    z-index: 10;
+        #fullscreen {
 
-    width: 42px;
-    height: 42px;
+            position: absolute;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            right: 18px;
+            bottom: 18px;
 
-    border: 0;
-    border-radius: 3px;
+            z-index: 10;
 
-    background: rgba(255, 255, 255, 0.88);
+            width: 42px;
+            height: 42px;
 
-    backdrop-filter: blur(10px);
+            display: flex;
 
-    color: white;
+            align-items: center;
+            justify-content: center;
 
-    font-size: 23px;
-    line-height: 1;
+            border: 0;
 
-    cursor: pointer;
+            border-radius: 3px;
 
-    transition: all 0.25s ease;
-}
+            background:
+                rgba(255,255,255,0.88);
 
-#fullscreen:hover {
-    background: #fff;
-    transform: scale(1.05);
-}
+            backdrop-filter:
+                blur(10px);
+
+            color: #274535;
+
+            font-size: 23px;
+
+            line-height: 1;
+
+            cursor: pointer;
+
+            transition:
+                all 0.25s ease;
+        }
+
+        #fullscreen:hover {
+
+            background: #fff;
+
+            transform:
+                scale(1.05);
+        }
+
 
         /* =========================
            AR BUTTON
@@ -334,20 +407,28 @@
 
             text-align: center;
 
-            padding: 35px 20px 70px;
+            padding:
+                35px
+                20px
+                70px;
         }
 
         #arButton {
 
-            border: 1px solid white;
+            border:
+                1px solid white;
 
             background: white;
 
             color: #274535;
 
-            padding: 17px 34px;
+            padding:
+                17px
+                34px;
 
-            font-family: "Plus Jakarta Sans", sans-serif;
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
 
             font-size: 11px;
 
@@ -357,7 +438,8 @@
 
             cursor: pointer;
 
-            transition: all 0.3s ease;
+            transition:
+                all 0.3s ease;
         }
 
         #arButton:hover {
@@ -365,7 +447,6 @@
             background: transparent;
 
             color: white;
-
         }
 
         .ar-note {
@@ -377,6 +458,7 @@
             opacity: 0.45;
         }
 
+
         /* =========================
            MOBILE
         ========================= */
@@ -384,6 +466,7 @@
         @media (max-width: 700px) {
 
             .top {
+
                 padding-top: 40px;
             }
 
@@ -394,19 +477,23 @@
                 height: 58vh;
 
                 min-height: 400px;
-
             }
 
             .top p {
 
                 font-size: 13px;
+            }
 
+            .logo {
+
+                width: 110px;
             }
 
         }
 
     </style>
 </head>
+
 
 <body>
 
@@ -419,8 +506,10 @@
 
         <div class="logo">
 
-           <img src="logo.png" alt="FLATS">
-            
+            <img
+                src="logo.png"
+                alt="FLATS">
+
         </div>
 
     </section>
@@ -432,11 +521,16 @@
 
     <main id="site">
 
+
         <section class="top">
 
-            <small>Discover the development</small>
+            <small>
+                Discover the development
+            </small>
 
-            <h2>Your Future Home</h2>
+            <h2>
+                Your Future Home
+            </h2>
 
             <p>
                 Explore the property in three dimensions.
@@ -452,14 +546,23 @@
 
         <section class="viewer-wrapper">
 
-            <div class="loading" id="loading">
+
+            <div
+                class="loading"
+                id="loading">
 
                 <div class="loading-inner">
 
-                    <span>Loading experience</span>
+                    <span>
+                        Loading experience
+                    </span>
 
                     <div class="loader">
-                        <div class="loader-line"></div>
+
+                        <div
+                            class="loader-line">
+                        </div>
+
                     </div>
 
                 </div>
@@ -467,24 +570,31 @@
             </div>
 
 
-     <model-viewer
-    id="modelViewer"
-    src="models/building.glb"
-    camera-controls
-    auto-rotate
-    auto-rotate-delay="1000"
-    rotation-per-second="20deg"
-    shadow-intensity="1"
-    exposure="1"
-    environment-image="neutral"
-    ar
-    ar-modes="webxr scene-viewer quick-look"
-    alt="Condominium building">
-</model-viewer>
+            <model-viewer
+                id="modelViewer"
+                src="models/building.glb"
+                camera-controls
+                auto-rotate
+                auto-rotate-delay="1000"
+                rotation-per-second="20deg"
+                shadow-intensity="1"
+                exposure="1"
+                environment-image="neutral"
+                ar
+                ar-modes="webxr scene-viewer quick-look"
+                alt="Condominium building">
+            </model-viewer>
 
-            <button id="fullscreen" aria-label="Enter fullscreen" title="Fullscreen">
-    ⛶
-</button>
+
+            <button
+                id="fullscreen"
+                aria-label="Enter fullscreen"
+                title="Fullscreen">
+
+                ⛶
+
+            </button>
+
 
         </section>
 
@@ -496,139 +606,202 @@
         <section class="ar-section">
 
             <button id="arButton">
+
                 View in AR
+
             </button>
 
             <div class="ar-note">
+
                 Best experienced on a mobile device
+
             </div>
 
         </section>
+
 
     </main>
 
 
     <script>
 
-        const intro = document.getElementById("intro");
-        const site = document.getElementById("site");
 
-        const viewer = document.getElementById("modelViewer");
+        /* =========================
+           ELEMENTS
+        ========================= */
 
-        const loading = document.getElementById("loading");
+        const intro =
+            document.getElementById("intro");
 
-        const fullscreen = document.getElementById("fullscreen");
+        const site =
+            document.getElementById("site");
 
-        const arButton = document.getElementById("arButton");
+        const viewer =
+            document.getElementById("modelViewer");
+
+        const loading =
+            document.getElementById("loading");
+
+        const fullscreen =
+            document.getElementById("fullscreen");
+
+        const arButton =
+            document.getElementById("arButton");
 
 
         /* =========================
            INTRO
         ========================= */
 
-        window.addEventListener("load", () => {
+        window.addEventListener(
+            "load",
+            () => {
 
-            setTimeout(() => {
+                setTimeout(() => {
 
-                intro.classList.add("hide");
+                    intro.classList.add("hide");
 
-                site.classList.add("show");
+                    site.classList.add("show");
 
-            }, 3000);
+                }, 2500);
 
-        });
+            }
+        );
 
 
         /* =========================
            MODEL LOADING
         ========================= */
 
-        viewer.addEventListener("load", () => {
+        viewer.addEventListener(
+            "load",
+            () => {
 
-            console.log("3D model loaded successfully.");
+                console.log(
+                    "3D model loaded successfully."
+                );
 
-            loading.classList.add("hidden");
+                loading.classList.add(
+                    "hidden"
+                );
 
-        });
+            }
+        );
 
 
-        viewer.addEventListener("error", (event) => {
+        viewer.addEventListener(
+            "error",
+            (event) => {
 
-            console.error("3D MODEL ERROR:", event);
+                console.error(
+                    "3D MODEL ERROR:",
+                    event
+                );
 
-            loading.innerHTML = `
-                <div class="loading-inner">
-                    <span>Unable to load 3D model</span>
-                </div>
-            `;
+                loading.innerHTML = `
 
-        });
+                    <div class="loading-inner">
+
+                        <span>
+                            Unable to load 3D model
+                        </span>
+
+                    </div>
+
+                `;
+
+            }
+        );
 
 
         /* =========================
            FULLSCREEN
         ========================= */
 
-        fullscreen.addEventListener("click", async () => {
+        fullscreen.addEventListener(
+            "click",
+            async () => {
 
-            const wrapper = document.querySelector(".viewer-wrapper");
+                const wrapper =
+                    document.querySelector(
+                        ".viewer-wrapper"
+                    );
 
-            try {
+                try {
 
-                if (!document.fullscreenElement) {
+                    if (
+                        !document.fullscreenElement
+                    ) {
 
-                    await wrapper.requestFullscreen();
+                        await wrapper.requestFullscreen();
 
-                } else {
+                    } else {
 
-                    await document.exitFullscreen();
+                        await document.exitFullscreen();
+
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "Fullscreen error:",
+                        error
+                    );
 
                 }
 
-            } catch (error) {
-
-                console.error("Fullscreen error:", error);
-
             }
-
-        });
+        );
 
 
         /* =========================
            AR
         ========================= */
 
-        arButton.addEventListener("click", async () => {
+        arButton.addEventListener(
+            "click",
+            async () => {
 
-            console.log("AR button clicked.");
+                console.log(
+                    "AR button clicked."
+                );
 
-            try {
+                try {
 
-                if (!viewer.canActivateAR) {
+                    if (
+                        !viewer.canActivateAR
+                    ) {
 
-                    alert(
-                        "AR is not available on this device. Please open this page on a compatible iPhone or Android phone."
+                        alert(
+                            "AR is not available on this device. Please open this page on a compatible iPhone or Android phone."
+                        );
+
+                        return;
+
+                    }
+
+                    await viewer.activateAR();
+
+                } catch (error) {
+
+                    console.error(
+                        "AR ERROR:",
+                        error
                     );
 
-                    return;
+                    alert(
+                        "AR could not be launched. Please try opening the website on a compatible mobile device."
+                    );
 
                 }
 
-                await viewer.activateAR();
-
-            } catch (error) {
-
-                console.error("AR ERROR:", error);
-
-                alert(
-                    "AR could not be launched. Please try opening the website on a compatible mobile device."
-                );
-
             }
+        );
 
-        });
 
     </script>
 
+
 </body>
 </html>
+```
