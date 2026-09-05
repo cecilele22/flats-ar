@@ -2,493 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Discover | Your Development</title>
+    <title>Your Project</title>
 
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
         rel="stylesheet"
     >
 
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Model Viewer -->
-    <script
-        type="module"
-        src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js">
-    </script>
-</head>
-
-<body>
-
-    <!-- =====================================================
-         INTRO / LOGO ANIMATION
-    ====================================================== -->
-
-    <section id="intro" class="intro-screen">
-
-        <div class="intro-content">
-
-            <!-- Replace this with your real logo -->
-            <div class="logo-wrapper">
-                <div class="logo-mark">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-                <div class="logo-text">
-                    YOUR<br>
-                    PROJECT
-                </div>
-            </div>
-
-            <p class="intro-tagline">
-                A new perspective on living.
-            </p>
-
-        </div>
-
-        <div class="intro-line"></div>
-
-    </section>
-
-
-    <!-- =====================================================
-         MAIN WEBSITE
-    ====================================================== -->
-
-    <main id="main-site" class="main-site">
-
-        <!-- HEADER -->
-
-        <header class="header">
-
-            <div class="brand">
-                YOUR PROJECT
-            </div>
-
-            <nav class="navigation">
-                <a href="#experience">Experience</a>
-                <a href="#story">The Vision</a>
-                <a href="#location">Location</a>
-            </nav>
-
-            <button
-                class="menu-button"
-                id="menuButton"
-                aria-label="Open menu">
-                <span></span>
-                <span></span>
-            </button>
-
-        </header>
-
-
-        <!-- =================================================
-             HERO
-        ================================================== -->
-
-        <section id="experience" class="hero">
-
-            <div class="hero-introduction">
-
-                <p class="eyebrow">
-                    DISCOVER THE DEVELOPMENT
-                </p>
-
-                <h1>
-                    Experience<br>
-                    <em>what's beyond.</em>
-                </h1>
-
-                <p class="hero-description">
-                    Explore the development in three dimensions.
-                    Move around the architecture, discover the spaces,
-                    and experience it in your world.
-                </p>
-
-            </div>
-
-
-            <!-- 3D VIEWER CARD -->
-
-            <div class="viewer-container">
-
-                <div class="viewer-header">
-
-                    <div>
-                        <span class="viewer-label">
-                            03 / EXPLORE
-                        </span>
-                    </div>
-
-                    <div class="viewer-status">
-                        INTERACTIVE 3D
-                    </div>
-
-                </div>
-
-
-                <!-- Three.js Canvas -->
-
-                <canvas id="threeCanvas"></canvas>
-
-
-                <!-- Viewer controls -->
-
-                <div class="viewer-controls">
-
-                    <button id="resetButton">
-                        RESET VIEW
-                    </button>
-
-                    <button id="rotateButton">
-                        AUTO ROTATE
-                    </button>
-
-                </div>
-
-
-                <!-- Fullscreen inside viewer -->
-
-                <button
-                    id="fullscreenButton"
-                    class="fullscreen-button"
-                    aria-label="Fullscreen">
-
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-
-                </button>
-
-
-                <!-- Loading -->
-
-                <div id="viewerLoading" class="viewer-loading">
-
-                    <div class="loading-spinner"></div>
-
-                    <span>
-                        PREPARING EXPERIENCE
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <!-- EXPERIENCE ACTIONS -->
-
-            <div class="experience-actions">
-
-                <button
-                    id="walkthroughButton"
-                    class="action-button action-primary">
-
-                    <span>
-                        EXPLORE INSIDE
-                    </span>
-
-                    <small>
-                        WALKTHROUGH
-                    </small>
-
-                    <strong>→</strong>
-
-                </button>
-
-
-                <button
-                    id="arButton"
-                    class="action-button">
-
-                    <span>
-                        SEE IT IN YOUR WORLD
-                    </span>
-
-                    <small>
-                        VIEW IN AR
-                    </small>
-
-                    <strong>↗</strong>
-
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             STORY
-        ================================================== -->
-
-        <section id="story" class="story-section">
-
-            <div class="story-number">
-                01
-            </div>
-
-            <div class="story-content">
-
-                <p class="eyebrow">
-                    THE VISION
-                </p>
-
-                <h2>
-                    Designed for<br>
-                    <em>the way forward.</em>
-                </h2>
-
-                <p>
-                    Architecture, landscape and everyday life come
-                    together to create a place designed around
-                    how people live today — and tomorrow.
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             STATS
-        ================================================== -->
-
-        <section class="stats-section">
-
-            <div class="stat">
-                <strong>01</strong>
-                <span>Distinctive<br>Architecture</span>
-            </div>
-
-            <div class="stat">
-                <strong>XX</strong>
-                <span>Storeys</span>
-            </div>
-
-            <div class="stat">
-                <strong>XX</strong>
-                <span>Residences</span>
-            </div>
-
-            <div class="stat">
-                <strong>XX</strong>
-                <span>Amenities</span>
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             LOCATION
-        ================================================== -->
-
-        <section id="location" class="location-section">
-
-            <div>
-
-                <p class="eyebrow">
-                    LOCATION
-                </p>
-
-                <h2>
-                    Connected<br>
-                    <em>to everything.</em>
-                </h2>
-
-            </div>
-
-            <div class="location-copy">
-
-                <p>
-                    Ideally positioned within reach of the places
-                    that matter most.
-                </p>
-
-                <button>
-                    EXPLORE LOCATION →
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             FINAL CTA
-        ================================================== -->
-
-        <section class="final-section">
-
-            <p class="eyebrow">
-                TAKE THE NEXT STEP
-            </p>
-
-            <h2>
-                Now imagine<br>
-                <em>yourself here.</em>
-            </h2>
-
-            <div class="final-actions">
-
-                <button id="finalWalkthrough">
-                    EXPLORE THE DEVELOPMENT →
-                </button>
-
-                <button id="finalAR">
-                    VIEW IN AR ↗
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- FOOTER -->
-
-        <footer>
-
-            <div>
-                YOUR PROJECT
-            </div>
-
-            <div>
-                © 2026
-            </div>
-
-        </footer>
-
-    </main>
-
-
-    <!-- =====================================================
-         WALKTHROUGH OVERLAY
-    ====================================================== -->
-
-    <section
-        id="walkthrough"
-        class="walkthrough-screen">
-
-        <div class="walkthrough-top">
-
-            <div class="brand">
-                YOUR PROJECT
-            </div>
-
-            <button id="closeWalkthrough">
-                CLOSE ×
-            </button>
-
-        </div>
-
-
-        <div class="walkthrough-content">
-
-            <div class="walkthrough-message">
-
-                <p class="eyebrow">
-                    IMMERSIVE EXPERIENCE
-                </p>
-
-                <h2>
-                    Walk<br>
-                    <em>through.</em>
-                </h2>
-
-                <p>
-                    Explore the spaces from a ground-level
-                    perspective.
-                </p>
-
-            </div>
-
-
-            <!-- Walkthrough placeholder -->
-
-            <div class="walkthrough-placeholder">
-
-                <div class="crosshair"></div>
-
-                <span>
-                    WALKTHROUGH MODEL
-                </span>
-
-                <small>
-                    Replace this area with your
-                    walkthrough GLB experience.
-                </small>
-
-            </div>
-
-
-            <div class="walkthrough-bottom">
-
-                <button>
-                    ← PREVIOUS
-                </button>
-
-                <span>
-                    LOBBY
-                </span>
-
-                <button>
-                    NEXT →
-                </button>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         AR MODEL
-    ====================================================== -->
-
-    <model-viewer
-        id="arViewer"
-
-        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-
-        ar
-        ar-modes="webxr scene-viewer quick-look"
-
-        camera-controls
-
-        shadow-intensity="1"
-
-        exposure="1"
-
-        environment-image="neutral"
-
-        style="
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            display: none;
-            z-index: 99999;
-            background: transparent;
-        ">
-    </model-viewer>
-
-
-    <!-- =====================================================
-         SCRIPTS
-    ====================================================== -->
+    <link rel="stylesheet" href="css/style.css">
 
     <script
         src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js">
@@ -497,8 +23,481 @@
     <script
         src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js">
     </script>
+</head>
 
-    <script src="js/script.js"></script>
+<body>
+
+<!-- =====================================================
+     LOGO INTRO
+===================================================== -->
+
+<section id="intro" class="intro-screen">
+
+    <div class="intro-content">
+
+        <div class="logo-wrapper">
+
+            <div class="logo-mark">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="logo-text">
+                YOUR<br>
+                PROJECT
+            </div>
+
+        </div>
+
+        <p class="intro-tagline">
+            A new perspective on living.
+        </p>
+
+    </div>
+
+    <div class="intro-line"></div>
+
+</section>
+
+
+<!-- =====================================================
+     MAIN SITE
+===================================================== -->
+
+<main id="main-site" class="main-site">
+
+    <header class="header">
+
+        <div class="brand">
+            YOUR PROJECT
+        </div>
+
+        <nav class="navigation">
+
+            <a href="#experience">
+                Experience
+            </a>
+
+            <a href="#story">
+                The Vision
+            </a>
+
+            <a href="#location">
+                Location
+            </a>
+
+        </nav>
+
+        <button
+            class="menu-button"
+            id="menuButton">
+
+            <span></span>
+            <span></span>
+
+        </button>
+
+    </header>
+
+
+    <!-- =================================================
+         HERO
+    ================================================== -->
+
+    <section
+        id="experience"
+        class="hero">
+
+        <div class="hero-introduction">
+
+            <p class="eyebrow">
+                DISCOVER THE DEVELOPMENT
+            </p>
+
+            <h1>
+                Experience<br>
+                <em>what's beyond.</em>
+            </h1>
+
+            <p class="hero-description">
+                Explore the development in three dimensions.
+                Move around the architecture, discover the spaces,
+                and experience it in your world.
+            </p>
+
+        </div>
+
+
+        <!-- 3D VIEWER -->
+
+        <div class="viewer-container">
+
+            <div class="viewer-header">
+
+                <span class="viewer-label">
+                    03 / EXPLORE
+                </span>
+
+                <span class="viewer-status">
+                    INTERACTIVE 3D
+                </span>
+
+            </div>
+
+
+            <canvas id="threeCanvas"></canvas>
+
+
+            <div
+                id="viewerLoading"
+                class="viewer-loading">
+
+                <div class="loading-spinner"></div>
+
+                <span>
+                    PREPARING EXPERIENCE
+                </span>
+
+            </div>
+
+
+            <div class="viewer-controls">
+
+                <button id="resetButton">
+                    RESET VIEW
+                </button>
+
+                <button id="rotateButton">
+                    AUTO ROTATE
+                </button>
+
+            </div>
+
+
+            <button
+                id="fullscreenButton"
+                class="fullscreen-button">
+
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="experience-actions">
+
+            <button
+                id="walkthroughButton"
+                class="action-button action-primary">
+
+                <span>
+                    EXPLORE INSIDE
+                </span>
+
+                <small>
+                    WALKTHROUGH
+                </small>
+
+                <strong>
+                    →
+                </strong>
+
+            </button>
+
+
+            <button
+                id="arButton"
+                class="action-button">
+
+                <span>
+                    SEE IT IN YOUR WORLD
+                </span>
+
+                <small>
+                    VIEW IN AR
+                </small>
+
+                <strong>
+                    ↗
+                </strong>
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         STORY
+    ================================================== -->
+
+    <section
+        id="story"
+        class="story-section">
+
+        <div class="story-number">
+            01
+        </div>
+
+        <div class="story-content">
+
+            <p class="eyebrow">
+                THE VISION
+            </p>
+
+            <h2>
+                Designed for<br>
+                <em>the way forward.</em>
+            </h2>
+
+            <p>
+                Architecture, landscape and everyday life
+                come together to create a place designed
+                around how people live today — and tomorrow.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         STATS
+    ================================================== -->
+
+    <section class="stats-section">
+
+        <div class="stat">
+            <strong>01</strong>
+            <span>
+                Distinctive<br>
+                Architecture
+            </span>
+        </div>
+
+        <div class="stat">
+            <strong>XX</strong>
+            <span>
+                Storeys
+            </span>
+        </div>
+
+        <div class="stat">
+            <strong>XX</strong>
+            <span>
+                Residences
+            </span>
+        </div>
+
+        <div class="stat">
+            <strong>XX</strong>
+            <span>
+                Amenities
+            </span>
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         LOCATION
+    ================================================== -->
+
+    <section
+        id="location"
+        class="location-section">
+
+        <div>
+
+            <p class="eyebrow">
+                LOCATION
+            </p>
+
+            <h2>
+                Connected<br>
+                <em>to everything.</em>
+            </h2>
+
+        </div>
+
+        <div class="location-copy">
+
+            <p>
+                Ideally positioned within reach of the
+                places that matter most.
+            </p>
+
+            <button>
+                EXPLORE LOCATION →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         FINAL CTA
+    ================================================== -->
+
+    <section class="final-section">
+
+        <p class="eyebrow">
+            TAKE THE NEXT STEP
+        </p>
+
+        <h2>
+            Now imagine<br>
+            <em>yourself here.</em>
+        </h2>
+
+        <div class="final-actions">
+
+            <button id="finalWalkthrough">
+                EXPLORE THE DEVELOPMENT →
+            </button>
+
+            <button id="finalAR">
+                VIEW IN AR ↗
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+
+        <div>
+            YOUR PROJECT
+        </div>
+
+        <div>
+            © 2026
+        </div>
+
+    </footer>
+
+</main>
+
+
+<!-- =====================================================
+     WALKTHROUGH
+===================================================== -->
+
+<section
+    id="walkthrough"
+    class="walkthrough-screen">
+
+    <div class="walkthrough-top">
+
+        <div class="brand">
+            YOUR PROJECT
+        </div>
+
+        <button id="closeWalkthrough">
+            CLOSE ×
+        </button>
+
+    </div>
+
+
+    <div class="walkthrough-content">
+
+        <div class="walkthrough-message">
+
+            <p class="eyebrow">
+                IMMERSIVE EXPERIENCE
+            </p>
+
+            <h2>
+                Walk<br>
+                <em>through.</em>
+            </h2>
+
+            <p>
+                Explore the spaces from a ground-level
+                perspective.
+            </p>
+
+        </div>
+
+
+        <div class="walkthrough-placeholder">
+
+            <div class="crosshair"></div>
+
+            <span>
+                WALKTHROUGH MODEL
+            </span>
+
+            <small>
+                Your walkthrough model will appear here.
+            </small>
+
+        </div>
+
+
+        <div class="walkthrough-bottom">
+
+            <button>
+                ← PREVIOUS
+            </button>
+
+            <span>
+                LOBBY
+            </span>
+
+            <button>
+                NEXT →
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     AR
+===================================================== -->
+
+<script
+    type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js">
+</script>
+
+<model-viewer
+    id="arViewer"
+    src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+    ar
+    ar-modes="webxr scene-viewer quick-look"
+    camera-controls
+    shadow-intensity="1"
+    exposure="1"
+    environment-image="neutral"
+    style="
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        z-index: 99999;
+        background: transparent;
+    ">
+</model-viewer>
+
+
+<script src="js/script.js"></script>
 
 </body>
 </html>
