@@ -58,18 +58,15 @@
             pointer-events: none;
         }
 
-        ```css
-.logo {
+      .logo {
     width: 120px;
     max-width: 60vw;
 
-    /* Starting state */
     opacity: 0;
-    transform: translateY(25px) scale(0.85);
-    filter: blur(8px);
+    transform: translateY(30px) scale(0.85);
+    filter: blur(10px);
 
-    /* Entrance */
-    animation: logoReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: logoReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .logo img {
@@ -77,21 +74,20 @@
     height: auto;
     display: block;
 
-    /* Subtle continuous movement */
-    animation: logoFloat 4s ease-in-out 1.2s infinite;
+    animation: logoFloat 4s ease-in-out 1.4s infinite;
 }
 
-/* Logo entrance */
+/* Cinematic entrance */
 @keyframes logoReveal {
     0% {
         opacity: 0;
-        transform: translateY(25px) scale(0.85);
-        filter: blur(8px);
+        transform: translateY(30px) scale(0.85);
+        filter: blur(10px);
     }
 
     60% {
         opacity: 1;
-        transform: translateY(-4px) scale(1.03);
+        transform: translateY(-5px) scale(1.04);
         filter: blur(0);
     }
 
@@ -102,7 +98,7 @@
     }
 }
 
-/* Gentle floating effect after appearing */
+/* Subtle floating after entrance */
 @keyframes logoFloat {
     0%, 100% {
         transform: translateY(0);
@@ -112,24 +108,6 @@
         transform: translateY(-6px);
     }
 }
-```
-
-
-      
-
-        @keyframes logoReveal {
-
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-        }
 
         /* =========================
            MAIN SITE
