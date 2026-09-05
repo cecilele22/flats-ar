@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AR Experience</title>
+    <title>Condo AR Experience</title>
 
     <!-- Model Viewer -->
     <script type="module"
-        src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
+        src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
     </script>
 
     <style>
@@ -19,1382 +19,548 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #0b0b0f;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0d1117;
             color: white;
         }
 
-        header {
+        /* NAVBAR */
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 70px;
+
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 8%;
-            background: #111118;
+
+            padding: 0 6%;
+
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(10px);
+
+            z-index: 100;
         }
 
         .logo {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
+            letter-spacing: 2px;
         }
 
         nav a {
             color: white;
             text-decoration: none;
-            margin-left: 25px;
+            margin-left: 30px;
+            font-size: 14px;
         }
+
+        /* HERO */
 
         .hero {
-            min-height: calc(100vh - 70px);
+            height: 100vh;
+
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 50px;
-            padding: 60px 8%;
+
+            padding: 100px 8%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(0,0,0,0.85),
+                    rgba(0,0,0,0.35)
+                ),
+                url("https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=2000&q=80");
+
+            background-size: cover;
+            background-position: center;
         }
 
-        .content {
-            max-width: 500px;
+        .hero-content {
+            max-width: 650px;
         }
 
-        .content h1 {
-            font-size: 60px;
-            line-height: 1.05;
-            margin-bottom: 20px;
+        .hero h1 {
+            font-size: clamp(45px, 7vw, 85px);
+            line-height: 0.95;
+            margin-bottom: 25px;
         }
 
-        .content h1 span {
-            color: #7c5cff;
-        }
-
-        .content p {
-            color: #aaa;
+        .hero p {
             font-size: 18px;
             line-height: 1.6;
-            margin-bottom: 30px;
+            color: #ddd;
+            margin-bottom: 35px;
         }
 
-        .button {
-            display: inline-block;
-            padding: 15px 28px;
-            border-radius: 30px;
-            background: #7c5cff;
-            color: white;
-            text-decoration: none;
+        .buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            padding: 16px 25px;
+            border-radius: 8px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
-            border: none;
         }
 
-        .viewer {
-            width: 50%;
-            height: 600px;
-            background: radial-gradient(circle, #29243e, #111118);
-            border-radius: 30px;
+        .primary {
+            background: white;
+            color: black;
+        }
+
+        .secondary {
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        /* WALKTHROUGH */
+
+        #walkthrough {
+            min-height: 100vh;
+            padding: 100px 6%;
+            background: #111820;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #aaa;
+        }
+
+        .viewer-container {
+            position: relative;
+
+            max-width: 1300px;
+            height: 650px;
+
+            margin: auto;
+
+            border-radius: 20px;
             overflow: hidden;
+
+            background: #202833;
+
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
         }
 
         model-viewer {
             width: 100%;
             height: 100%;
-            background: transparent;
+
+            background: #202833;
         }
 
-        @media (max-width: 800px) {
-            .hero {
-                flex-direction: column;
-                text-align: center;
-            }
+        /* INFO PANEL */
 
-            .content h1 {
-                font-size: 42px;
-            }
+        .info-panel {
+            position: absolute;
 
-            .viewer {
-                width: 100%;
-                height: 500px;
-            }
+            top: 25px;
+            left: 25px;
 
-            nav {
-                display: none;
-            }
-        }
-    </style>
-</head>
+            padding: 20px;
 
-<body>
+            width: 250px;
 
-<header>
-    <div class="logo">AR<span>SPACE</span></div>
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
 
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#experience">Experience</a>
-        <a href="#about">About</a>
-    </nav>
-</header>
-
-<section class="hero" id="home">
-
-    <div class="content">
-        <h1>
-            Experience the
-            <span>Future</span>
-        </h1>
-
-        <p>
-            Explore interactive 3D objects directly from your browser.
-            Use augmented reality to bring digital objects into the real world.
-        </p>
-
-        <button class="button" onclick="startAR()">
-            View in AR
-        </button>
-    </div>
-
-    <div class="viewer" id="experience">
-
-        <model-viewer
-            id="model"
-            src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-            alt="3D Astronaut"
-            camera-controls
-            auto-rotate
-            ar
-            ar-modes="webxr scene-viewer quick-look"
-            shadow-intensity="1">
-
-            <button
-                slot="ar-button"
-                class="button"
-                style="
-                    position:absolute;
-                    bottom:20px;
-                    left:50%;
-                    transform:translateX(-50%);
-                ">
-                🚀 Launch AR
-            </button>
-
-        </model-viewer>
-
-    </div>
-
-</section>
-
-<script>
-    function startAR() {
-        const model = document.getElementById("model");
-
-        if (model.activateAR) {
-            model.activateAR();
-        } else {
-            alert(
-                "AR is not supported on this device/browser. " +
-                "Try opening this website on a compatible mobile device."
-            );
-        }
-    }
-</script>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>AR Experience</title>
-
-    <!-- Model Viewer -->
-    <script type="module"
-        src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
-    </script>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            border-radius: 12px;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #0b0b0f;
-            color: white;
+        .info-panel h3 {
+            margin-bottom: 10px;
         }
 
-        header {
-            height: 70px;
+        .info-panel p {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* CONTROLS */
+
+        .controls {
+            position: absolute;
+
+            bottom: 25px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            display: flex;
+            gap: 10px;
+
+            background: rgba(0,0,0,0.7);
+
+            padding: 10px;
+
+            border-radius: 12px;
+        }
+
+        .controls button {
+            padding: 10px 15px;
+            background: #fff;
+            color: #000;
+        }
+
+        /* AR SECTION */
+
+        #ar {
+            min-height: 80vh;
+
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 8%;
-            background: #111118;
+            justify-content: center;
+
+            padding: 80px 6%;
+
+            background: #080b0f;
         }
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
+        .ar-box {
+            max-width: 900px;
+            text-align: center;
         }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 25px;
-        }
-
-        .hero {
-            min-height: calc(100vh - 70px);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 50px;
-            padding: 60px 8%;
-        }
-
-        .content {
-            max-width: 500px;
-        }
-
-        .content h1 {
-            font-size: 60px;
-            line-height: 1.05;
+        .ar-box h2 {
+            font-size: 50px;
             margin-bottom: 20px;
         }
 
-        .content h1 span {
-            color: #7c5cff;
-        }
-
-        .content p {
+        .ar-box p {
             color: #aaa;
-            font-size: 18px;
             line-height: 1.6;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
-        .button {
-            display: inline-block;
-            padding: 15px 28px;
-            border-radius: 30px;
-            background: #7c5cff;
-            color: white;
-            text-decoration: none;
+        .ar-button {
+            background: white;
+            color: black;
+
+            padding: 18px 35px;
+
+            border-radius: 10px;
+
+            font-size: 17px;
             font-weight: bold;
+
             cursor: pointer;
-            border: none;
         }
 
-        .viewer {
-            width: 50%;
-            height: 600px;
-            background: radial-gradient(circle, #29243e, #111118);
-            border-radius: 30px;
-            overflow: hidden;
+        /* FOOTER */
+
+        footer {
+            padding: 30px;
+            text-align: center;
+
+            background: #050608;
+            color: #777;
         }
 
-        model-viewer {
-            width: 100%;
-            height: 100%;
-            background: transparent;
-        }
+        /* MOBILE */
 
-        @media (max-width: 800px) {
+        @media(max-width: 700px) {
+
+            nav {
+                padding: 0 20px;
+            }
+
+            nav a {
+                margin-left: 12px;
+                font-size: 12px;
+            }
+
             .hero {
-                flex-direction: column;
-                text-align: center;
+                padding: 100px 25px;
             }
 
-            .content h1 {
-                font-size: 42px;
-            }
-
-            .viewer {
-                width: 100%;
+            .viewer-container {
                 height: 500px;
             }
 
-            nav {
-                display: none;
+            .info-panel {
+                width: 200px;
+                padding: 15px;
+            }
+
+            .section-title h2,
+            .ar-box h2 {
+                font-size: 35px;
             }
         }
+
     </style>
 </head>
 
 <body>
 
-<header>
-    <div class="logo">AR<span>SPACE</span></div>
+<!-- NAVIGATION -->
 
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#experience">Experience</a>
-        <a href="#about">About</a>
-    </nav>
-</header>
+<nav>
 
-<section class="hero" id="home">
+    <div class="logo">
+        YOUR CONDO
+    </div>
 
-    <div class="content">
+    <div>
+        <a href="#walkthrough">Walkthrough</a>
+        <a href="#ar">AR</a>
+    </div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
         <h1>
-            Experience the
-            <span>Future</span>
+            Experience<br>
+            Your Future Home
         </h1>
 
         <p>
-            Explore interactive 3D objects directly from your browser.
-            Use augmented reality to bring digital objects into the real world.
+            Explore the condominium in an interactive
+            3D environment or experience it directly
+            in your own space using augmented reality.
         </p>
 
-        <button class="button" onclick="startAR()">
-            View in AR
-        </button>
-    </div>
-
-    <div class="viewer" id="experience">
-
-        <model-viewer
-            id="model"
-            src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-            alt="3D Astronaut"
-            camera-controls
-            auto-rotate
-            ar
-            ar-modes="webxr scene-viewer quick-look"
-            shadow-intensity="1">
+        <div class="buttons">
 
             <button
-                slot="ar-button"
-                class="button"
-                style="
-                    position:absolute;
-                    bottom:20px;
-                    left:50%;
-                    transform:translateX(-50%);
-                ">
-                🚀 Launch AR
+                class="primary"
+                onclick="document.getElementById('walkthrough')
+                .scrollIntoView({behavior:'smooth'})">
+
+                Explore 3D
+
             </button>
 
-        </model-viewer>
+            <button
+                class="secondary"
+                onclick="document.getElementById('ar')
+                .scrollIntoView({behavior:'smooth'})">
+
+                View in AR
+
+            </button>
+
+        </div>
 
     </div>
 
 </section>
 
-<script>
-    function startAR() {
-        const model = document.getElementById("model");
 
-        if (model.activateAR) {
-            model.activateAR();
-        } else {
-            alert(
-                "AR is not supported on this device/browser. " +
-                "Try opening this website on a compatible mobile device."
-            );
-        }
-    }
-</script>
+<!-- 3D WALKTHROUGH -->
 
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<section id="walkthrough">
 
-    <title>AR Experience</title>
+    <div class="section-title">
 
-    <!-- Model Viewer -->
-    <script type="module"
-        src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
-    </script>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #0b0b0f;
-            color: white;
-        }
-
-        header {
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 8%;
-            background: #111118;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 25px;
-        }
-
-        .hero {
-            min-height: calc(100vh - 70px);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 50px;
-            padding: 60px 8%;
-        }
-
-        .content {
-            max-width: 500px;
-        }
-
-        .content h1 {
-            font-size: 60px;
-            line-height: 1.05;
-            margin-bottom: 20px;
-        }
-
-        .content h1 span {
-            color: #7c5cff;
-        }
-
-        .content p {
-            color: #aaa;
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 15px 28px;
-            border-radius: 30px;
-            background: #7c5cff;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-        }
-
-        .viewer {
-            width: 50%;
-            height: 600px;
-            background: radial-gradient(circle, #29243e, #111118);
-            border-radius: 30px;
-            overflow: hidden;
-        }
-
-        model-viewer {
-            width: 100%;
-            height: 100%;
-            background: transparent;
-        }
-
-        @media (max-width: 800px) {
-            .hero {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .content h1 {
-                font-size: 42px;
-            }
-
-            .viewer {
-                width: 100%;
-                height: 500px;
-            }
-
-            nav {
-                display: none;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<header>
-    <div class="logo">AR<span>SPACE</span></div>
-
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#experience">Experience</a>
-        <a href="#about">About</a>
-    </nav>
-</header>
-
-<section class="hero" id="home">
-
-    <div class="content">
-        <h1>
-            Experience the
-            <span>Future</span>
-        </h1>
+        <h2>3D Walkthrough</h2>
 
         <p>
-            Explore interactive 3D objects directly from your browser.
-            Use augmented reality to bring digital objects into the real world.
+            Explore the condominium site interactively.
+            Rotate, zoom and inspect the development.
         </p>
 
-        <button class="button" onclick="startAR()">
-            View in AR
-        </button>
     </div>
 
-    <div class="viewer" id="experience">
+
+    <div class="viewer-container">
+
+        <!--
+        REPLACE THIS MODEL WITH YOUR CONDO MODEL
+
+        Example:
+
+        models/condo.glb
+        -->
 
         <model-viewer
-            id="model"
-            src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-            alt="3D Astronaut"
-            camera-controls
-            auto-rotate
-            ar
-            ar-modes="webxr scene-viewer quick-look"
-            shadow-intensity="1">
+            id="condoModel"
 
-            <button
-                slot="ar-button"
-                class="button"
-                style="
-                    position:absolute;
-                    bottom:20px;
-                    left:50%;
-                    transform:translateX(-50%);
-                ">
-                🚀 Launch AR
-            </button>
+            src="models/condo.glb"
+
+            camera-controls
+            touch-action="pan-y"
+
+            shadow-intensity="1"
+
+            exposure="1"
+
+            environment-image="neutral"
+
+            camera-orbit="45deg 65deg 100%"
+
+            min-camera-orbit="auto auto 20%"
+
+            max-camera-orbit="auto auto 200%">
 
         </model-viewer>
+
+
+        <div class="info-panel">
+
+            <h3>Condominium Site</h3>
+
+            <p>
+                Explore the entire development,
+                including towers, amenities,
+                landscaping and surrounding areas.
+            </p>
+
+        </div>
+
+
+        <div class="controls">
+
+            <button onclick="resetCamera()">
+                Reset
+            </button>
+
+            <button onclick="toggleAutoRotate()">
+                Auto Rotate
+            </button>
+
+        </div>
 
     </div>
 
 </section>
 
-<script>
-    function startAR() {
-        const model = document.getElementById("model");
 
-        if (model.activateAR) {
-            model.activateAR();
-        } else {
-            alert(
-                "AR is not supported on this device/browser. " +
-                "Try opening this website on a compatible mobile device."
-            );
-        }
-    }
-</script>
+<!-- AR -->
 
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<section id="ar">
 
-    <title>AR Experience</title>
+    <div class="ar-box">
 
-    <!-- Model Viewer -->
-    <script type="module"
-        src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
-    </script>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #0b0b0f;
-            color: white;
-        }
-
-        header {
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 8%;
-            background: #111118;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 25px;
-        }
-
-        .hero {
-            min-height: calc(100vh - 70px);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 50px;
-            padding: 60px 8%;
-        }
-
-        .content {
-            max-width: 500px;
-        }
-
-        .content h1 {
-            font-size: 60px;
-            line-height: 1.05;
-            margin-bottom: 20px;
-        }
-
-        .content h1 span {
-            color: #7c5cff;
-        }
-
-        .content p {
-            color: #aaa;
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 15px 28px;
-            border-radius: 30px;
-            background: #7c5cff;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-        }
-
-        .viewer {
-            width: 50%;
-            height: 600px;
-            background: radial-gradient(circle, #29243e, #111118);
-            border-radius: 30px;
-            overflow: hidden;
-        }
-
-        model-viewer {
-            width: 100%;
-            height: 100%;
-            background: transparent;
-        }
-
-        @media (max-width: 800px) {
-            .hero {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .content h1 {
-                font-size: 42px;
-            }
-
-            .viewer {
-                width: 100%;
-                height: 500px;
-            }
-
-            nav {
-                display: none;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<header>
-    <div class="logo">AR<span>SPACE</span></div>
-
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#experience">Experience</a>
-        <a href="#about">About</a>
-    </nav>
-</header>
-
-<section class="hero" id="home">
-
-    <div class="content">
-        <h1>
-            Experience the
-            <span>Future</span>
-        </h1>
+        <h2>See It In Your Space</h2>
 
         <p>
-            Explore interactive 3D objects directly from your browser.
-            Use augmented reality to bring digital objects into the real world.
+            Use your smartphone to place the
+            condominium model in your environment
+            using augmented reality.
         </p>
 
-        <button class="button" onclick="startAR()">
-            View in AR
-        </button>
-    </div>
-
-    <div class="viewer" id="experience">
 
         <model-viewer
-            id="model"
-            src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-            alt="3D Astronaut"
-            camera-controls
-            auto-rotate
+
+            id="arModel"
+
+            src="models/condo.glb"
+
             ar
+
             ar-modes="webxr scene-viewer quick-look"
-            shadow-intensity="1">
+
+            camera-controls
+
+            shadow-intensity="1"
+
+            style="
+                width: 1px;
+                height: 1px;
+                position: absolute;
+                opacity: 0;
+            ">
 
             <button
                 slot="ar-button"
-                class="button"
-                style="
-                    position:absolute;
-                    bottom:20px;
-                    left:50%;
-                    transform:translateX(-50%);
-                ">
-                🚀 Launch AR
+                class="ar-button">
+
+                📱 View Condominium in AR
+
             </button>
 
         </model-viewer>
+
+        <button
+            class="ar-button"
+            onclick="launchAR()">
+
+            📱 View Condominium in AR
+
+        </button>
 
     </div>
 
 </section>
 
-<script>
-    function startAR() {
-        const model = document.getElementById("model");
 
-        if (model.activateAR) {
-            model.activateAR();
-        } else {
-            alert(
-                "AR is not supported on this device/browser. " +
-                "Try opening this website on a compatible mobile device."
-            );
-        }
-    }
-</script>
+<!-- FOOTER -->
 
-</body>
-</html>ss<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<footer>
 
-    <title>AR Experience</title>
+    © 2026 Your Condominium Project
 
-    <!-- Model Viewer -->
-    <script type="module"
-        src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
-    </script>
+</footer>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #0b0b0f;
-            color: white;
-        }
-
-        header {
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 8%;
-            background: #111118;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 25px;
-        }
-
-        .hero {
-            min-height: calc(100vh - 70px);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 50px;
-            padding: 60px 8%;
-        }
-
-        .content {
-            max-width: 500px;
-        }
-
-        .content h1 {
-            font-size: 60px;
-            line-height: 1.05;
-            margin-bottom: 20px;
-        }
-
-        .content h1 span {
-            color: #7c5cff;
-        }
-
-        .content p {
-            color: #aaa;
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 15px 28px;
-            border-radius: 30px;
-            background: #7c5cff;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-        }
-
-        .viewer {
-            width: 50%;
-            height: 600px;
-            background: radial-gradient(circle, #29243e, #111118);
-            border-radius: 30px;
-            overflow: hidden;
-        }
-
-        model-viewer {
-            width: 100%;
-            height: 100%;
-            background: transparent;
-        }
-
-        @media (max-width: 800px) {
-            .hero {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .content h1 {
-                font-size: 42px;
-            }
-
-            .viewer {
-                width: 100%;
-                height: 500px;
-            }
-
-            nav {
-                display: none;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<header>
-    <div class="logo">AR<span>SPACE</span></div>
-
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#experience">Experience</a>
-        <a href="#about">About</a>
-    </nav>
-</header>
-
-<section class="hero" id="home">
-
-    <div class="content">
-        <h1>
-            Experience the
-            <span>Future</span>
-        </h1>
-
-        <p>
-            Explore interactive 3D objects directly from your browser.
-            Use augmented reality to bring digital objects into the real world.
-        </p>
-
-        <button class="button" onclick="startAR()">
-            View in AR
-        </button>
-    </div>
-
-    <div class="viewer" id="experience">
-
-        <model-viewer
-            id="model"
-            src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-            alt="3D Astronaut"
-            camera-controls
-            auto-rotate
-            ar
-            ar-modes="webxr scene-viewer quick-look"
-            shadow-intensity="1">
-
-            <button
-                slot="ar-button"
-                class="button"
-                style="
-                    position:absolute;
-                    bottom:20px;
-                    left:50%;
-                    transform:translateX(-50%);
-                ">
-                🚀 Launch AR
-            </button>
-
-        </model-viewer>
-
-    </div>
-
-</section>
 
 <script>
-    function startAR() {
-        const model = document.getElementById("model");
 
-        if (model.activateAR) {
-            model.activateAR();
-        } else {
-            alert(
-                "AR is not supported on this device/browser. " +
-                "Try opening this website on a compatible mobile device."
-            );
-        }
+    const model =
+        document.getElementById("condoModel");
+
+
+    function resetCamera() {
+
+        model.cameraOrbit =
+            "45deg 65deg 100%";
+
     }
-</script>
 
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AR Experience</title>
+    function toggleAutoRotate() {
 
-    <!-- Model Viewer -->
-    <script type="module"
-        src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
-    </script>
+        model.autoRotate =
+            !model.autoRotate;
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #0b0b0f;
-            color: white;
-        }
-
-        header {
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 8%;
-            background: #111118;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 25px;
-        }
-
-        .hero {
-            min-height: calc(100vh - 70px);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 50px;
-            padding: 60px 8%;
-        }
-
-        .content {
-            max-width: 500px;
-        }
-
-        .content h1 {
-            font-size: 60px;
-            line-height: 1.05;
-            margin-bottom: 20px;
-        }
-
-        .content h1 span {
-            color: #7c5cff;
-        }
-
-        .content p {
-            color: #aaa;
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 15px 28px;
-            border-radius: 30px;
-            background: #7c5cff;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-        }
-
-        .viewer {
-            width: 50%;
-            height: 600px;
-            background: radial-gradient(circle, #29243e, #111118);
-            border-radius: 30px;
-            overflow: hidden;
-        }
-
-        model-viewer {
-            width: 100%;
-            height: 100%;
-            background: transparent;
-        }
-
-        @media (max-width: 800px) {
-            .hero {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .content h1 {
-                font-size: 42px;
-            }
-
-            .viewer {
-                width: 100%;
-                height: 500px;
-            }
-
-            nav {
-                display: none;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<header>
-    <div class="logo">AR<span>SPACE</span></div>
-
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#experience">Experience</a>
-        <a href="#about">About</a>
-    </nav>
-</header>
-
-<section class="hero" id="home">
-
-    <div class="content">
-        <h1>
-            Experience the
-            <span>Future</span>
-        </h1>
-
-        <p>
-            Explore interactive 3D objects directly from your browser.
-            Use augmented reality to bring digital objects into the real world.
-        </p>
-
-        <button class="button" onclick="startAR()">
-            View in AR
-        </button>
-    </div>
-
-    <div class="viewer" id="experience">
-
-        <model-viewer
-            id="model"
-            src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-            alt="3D Astronaut"
-            camera-controls
-            auto-rotate
-            ar
-            ar-modes="webxr scene-viewer quick-look"
-            shadow-intensity="1">
-
-            <button
-                slot="ar-button"
-                class="button"
-                style="
-                    position:absolute;
-                    bottom:20px;
-                    left:50%;
-                    transform:translateX(-50%);
-                ">
-                🚀 Launch AR
-            </button>
-
-        </model-viewer>
-
-    </div>
-
-</section>
-
-<script>
-    function startAR() {
-        const model = document.getElementById("model");
-
-        if (model.activateAR) {
-            model.activateAR();
-        } else {
-            alert(
-                "AR is not supported on this device/browser. " +
-                "Try opening this website on a compatible mobile device."
-            );
-        }
     }
-</script>
 
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AR Experience</title>
+    function launchAR() {
 
-    <!-- Model Viewer -->
-    <script type="module"
-        src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
-    </script>
+        const arModel =
+            document.getElementById("arModel");
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        if (arModel.activateAR) {
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #0b0b0f;
-            color: white;
-        }
+            arModel.activateAR();
 
-        header {
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 8%;
-            background: #111118;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 25px;
-        }
-
-        .hero {
-            min-height: calc(100vh - 70px);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 50px;
-            padding: 60px 8%;
-        }
-
-        .content {
-            max-width: 500px;
-        }
-
-        .content h1 {
-            font-size: 60px;
-            line-height: 1.05;
-            margin-bottom: 20px;
-        }
-
-        .content h1 span {
-            color: #7c5cff;
-        }
-
-        .content p {
-            color: #aaa;
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 15px 28px;
-            border-radius: 30px;
-            background: #7c5cff;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-        }
-
-        .viewer {
-            width: 50%;
-            height: 600px;
-            background: radial-gradient(circle, #29243e, #111118);
-            border-radius: 30px;
-            overflow: hidden;
-        }
-
-        model-viewer {
-            width: 100%;
-            height: 100%;
-            background: transparent;
-        }
-
-        @media (max-width: 800px) {
-            .hero {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .content h1 {
-                font-size: 42px;
-            }
-
-            .viewer {
-                width: 100%;
-                height: 500px;
-            }
-
-            nav {
-                display: none;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<header>
-    <div class="logo">AR<span>SPACE</span></div>
-
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#experience">Experience</a>
-        <a href="#about">About</a>
-    </nav>
-</header>
-
-<section class="hero" id="home">
-
-    <div class="content">
-        <h1>
-            Experience the
-            <span>Future</span>
-        </h1>
-
-        <p>
-            Explore interactive 3D objects directly from your browser.
-            Use augmented reality to bring digital objects into the real world.
-        </p>
-
-        <button class="button" onclick="startAR()">
-            View in AR
-        </button>
-    </div>
-
-    <div class="viewer" id="experience">
-
-        <model-viewer
-            id="model"
-            src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-            alt="3D Astronaut"
-            camera-controls
-            auto-rotate
-            ar
-            ar-modes="webxr scene-viewer quick-look"
-            shadow-intensity="1">
-
-            <button
-                slot="ar-button"
-                class="button"
-                style="
-                    position:absolute;
-                    bottom:20px;
-                    left:50%;
-                    transform:translateX(-50%);
-                ">
-                🚀 Launch AR
-            </button>
-
-        </model-viewer>
-
-    </div>
-
-</section>
-
-<script>
-    function startAR() {
-        const model = document.getElementById("model");
-
-        if (model.activateAR) {
-            model.activateAR();
         } else {
+
             alert(
-                "AR is not supported on this device/browser. " +
-                "Try opening this website on a compatible mobile device."
+                "AR is not available on this device/browser."
             );
+
         }
+
     }
+
 </script>
 
 </body>
