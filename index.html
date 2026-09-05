@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,63 +7,68 @@
 
     <title>Flats</title>
 
-    <!-- Google Font -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 
     <!-- Model Viewer -->
-    <script type="module"
-        src="https://unpkg.com/@google/model-viewer@4.0.0/dist/model-viewer.min.js">
+    <script
+        type="module"
+        src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
     </script>
 
     <style>
+
+        /* =========================
+           RESET
+        ========================= */
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-        }
-
         body {
             font-family: "Plus Jakarta Sans", sans-serif;
             background: #274535;
-            overflow: hidden;
+            color: white;
+            overflow-x: hidden;
         }
 
+
         /* =========================
-           INTRO SCREEN
+           INTRO
         ========================= */
 
-        .intro {
+        #intro {
             position: fixed;
             inset: 0;
-            z-index: 9999;
+            z-index: 1000;
+
+            background: #274535;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            background: #274535;
-
-            opacity: 1;
-            visibility: visible;
-
             transition:
-                opacity 0.7s ease,
-                visibility 0.7s ease;
+                opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 1.2s ease;
         }
 
-        .intro.hide {
+        #intro.hide {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
+
+
+        /* =========================
+           LOGO
+        ========================= */
 
         .logo {
             width: 120px;
@@ -70,9 +76,17 @@
 
             opacity: 0;
 
-            transform: scale(0.97);
+            transform:
+                translateY(20px)
+                scale(0.94);
 
-            animation: logoReveal 1.2s ease-out forwards;
+            filter: blur(6px);
+
+            animation:
+                logoReveal
+                2s
+                cubic-bezier(0.22, 1, 0.36, 1)
+                forwards;
         }
 
         .logo img {
@@ -82,15 +96,32 @@
         }
 
         @keyframes logoReveal {
-            from {
+
+            0% {
                 opacity: 0;
-                transform: scale(0.97);
+
+                transform:
+                    translateY(20px)
+                    scale(0.94);
+
+                filter: blur(6px);
             }
 
-            to {
-                opacity: 1;
-                transform: scale(1);
+            40% {
+                opacity: 0.7;
+                filter: blur(2px);
             }
+
+            100% {
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+
+                filter: blur(0);
+            }
+
         }
 
 
@@ -98,70 +129,131 @@
            MAIN SITE
         ========================= */
 
-        .site {
-            width: 100%;
-            height: 100vh;
+        #site {
+            min-height: 100vh;
 
             opacity: 0;
-            visibility: hidden;
+
+            transform: translateY(10px);
 
             transition:
-                opacity 0.8s ease,
-                visibility 0.8s ease;
+                opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .site.show {
+        #site.show {
             opacity: 1;
-            visibility: visible;
+            transform: translateY(0);
         }
 
 
         /* =========================
-           TOP SECTION
+           HEADER
         ========================= */
 
         .top {
-            height: 90px;
+            text-align: center;
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            padding:
+                60px
+                20px
+                25px;
+        }
 
-            padding: 0 40px;
+        .top small {
+            display: block;
 
-            background: #274535;
-            color: white;
+            font-size: 10px;
+
+            letter-spacing: 4px;
+
+            text-transform: uppercase;
+
+            opacity: 0.45;
+
+            margin-bottom: 15px;
         }
 
         .top h2 {
-            font-size: 22px;
-            font-weight: 600;
-            letter-spacing: -0.5px;
+            font-family: "Playfair Display", serif;
+
+            font-size:
+                clamp(
+                    32px,
+                    6vw,
+                    58px
+                );
+
+            font-weight: 500;
+        }
+
+        .top p {
+            max-width: 520px;
+
+            margin:
+                15px
+                auto
+                0;
+
+            line-height: 1.7;
+
+            font-size: 14px;
+
+            opacity: 0.65;
         }
 
 
         /* =========================
-           MODEL AREA
+           3D VIEWER
         ========================= */
 
         .viewer-wrapper {
+
+            width:
+                min(
+                    1100px,
+                    92%
+                );
+
+            height:
+                min(
+                    650px,
+                    70vh
+                );
+
+            margin:
+                35px
+                auto
+                0;
+
             position: relative;
 
-            width: 100%;
-            height: calc(100vh - 90px);
-
             background: #dedbd5;
+
+            border-radius: 4px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 25px
+                80px
+                rgba(0,0,0,0.08);
         }
 
         model-viewer {
+
             width: 100%;
             height: 100%;
 
             background: #dedbd5;
 
             --poster-color: transparent;
+
             --progress-bar-color: white;
+
             --progress-mask: #dedbd5;
+
+            --ar-button-display: none;
         }
 
 
@@ -170,10 +262,13 @@
         ========================= */
 
         .loading {
+
             position: absolute;
+
             inset: 0;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -183,51 +278,124 @@
 
             pointer-events: none;
 
-            transition: opacity 0.5s ease;
+            transition:
+                opacity 0.6s ease;
         }
 
-        .loading span {
-            font-size: 13px;
-            letter-spacing: 1px;
-            color: #274535;
+        .loading.hidden {
+            opacity: 0;
+        }
+
+        .loading-inner {
+            text-align: center;
+        }
+
+        .loading-inner span {
+
+            display: block;
+
+            font-size: 10px;
+
+            letter-spacing: 4px;
+
+            text-transform: uppercase;
+
+            opacity: 0.5;
+
+            margin-bottom: 15px;
+        }
+
+        .loader {
+
+            width: 140px;
+
+            height: 1px;
+
+            background:
+                rgba(0,0,0,0.15);
+
+            overflow: hidden;
+        }
+
+        .loader-line {
+
+            width: 30%;
+
+            height: 100%;
+
+            background: #1d1d1b;
+
+            animation:
+                loading
+                1.3s
+                infinite
+                ease-in-out;
+        }
+
+        @keyframes loading {
+
+            0% {
+                transform:
+                    translateX(-100%);
+            }
+
+            100% {
+                transform:
+                    translateX(450%);
+            }
+
         }
 
 
         /* =========================
-           FULLSCREEN BUTTON
+           FULLSCREEN
         ========================= */
 
-        .fullscreen-btn {
+        #fullscreen {
+
             position: absolute;
 
-            top: 20px;
-            right: 20px;
+            right: 18px;
+            bottom: 18px;
 
-            width: 44px;
-            height: 44px;
+            z-index: 10;
 
-            border: none;
-            border-radius: 50%;
-
-            background: rgba(255, 255, 255, 0.9);
-            color: #274535;
-
-            cursor: pointer;
+            width: 42px;
+            height: 42px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
-            font-size: 18px;
+            border: 0;
+
+            border-radius: 3px;
+
+            background:
+                rgba(255,255,255,0.88);
+
+            backdrop-filter:
+                blur(10px);
+
+            color: #274535;
+
+            font-size: 23px;
+
+            line-height: 1;
+
+            cursor: pointer;
 
             transition:
-                transform 0.2s ease,
-                background 0.2s ease;
+                all 0.25s ease;
         }
 
-        .fullscreen-btn:hover {
-            transform: scale(1.05);
-            background: white;
+        #fullscreen:hover {
+
+            background: #fff;
+
+            transform:
+                scale(1.05);
         }
 
 
@@ -235,35 +403,59 @@
            AR BUTTON
         ========================= */
 
-        #ar-button {
-            position: absolute;
+        .ar-section {
 
-            bottom: 25px;
-            left: 50%;
+            text-align: center;
 
-            transform: translateX(-50%);
+            padding:
+                35px
+                20px
+                70px;
+        }
 
-            border: none;
-            border-radius: 30px;
+        #arButton {
 
-            padding: 13px 24px;
+            border:
+                1px solid white;
 
-            background: #274535;
-            color: white;
+            background: white;
 
-            font-family: inherit;
-            font-size: 13px;
-            font-weight: 600;
+            color: #274535;
+
+            padding:
+                17px
+                34px;
+
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: 11px;
+
+            letter-spacing: 3px;
+
+            text-transform: uppercase;
 
             cursor: pointer;
 
             transition:
-                transform 0.2s ease,
-                opacity 0.2s ease;
+                all 0.3s ease;
         }
 
-        #ar-button:hover {
-            transform: translateX(-50%) scale(1.03);
+        #arButton:hover {
+
+            background: transparent;
+
+            color: white;
+        }
+
+        .ar-note {
+
+            margin-top: 12px;
+
+            font-size: 11px;
+
+            opacity: 0.45;
         }
 
 
@@ -271,155 +463,344 @@
            MOBILE
         ========================= */
 
-        @media (max-width: 600px) {
-
-            .logo {
-                width: 105px;
-            }
+        @media (max-width: 700px) {
 
             .top {
-                height: 75px;
-                padding: 0 22px;
-            }
 
-            .top h2 {
-                font-size: 19px;
+                padding-top: 40px;
             }
 
             .viewer-wrapper {
-                height: calc(100vh - 75px);
+
+                width: 94%;
+
+                height: 58vh;
+
+                min-height: 400px;
             }
 
-            .fullscreen-btn {
-                top: 15px;
-                right: 15px;
-                width: 40px;
-                height: 40px;
+            .top p {
+
+                font-size: 13px;
             }
+
+            .logo {
+
+                width: 110px;
+            }
+
         }
+
     </style>
 </head>
 
+
 <body>
+
 
     <!-- =========================
          INTRO
     ========================= -->
 
-    <div class="intro" id="intro">
+    <section id="intro">
+
         <div class="logo">
-            <img src="logo.png" alt="Logo">
+
+            <img
+                src="logo.png"
+                alt="FLATS">
+
         </div>
-    </div>
+
+    </section>
 
 
     <!-- =========================
          MAIN SITE
     ========================= -->
 
-    <main class="site" id="site">
+    <main id="site">
 
-        <header class="top">
-            <h2>Flats</h2>
-        </header>
 
+        <section class="top">
+
+            <small>
+                Discover the development
+            </small>
+
+            <h2>
+                Your Future Home
+            </h2>
+
+            <p>
+                Explore the property in three dimensions.
+                Rotate, zoom and view the development from every angle.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             3D VIEWER
+        ========================= -->
 
         <section class="viewer-wrapper">
 
-            <!-- Loading -->
-            <div class="loading" id="loading">
-                <span>Loading...</span>
+
+            <div
+                class="loading"
+                id="loading">
+
+                <div class="loading-inner">
+
+                    <span>
+                        Loading experience
+                    </span>
+
+                    <div class="loader">
+
+                        <div
+                            class="loader-line">
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <!-- 3D Model -->
+
             <model-viewer
-                id="model"
+                id="modelViewer"
                 src="models/building.glb"
-                alt="3D architectural model"
                 camera-controls
                 auto-rotate
+                auto-rotate-delay="1000"
+                rotation-per-second="20deg"
                 shadow-intensity="1"
                 exposure="1"
+                environment-image="neutral"
                 ar
-                ar-modes="webxr scene-viewer quick-look">
+                ar-modes="webxr scene-viewer quick-look"
+                alt="Condominium building">
             </model-viewer>
 
 
-            <!-- Fullscreen -->
             <button
-                class="fullscreen-btn"
-                id="fullscreenBtn"
-                aria-label="Fullscreen">
+                id="fullscreen"
+                aria-label="Enter fullscreen"
+                title="Fullscreen">
+
                 ⛶
+
             </button>
 
-
-            <!-- AR -->
-            <button
-                id="ar-button">
-                View in AR
-            </button>
 
         </section>
+
+
+        <!-- =========================
+             AR
+        ========================= -->
+
+        <section class="ar-section">
+
+            <button id="arButton">
+
+                View in AR
+
+            </button>
+
+            <div class="ar-note">
+
+                Best experienced on a mobile device
+
+            </div>
+
+        </section>
+
 
     </main>
 
 
     <script>
 
-        const intro = document.getElementById("intro");
-        const site = document.getElementById("site");
-        const model = document.getElementById("model");
-        const loading = document.getElementById("loading");
-        const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+        /* =========================
+           ELEMENTS
+        ========================= */
+
+        const intro =
+            document.getElementById("intro");
+
+        const site =
+            document.getElementById("site");
+
+        const viewer =
+            document.getElementById("modelViewer");
+
+        const loading =
+            document.getElementById("loading");
+
+        const fullscreen =
+            document.getElementById("fullscreen");
+
+        const arButton =
+            document.getElementById("arButton");
 
 
         /* =========================
-           INTRO TIMING
+           INTRO
         ========================= */
 
-        window.addEventListener("load", () => {
+        window.addEventListener(
+            "load",
+            () => {
 
-            setTimeout(() => {
-                intro.classList.add("hide");
-                site.classList.add("show");
-            }, 1800);
+                setTimeout(() => {
 
-        });
+                    intro.classList.add("hide");
+
+                    site.classList.add("show");
+
+                }, 2500);
+
+            }
+        );
 
 
         /* =========================
            MODEL LOADING
         ========================= */
 
-        model.addEventListener("load", () => {
+        viewer.addEventListener(
+            "load",
+            () => {
 
-            loading.style.opacity = "0";
+                console.log(
+                    "3D model loaded successfully."
+                );
 
-            setTimeout(() => {
-                loading.style.display = "none";
-            }, 500);
+                loading.classList.add(
+                    "hidden"
+                );
 
-        });
+            }
+        );
+
+
+        viewer.addEventListener(
+            "error",
+            (event) => {
+
+                console.error(
+                    "3D MODEL ERROR:",
+                    event
+                );
+
+                loading.innerHTML = `
+
+                    <div class="loading-inner">
+
+                        <span>
+                            Unable to load 3D model
+                        </span>
+
+                    </div>
+
+                `;
+
+            }
+        );
 
 
         /* =========================
            FULLSCREEN
         ========================= */
 
-        fullscreenBtn.addEventListener("click", () => {
+        fullscreen.addEventListener(
+            "click",
+            async () => {
 
-            const viewerWrapper = document.querySelector(".viewer-wrapper");
+                const wrapper =
+                    document.querySelector(
+                        ".viewer-wrapper"
+                    );
 
-            if (!document.fullscreenElement) {
-                viewerWrapper.requestFullscreen();
-            } else {
-                document.exitFullscreen();
+                try {
+
+                    if (
+                        !document.fullscreenElement
+                    ) {
+
+                        await wrapper.requestFullscreen();
+
+                    } else {
+
+                        await document.exitFullscreen();
+
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "Fullscreen error:",
+                        error
+                    );
+
+                }
+
             }
+        );
 
-        });
+
+        /* =========================
+           AR
+        ========================= */
+
+        arButton.addEventListener(
+            "click",
+            async () => {
+
+                console.log(
+                    "AR button clicked."
+                );
+
+                try {
+
+                    if (
+                        !viewer.canActivateAR
+                    ) {
+
+                        alert(
+                            "AR is not available on this device. Please open this page on a compatible iPhone or Android phone."
+                        );
+
+                        return;
+
+                    }
+
+                    await viewer.activateAR();
+
+                } catch (error) {
+
+                    console.error(
+                        "AR ERROR:",
+                        error
+                    );
+
+                    alert(
+                        "AR could not be launched. Please try opening the website on a compatible mobile device."
+                    );
+
+                }
+
+            }
+        );
+
 
     </script>
+
 
 </body>
 </html>
