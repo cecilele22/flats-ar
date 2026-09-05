@@ -1,7 +1,3 @@
-/* =========================================================
-   WAIT FOR PAGE
-========================================================= */
-
 document.addEventListener("DOMContentLoaded", () => {
 
     startIntro();
@@ -13,28 +9,14 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-/* =========================================================
+/* =========================
    LOGO INTRO
-========================================================= */
+========================= */
 
 function startIntro() {
 
-    const intro =
-        document.getElementById("intro");
-
-    const mainSite =
-        document.getElementById("main-site");
-
-
-    /*
-     * Logo animation runs for about 3 seconds.
-     *
-     * Then we:
-     *
-     * 1. Fade the intro away
-     * 2. Reveal the website
-     * 3. Remove intro from the page completely
-     */
+    const intro = document.getElementById("intro-screen");
+    const mainSite = document.getElementById("main-site");
 
     setTimeout(() => {
 
@@ -45,76 +27,69 @@ function startIntro() {
     }, 3000);
 
 
-    /*
-     * Completely remove the intro after
-     * its fade animation finishes.
-     */
-
     setTimeout(() => {
 
         intro.style.display = "none";
 
-    }, 4200);
+    }, 4300);
 
 }
 
 
-/* =========================================================
+/* =========================
    THREE.JS
-========================================================= */
+========================= */
 
 function initThree() {
 
     const canvas =
-        document.getElementById("threeCanvas");
+        document.getElementById("three-canvas");
 
-    if (!canvas) {
-        console.error("3D canvas not found.");
-        return;
-    }
+    const container =
+        document.getElementById("viewer-container");
 
 
-    /* -----------------------------------------------------
-       SCENE
-    ----------------------------------------------------- */
+    /* SCENE */
 
     const scene =
         new THREE.Scene();
 
     scene.background =
-        new THREE.Color(0x11110f);
+        new THREE.Color(0xdedbd4);
 
 
-    /* -----------------------------------------------------
-       CAMERA
-    ----------------------------------------------------- */
+    /* CAMERA */
 
     const camera =
         new THREE.PerspectiveCamera(
-            40,
-            1,
+            35,
+            container.clientWidth /
+            container.clientHeight,
             0.1,
             1000
         );
 
     camera.position.set(
-        18,
-        11,
-        22
+        12,
+        8,
+        14
     );
 
 
-    /* -----------------------------------------------------
-       RENDERER
-    ----------------------------------------------------- */
+    /* RENDERER */
 
     const renderer =
         new THREE.WebGLRenderer({
-            canvas: canvas,
-            antialias: true,
-            alpha: true
-        });
 
+            canvas: canvas,
+
+            antialias: true,
+
+            alpha: false,
+
+            powerPreference: "high-performance"
+
+        });
 
     renderer.setPixelRatio(
         Math.min(
@@ -123,68 +98,30 @@ function initThree() {
         )
     );
 
+    renderer.setSize(
+        container.clientWidth,
+        container.clientHeight
+    );
+
+
     renderer.shadowMap.enabled = true;
 
     renderer.shadowMap.type =
         THREE.PCFSoftShadowMap;
 
 
-    /* -----------------------------------------------------
-       RESIZE
-    ----------------------------------------------------- */
-
-    function resize() {
-
-        const width =
-            canvas.clientWidth;
-
-        const height =
-            canvas.clientHeight;
-
-
-        if (
-            width === 0 ||
-            height === 0
-        ) {
-            return;
-        }
-
-
-        camera.aspect =
-            width / height;
-
-        camera.updateProjectionMatrix();
-
-
-        renderer.setSize(
-            width,
-            height,
-            false
-        );
-
-    }
-
-
-    resize();
-
-    window.addEventListener(
-        "resize",
-        resize
-    );
-
-
-    /* -----------------------------------------------------
+    /* =========================
        LIGHTING
-    ----------------------------------------------------- */
+    ========================== */
 
-    const ambient =
+    const ambientLight =
         new THREE.HemisphereLight(
             0xffffff,
-            0x222222,
-            1.8
+            0x888888,
+            2
         );
 
-    scene.add(ambient);
+    scene.add(ambientLight);
 
 
     const sun =
@@ -195,8 +132,8 @@ function initThree() {
 
     sun.position.set(
         10,
-        25,
-        15
+        20,
+        10
     );
 
     sun.castShadow = true;
@@ -204,64 +141,9 @@ function initThree() {
     scene.add(sun);
 
 
-    const fill =
-        new THREE.DirectionalLight(
-            0xbfc5d0,
-            1
-        );
-
-    fill.position.set(
-        -15,
-        10,
-        -10
-    );
-
-    scene.add(fill);
-
-
-    /* -----------------------------------------------------
-       MATERIALS
-    ----------------------------------------------------- */
-
-    const buildingMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0xd9d5cc,
-            roughness: 0.72
-        });
-
-
-    const darkMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0x242521,
-            roughness: 0.4
-        });
-
-
-    const glassMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0x53616b,
-            roughness: 0.15,
-            metalness: 0.1
-        });
-
-
-    const greenMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0x263127,
-            roughness: 1
-        });
-
-
-    const groundMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0x8c8b82,
-            roughness: 1
-        });
-
-
-    /* -----------------------------------------------------
+    /* =========================
        BUILDING
-    ----------------------------------------------------- */
+    ========================== */
 
     const building =
         new THREE.Group();
@@ -269,19 +151,34 @@ function initThree() {
     scene.add(building);
 
 
-    /* Main tower */
+    /* MAIN TOWER */
+
+    const towerGeometry =
+        new THREE.BoxGeometry(
+            7,
+            12,
+            6
+        );
+
+    const towerMaterial =
+        new THREE.MeshStandardMaterial({
+
+            color: 0xd8d4cc,
+
+            roughness: .8,
+
+            metalness: 0
+
+        });
+
 
     const tower =
         new THREE.Mesh(
-            new THREE.BoxGeometry(
-                9,
-                15,
-                7
-            ),
-            buildingMaterial
+            towerGeometry,
+            towerMaterial
         );
 
-    tower.position.y = 7.5;
+    tower.position.y = 6;
 
     tower.castShadow = true;
 
@@ -290,41 +187,62 @@ function initThree() {
     building.add(tower);
 
 
-    /* -----------------------------------------------------
+    /* =========================
        WINDOWS
-    ----------------------------------------------------- */
+    ========================== */
 
     const windowGeometry =
         new THREE.BoxGeometry(
-            0.85,
-            1.15,
-            0.12
+            .9,
+            1.4,
+            .08
         );
+
+
+    const windowMaterial =
+        new THREE.MeshStandardMaterial({
+
+            color: 0x263746,
+
+            roughness: .25,
+
+            metalness: .4
+
+        });
 
 
     for (
         let floor = 0;
-        floor < 9;
+        floor < 8;
         floor++
     ) {
 
         for (
-            let col = -4;
-            col <= 4;
-            col += 2
+            let column = 0;
+            column < 5;
+            column++
         ) {
 
             const window =
                 new THREE.Mesh(
                     windowGeometry,
-                    glassMaterial
+                    windowMaterial
                 );
 
-            window.position.set(
-                col,
-                2.2 + floor * 1.45,
-                3.56
-            );
+
+            window.position.x =
+                -2.5 +
+                column * 1.25;
+
+
+            window.position.y =
+                1.5 +
+                floor * 1.35;
+
+
+            window.position.z =
+                3.03;
+
 
             building.add(window);
 
@@ -333,135 +251,173 @@ function initThree() {
     }
 
 
-    /* -----------------------------------------------------
+    /* =========================
        BALCONIES
-    ----------------------------------------------------- */
+    ========================== */
+
+    const balconyGeometry =
+        new THREE.BoxGeometry(
+            6.5,
+            .15,
+            1.3
+        );
+
+
+    const balconyMaterial =
+        new THREE.MeshStandardMaterial({
+
+            color: 0xbab5ac,
+
+            roughness: .9
+
+        });
+
 
     for (
-        let floor = 1;
-        floor < 8;
-        floor++
+        let i = 0;
+        i < 6;
+        i++
     ) {
 
         const balcony =
             new THREE.Mesh(
-                new THREE.BoxGeometry(
-                    2.8,
-                    0.18,
-                    1.5
-                ),
-                darkMaterial
+                balconyGeometry,
+                balconyMaterial
             );
+
 
         balcony.position.set(
-            -2.6,
-            floor * 1.6 + 0.5,
-            4.25
+            0,
+            2.2 + i * 1.7,
+            3.5
         );
+
+
+        balcony.castShadow = true;
 
         building.add(balcony);
-
-
-        const railing =
-            new THREE.Mesh(
-                new THREE.BoxGeometry(
-                    2.8,
-                    0.8,
-                    0.08
-                ),
-                glassMaterial
-            );
-
-        railing.position.set(
-            -2.6,
-            floor * 1.6 + 0.9,
-            5
-        );
-
-        building.add(railing);
 
     }
 
 
-    /* -----------------------------------------------------
+    /* =========================
        SIDE WING
-    ----------------------------------------------------- */
+    ========================== */
 
-    const sideWing =
-        new THREE.Mesh(
-            new THREE.BoxGeometry(
-                7,
-                5,
-                7
-            ),
-            buildingMaterial
+    const wingGeometry =
+        new THREE.BoxGeometry(
+            4,
+            5,
+            5
         );
 
-    sideWing.position.set(
-        7,
+
+    const wing =
+        new THREE.Mesh(
+            wingGeometry,
+            towerMaterial
+        );
+
+
+    wing.position.set(
+        -5.5,
         2.5,
         0
     );
 
-    sideWing.castShadow = true;
 
-    building.add(sideWing);
+    wing.castShadow = true;
+
+    building.add(wing);
 
 
-    /* -----------------------------------------------------
+    /* =========================
        ROOF
-    ----------------------------------------------------- */
+    ========================== */
+
+    const roofGeometry =
+        new THREE.BoxGeometry(
+            7.5,
+            .35,
+            6.5
+        );
+
 
     const roof =
         new THREE.Mesh(
-            new THREE.BoxGeometry(
-                9.5,
-                0.5,
-                7.5
-            ),
-            darkMaterial
+            roofGeometry,
+            new THREE.MeshStandardMaterial({
+
+                color: 0x77736d,
+
+                roughness: .7
+
+            })
         );
 
-    roof.position.y = 15.25;
+
+    roof.position.y = 12.2;
 
     building.add(roof);
 
 
-    /* -----------------------------------------------------
+    /* =========================
        ENTRANCE
-    ----------------------------------------------------- */
+    ========================== */
+
+    const entranceGeometry =
+        new THREE.BoxGeometry(
+            2.2,
+            2.8,
+            .4
+        );
+
 
     const entrance =
         new THREE.Mesh(
-            new THREE.BoxGeometry(
-                4,
-                2.5,
-                0.5
-            ),
-            darkMaterial
+            entranceGeometry,
+            new THREE.MeshStandardMaterial({
+
+                color: 0x303030,
+
+                roughness: .3
+
+            })
         );
+
 
     entrance.position.set(
         0,
-        1.25,
-        3.7
+        1.4,
+        3.25
     );
+
 
     building.add(entrance);
 
 
-    /* -----------------------------------------------------
+    /* =========================
        GROUND
-    ----------------------------------------------------- */
+    ========================== */
 
     const ground =
         new THREE.Mesh(
+
             new THREE.PlaneGeometry(
-                80,
-                80
+                100,
+                100
             ),
-            groundMaterial
+
+            new THREE.MeshStandardMaterial({
+
+                color: 0xc9c5bd,
+
+                roughness: 1
+
+            })
+
         );
+
 
     ground.rotation.x =
         -Math.PI / 2;
@@ -471,97 +427,126 @@ function initThree() {
     scene.add(ground);
 
 
-    /* -----------------------------------------------------
+    /* =========================
        PATH
-    ----------------------------------------------------- */
+    ========================== */
 
     const path =
         new THREE.Mesh(
-            new THREE.BoxGeometry(
-                3.5,
-                0.05,
-                14
+
+            new THREE.PlaneGeometry(
+                3,
+                18
             ),
-            groundMaterial
+
+            new THREE.MeshStandardMaterial({
+
+                color: 0xa8a39b,
+
+                roughness: 1
+
+            })
+
         );
+
+
+    path.rotation.x =
+        -Math.PI / 2;
 
     path.position.set(
         0,
-        0.03,
+        .01,
         10
     );
+
 
     scene.add(path);
 
 
-    /* -----------------------------------------------------
+    /* =========================
        TREES
-    ----------------------------------------------------- */
+    ========================== */
 
-    function createTree(
-        x,
-        z,
-        scale
+    for (
+        let i = 0;
+        i < 12;
+        i++
     ) {
+
+        const trunk =
+            new THREE.Mesh(
+
+                new THREE.CylinderGeometry(
+                    .12,
+                    .18,
+                    1.8,
+                    8
+                ),
+
+                new THREE.MeshStandardMaterial({
+
+                    color: 0x695546
+
+                })
+
+            );
+
+
+        const leaves =
+            new THREE.Mesh(
+
+                new THREE.SphereGeometry(
+                    1,
+                    12,
+                    12
+                ),
+
+                new THREE.MeshStandardMaterial({
+
+                    color: 0x596a56,
+
+                    roughness: 1
+
+                })
+
+            );
+
 
         const tree =
             new THREE.Group();
 
 
-        const trunk =
-            new THREE.Mesh(
-                new THREE.CylinderGeometry(
-                    0.18,
-                    0.22,
-                    2
-                ),
-                darkMaterial
-            );
+        trunk.position.y = .9;
 
-        trunk.position.y = 1;
+        leaves.position.y = 2.1;
+
 
         tree.add(trunk);
-
-
-        const leaves =
-            new THREE.Mesh(
-                new THREE.SphereGeometry(
-                    1.3,
-                    16,
-                    16
-                ),
-                greenMaterial
-            );
-
-        leaves.position.y = 2.5;
 
         tree.add(leaves);
 
 
         tree.position.set(
-            x,
+
+            (Math.random() > .5 ? 1 : -1)
+            *
+            (7 + Math.random() * 4),
+
             0,
-            z
+
+            Math.random() * 20 - 5
+
         );
 
-        tree.scale.setScalar(scale);
 
         scene.add(tree);
 
     }
 
 
-    createTree(-10, 4, 1.2);
-    createTree(-12, 10, 0.9);
-    createTree(12, 5, 1.1);
-    createTree(14, 12, 1.3);
-    createTree(-7, 17, 0.8);
-    createTree(9, 18, 0.9);
-
-
-    /* -----------------------------------------------------
+    /* =========================
        CONTROLS
-    ----------------------------------------------------- */
+    ========================== */
 
     const controls =
         new THREE.OrbitControls(
@@ -569,32 +554,80 @@ function initThree() {
             renderer.domElement
         );
 
+
     controls.enableDamping = true;
 
-    controls.dampingFactor = 0.05;
+    controls.dampingFactor = .05;
 
-    controls.minDistance = 12;
+    controls.enablePan = false;
 
-    controls.maxDistance = 38;
+    controls.minDistance = 10;
+
+    controls.maxDistance = 30;
 
     controls.maxPolarAngle =
         Math.PI / 2.05;
 
+
     controls.target.set(
         0,
-        7,
+        5,
         0
     );
 
 
+    /* =========================
+       AUTO ROTATION
+    ========================== */
+
     controls.autoRotate = true;
 
-    controls.autoRotateSpeed = 0.7;
+    controls.autoRotateSpeed = .5;
 
 
-    /* -----------------------------------------------------
-       RENDER
-    ----------------------------------------------------- */
+    /* Stop auto rotation when user interacts */
+
+    controls.addEventListener(
+        "start",
+        () => {
+
+            controls.autoRotate = false;
+
+        }
+    );
+
+
+    /* =========================
+       RESIZE
+    ========================== */
+
+    window.addEventListener(
+        "resize",
+        () => {
+
+            camera.aspect =
+                container.clientWidth /
+                container.clientHeight;
+
+
+            camera.updateProjectionMatrix();
+
+
+            renderer.setSize(
+
+                container.clientWidth,
+
+                container.clientHeight
+
+            );
+
+        }
+    );
+
+
+    /* =========================
+       ANIMATION
+    ========================== */
 
     function animate() {
 
@@ -602,7 +635,9 @@ function initThree() {
             animate
         );
 
+
         controls.update();
+
 
         renderer.render(
             scene,
@@ -615,1111 +650,134 @@ function initThree() {
     animate();
 
 
-    /* -----------------------------------------------------
-       LOADING SCREEN
-    ----------------------------------------------------- */
+    /* =========================
+       REMOVE LOADING
+    ========================== */
 
     setTimeout(() => {
 
         const loading =
             document.getElementById(
-                "viewerLoading"
+                "loading-screen"
             );
 
-        if (loading) {
-
-            loading.classList.add(
-                "hidden"
-            );
-
-        }
+        loading.classList.add(
+            "hidden"
+        );
 
     }, 1000);
 
 
-    /* -----------------------------------------------------
-       RESET
-    ----------------------------------------------------- */
+    /* SAVE REFERENCES */
 
-    document
-        .getElementById("resetButton")
-        .addEventListener(
-            "click",
-            () => {
+    window.propertyScene = scene;
 
-                camera.position.set(
-                    18,
-                    11,
-                    22
-                );
+    window.propertyCamera = camera;
 
-                controls.target.set(
-                    0,
-                    7,
-                    0
-                );
+    window.propertyRenderer =
+        renderer;
 
-                controls.update();
-
-            }
-        );
-
-
-    /* -----------------------------------------------------
-       AUTO ROTATE
-    ----------------------------------------------------- */
-
-    const rotateButton =
-        document.getElementById(
-            "rotateButton"
-        );
-
-
-    rotateButton.addEventListener(
-        "click",
-        () => {
-
-            controls.autoRotate =
-                !controls.autoRotate;
-
-
-            rotateButton.textContent =
-                controls.autoRotate
-                    ? "AUTO ROTATE"
-                    : "ROTATION OFF";
-
-        }
-    );
-
-
-    /* -----------------------------------------------------
-       FULLSCREEN
-    ----------------------------------------------------- */
-
-    const viewer =
-        document.querySelector(
-            ".viewer-container"
-        );
-
-
-    document
-        .getElementById(
-            "fullscreenButton"
-        )
-        .addEventListener(
-            "click",
-            async () => {
-
-                try {
-
-                    if (
-                        !document.fullscreenElement
-                    ) {
-
-                        await viewer.requestFullscreen();
-
-                    } else {
-
-                        await document.exitFullscreen();
-
-                    }
-
-                } catch (error) {
-
-                    console.log(
-                        "Fullscreen unavailable:",
-                        error
-                    );
-
-                }
-
-            }
-        );
+    window.propertyControls =
+        controls;
 
 }
 
 
-/* =========================================================
+/* =========================
    BUTTONS
-========================================================= */
+========================= */
 
 function initButtons() {
 
-
-    /* -----------------------------------------------------
-       WALKTHROUGH
-    ----------------------------------------------------- */
-
-    const walkthrough =
+    const fullscreenButton =
         document.getElementById(
-            "walkthrough"
+            "fullscreen-btn"
         );
 
 
-    const openButtons = [
-        document.getElementById(
-            "walkthroughButton"
-        ),
-        document.getElementById(
-            "finalWalkthrough"
-        )
-    ];
-
-
-    openButtons.forEach(
-        button => {
-
-            if (!button) return;
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    walkthrough.classList.add(
-                        "active"
-                    );
-
-                    document.body.style.overflow =
-                        "hidden";
-
-                }
-            );
-
-        }
-    );
-
-
-    document
-        .getElementById(
-            "closeWalkthrough"
-        )
-        .addEventListener(
-            "click",
-            () => {
-
-                walkthrough.classList.remove(
-                    "active"
-                );
-
-                document.body.style.overflow =
-                    "";
-
-            }
-        );
-
-
-    /* -----------------------------------------------------
-       AR
-    ----------------------------------------------------- */
-
-    const arViewer =
-        document.getElementById(
-            "arViewer"
-        );
-
-
-    async function launchAR() {
-
-        arViewer.style.display =
-            "block";
-
-
-        try {
-
-            await arViewer.activateAR();
-
-        } catch (error) {
-
-            console.log(
-                "AR could not be launched:",
-                error
-            );
-
-            /*
-             * Keep the model visible if
-             * AR isn't available.
-             */
-
-        }
-
-    }
-
-
-    document
-        .getElementById("arButton")
-        .addEventListener(
-            "click",
-            launchAR
-        );
-
-
-    document
-        .getElementById("finalAR")
-        .addEventListener(
-            "click",
-            launchAR
-        );
-
-}/* =========================================================
-   WAIT FOR PAGE
-========================================================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    startIntro();
-
-    initThree();
-
-    initButtons();
-
-});
-
-
-/* =========================================================
-   LOGO INTRO
-========================================================= */
-
-function startIntro() {
-
-    const intro =
-        document.getElementById("intro");
-
-    const mainSite =
-        document.getElementById("main-site");
-
-
-    /*
-     * Logo animation runs for about 3 seconds.
-     *
-     * Then we:
-     *
-     * 1. Fade the intro away
-     * 2. Reveal the website
-     * 3. Remove intro from the page completely
-     */
-
-    setTimeout(() => {
-
-        intro.classList.add("exit");
-
-        mainSite.classList.add("visible");
-
-    }, 3000);
-
-
-    /*
-     * Completely remove the intro after
-     * its fade animation finishes.
-     */
-
-    setTimeout(() => {
-
-        intro.style.display = "none";
-
-    }, 4200);
-
-}
-
-
-/* =========================================================
-   THREE.JS
-========================================================= */
-
-function initThree() {
-
-    const canvas =
-        document.getElementById("threeCanvas");
-
-    if (!canvas) {
-        console.error("3D canvas not found.");
-        return;
-    }
-
-
-    /* -----------------------------------------------------
-       SCENE
-    ----------------------------------------------------- */
-
-    const scene =
-        new THREE.Scene();
-
-    scene.background =
-        new THREE.Color(0x11110f);
-
-
-    /* -----------------------------------------------------
-       CAMERA
-    ----------------------------------------------------- */
-
-    const camera =
-        new THREE.PerspectiveCamera(
-            40,
-            1,
-            0.1,
-            1000
-        );
-
-    camera.position.set(
-        18,
-        11,
-        22
-    );
-
-
-    /* -----------------------------------------------------
-       RENDERER
-    ----------------------------------------------------- */
-
-    const renderer =
-        new THREE.WebGLRenderer({
-            canvas: canvas,
-            antialias: true,
-            alpha: true
-        });
-
-
-    renderer.setPixelRatio(
-        Math.min(
-            window.devicePixelRatio,
-            2
-        )
-    );
-
-    renderer.shadowMap.enabled = true;
-
-    renderer.shadowMap.type =
-        THREE.PCFSoftShadowMap;
-
-
-    /* -----------------------------------------------------
-       RESIZE
-    ----------------------------------------------------- */
-
-    function resize() {
-
-        const width =
-            canvas.clientWidth;
-
-        const height =
-            canvas.clientHeight;
-
-
-        if (
-            width === 0 ||
-            height === 0
-        ) {
-            return;
-        }
-
-
-        camera.aspect =
-            width / height;
-
-        camera.updateProjectionMatrix();
-
-
-        renderer.setSize(
-            width,
-            height,
-            false
-        );
-
-    }
-
-
-    resize();
-
-    window.addEventListener(
-        "resize",
-        resize
-    );
-
-
-    /* -----------------------------------------------------
-       LIGHTING
-    ----------------------------------------------------- */
-
-    const ambient =
-        new THREE.HemisphereLight(
-            0xffffff,
-            0x222222,
-            1.8
-        );
-
-    scene.add(ambient);
-
-
-    const sun =
-        new THREE.DirectionalLight(
-            0xffffff,
-            3
-        );
-
-    sun.position.set(
-        10,
-        25,
-        15
-    );
-
-    sun.castShadow = true;
-
-    scene.add(sun);
-
-
-    const fill =
-        new THREE.DirectionalLight(
-            0xbfc5d0,
-            1
-        );
-
-    fill.position.set(
-        -15,
-        10,
-        -10
-    );
-
-    scene.add(fill);
-
-
-    /* -----------------------------------------------------
-       MATERIALS
-    ----------------------------------------------------- */
-
-    const buildingMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0xd9d5cc,
-            roughness: 0.72
-        });
-
-
-    const darkMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0x242521,
-            roughness: 0.4
-        });
-
-
-    const glassMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0x53616b,
-            roughness: 0.15,
-            metalness: 0.1
-        });
-
-
-    const greenMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0x263127,
-            roughness: 1
-        });
-
-
-    const groundMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0x8c8b82,
-            roughness: 1
-        });
-
-
-    /* -----------------------------------------------------
-       BUILDING
-    ----------------------------------------------------- */
-
-    const building =
-        new THREE.Group();
-
-    scene.add(building);
-
-
-    /* Main tower */
-
-    const tower =
-        new THREE.Mesh(
-            new THREE.BoxGeometry(
-                9,
-                15,
-                7
-            ),
-            buildingMaterial
-        );
-
-    tower.position.y = 7.5;
-
-    tower.castShadow = true;
-
-    tower.receiveShadow = true;
-
-    building.add(tower);
-
-
-    /* -----------------------------------------------------
-       WINDOWS
-    ----------------------------------------------------- */
-
-    const windowGeometry =
-        new THREE.BoxGeometry(
-            0.85,
-            1.15,
-            0.12
-        );
-
-
-    for (
-        let floor = 0;
-        floor < 9;
-        floor++
-    ) {
-
-        for (
-            let col = -4;
-            col <= 4;
-            col += 2
-        ) {
-
-            const window =
-                new THREE.Mesh(
-                    windowGeometry,
-                    glassMaterial
-                );
-
-            window.position.set(
-                col,
-                2.2 + floor * 1.45,
-                3.56
-            );
-
-            building.add(window);
-
-        }
-
-    }
-
-
-    /* -----------------------------------------------------
-       BALCONIES
-    ----------------------------------------------------- */
-
-    for (
-        let floor = 1;
-        floor < 8;
-        floor++
-    ) {
-
-        const balcony =
-            new THREE.Mesh(
-                new THREE.BoxGeometry(
-                    2.8,
-                    0.18,
-                    1.5
-                ),
-                darkMaterial
-            );
-
-        balcony.position.set(
-            -2.6,
-            floor * 1.6 + 0.5,
-            4.25
-        );
-
-        building.add(balcony);
-
-
-        const railing =
-            new THREE.Mesh(
-                new THREE.BoxGeometry(
-                    2.8,
-                    0.8,
-                    0.08
-                ),
-                glassMaterial
-            );
-
-        railing.position.set(
-            -2.6,
-            floor * 1.6 + 0.9,
-            5
-        );
-
-        building.add(railing);
-
-    }
-
-
-    /* -----------------------------------------------------
-       SIDE WING
-    ----------------------------------------------------- */
-
-    const sideWing =
-        new THREE.Mesh(
-            new THREE.BoxGeometry(
-                7,
-                5,
-                7
-            ),
-            buildingMaterial
-        );
-
-    sideWing.position.set(
-        7,
-        2.5,
-        0
-    );
-
-    sideWing.castShadow = true;
-
-    building.add(sideWing);
-
-
-    /* -----------------------------------------------------
-       ROOF
-    ----------------------------------------------------- */
-
-    const roof =
-        new THREE.Mesh(
-            new THREE.BoxGeometry(
-                9.5,
-                0.5,
-                7.5
-            ),
-            darkMaterial
-        );
-
-    roof.position.y = 15.25;
-
-    building.add(roof);
-
-
-    /* -----------------------------------------------------
-       ENTRANCE
-    ----------------------------------------------------- */
-
-    const entrance =
-        new THREE.Mesh(
-            new THREE.BoxGeometry(
-                4,
-                2.5,
-                0.5
-            ),
-            darkMaterial
-        );
-
-    entrance.position.set(
-        0,
-        1.25,
-        3.7
-    );
-
-    building.add(entrance);
-
-
-    /* -----------------------------------------------------
-       GROUND
-    ----------------------------------------------------- */
-
-    const ground =
-        new THREE.Mesh(
-            new THREE.PlaneGeometry(
-                80,
-                80
-            ),
-            groundMaterial
-        );
-
-    ground.rotation.x =
-        -Math.PI / 2;
-
-    ground.receiveShadow = true;
-
-    scene.add(ground);
-
-
-    /* -----------------------------------------------------
-       PATH
-    ----------------------------------------------------- */
-
-    const path =
-        new THREE.Mesh(
-            new THREE.BoxGeometry(
-                3.5,
-                0.05,
-                14
-            ),
-            groundMaterial
-        );
-
-    path.position.set(
-        0,
-        0.03,
-        10
-    );
-
-    scene.add(path);
-
-
-    /* -----------------------------------------------------
-       TREES
-    ----------------------------------------------------- */
-
-    function createTree(
-        x,
-        z,
-        scale
-    ) {
-
-        const tree =
-            new THREE.Group();
-
-
-        const trunk =
-            new THREE.Mesh(
-                new THREE.CylinderGeometry(
-                    0.18,
-                    0.22,
-                    2
-                ),
-                darkMaterial
-            );
-
-        trunk.position.y = 1;
-
-        tree.add(trunk);
-
-
-        const leaves =
-            new THREE.Mesh(
-                new THREE.SphereGeometry(
-                    1.3,
-                    16,
-                    16
-                ),
-                greenMaterial
-            );
-
-        leaves.position.y = 2.5;
-
-        tree.add(leaves);
-
-
-        tree.position.set(
-            x,
-            0,
-            z
-        );
-
-        tree.scale.setScalar(scale);
-
-        scene.add(tree);
-
-    }
-
-
-    createTree(-10, 4, 1.2);
-    createTree(-12, 10, 0.9);
-    createTree(12, 5, 1.1);
-    createTree(14, 12, 1.3);
-    createTree(-7, 17, 0.8);
-    createTree(9, 18, 0.9);
-
-
-    /* -----------------------------------------------------
-       CONTROLS
-    ----------------------------------------------------- */
-
-    const controls =
-        new THREE.OrbitControls(
-            camera,
-            renderer.domElement
-        );
-
-    controls.enableDamping = true;
-
-    controls.dampingFactor = 0.05;
-
-    controls.minDistance = 12;
-
-    controls.maxDistance = 38;
-
-    controls.maxPolarAngle =
-        Math.PI / 2.05;
-
-    controls.target.set(
-        0,
-        7,
-        0
-    );
-
-
-    controls.autoRotate = true;
-
-    controls.autoRotateSpeed = 0.7;
-
-
-    /* -----------------------------------------------------
-       RENDER
-    ----------------------------------------------------- */
-
-    function animate() {
-
-        requestAnimationFrame(
-            animate
-        );
-
-        controls.update();
-
-        renderer.render(
-            scene,
-            camera
-        );
-
-    }
-
-
-    animate();
-
-
-    /* -----------------------------------------------------
-       LOADING SCREEN
-    ----------------------------------------------------- */
-
-    setTimeout(() => {
-
-        const loading =
-            document.getElementById(
-                "viewerLoading"
-            );
-
-        if (loading) {
-
-            loading.classList.add(
-                "hidden"
-            );
-
-        }
-
-    }, 1000);
-
-
-    /* -----------------------------------------------------
-       RESET
-    ----------------------------------------------------- */
-
-    document
-        .getElementById("resetButton")
-        .addEventListener(
-            "click",
-            () => {
-
-                camera.position.set(
-                    18,
-                    11,
-                    22
-                );
-
-                controls.target.set(
-                    0,
-                    7,
-                    0
-                );
-
-                controls.update();
-
-            }
-        );
-
-
-    /* -----------------------------------------------------
-       AUTO ROTATE
-    ----------------------------------------------------- */
-
-    const rotateButton =
-        document.getElementById(
-            "rotateButton"
-        );
-
-
-    rotateButton.addEventListener(
+    fullscreenButton.addEventListener(
         "click",
         () => {
 
-            controls.autoRotate =
-                !controls.autoRotate;
-
-
-            rotateButton.textContent =
-                controls.autoRotate
-                    ? "AUTO ROTATE"
-                    : "ROTATION OFF";
-
-        }
-    );
-
-
-    /* -----------------------------------------------------
-       FULLSCREEN
-    ----------------------------------------------------- */
-
-    const viewer =
-        document.querySelector(
-            ".viewer-container"
-        );
-
-
-    document
-        .getElementById(
-            "fullscreenButton"
-        )
-        .addEventListener(
-            "click",
-            async () => {
-
-                try {
-
-                    if (
-                        !document.fullscreenElement
-                    ) {
-
-                        await viewer.requestFullscreen();
-
-                    } else {
-
-                        await document.exitFullscreen();
-
-                    }
-
-                } catch (error) {
-
-                    console.log(
-                        "Fullscreen unavailable:",
-                        error
-                    );
-
-                }
-
-            }
-        );
-
-}
-
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-function initButtons() {
-
-
-    /* -----------------------------------------------------
-       WALKTHROUGH
-    ----------------------------------------------------- */
-
-    const walkthrough =
-        document.getElementById(
-            "walkthrough"
-        );
-
-
-    const openButtons = [
-        document.getElementById(
-            "walkthroughButton"
-        ),
-        document.getElementById(
-            "finalWalkthrough"
-        )
-    ];
-
-
-    openButtons.forEach(
-        button => {
-
-            if (!button) return;
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    walkthrough.classList.add(
-                        "active"
-                    );
-
-                    document.body.style.overflow =
-                        "hidden";
-
-                }
-            );
-
-        }
-    );
-
-
-    document
-        .getElementById(
-            "closeWalkthrough"
-        )
-        .addEventListener(
-            "click",
-            () => {
-
-                walkthrough.classList.remove(
-                    "active"
+            const viewer =
+                document.getElementById(
+                    "viewer-container"
                 );
 
-                document.body.style.overflow =
-                    "";
+
+            if (
+                !document.fullscreenElement
+            ) {
+
+                viewer.requestFullscreen();
+
+            } else {
+
+                document.exitFullscreen();
 
             }
-        );
-
-
-    /* -----------------------------------------------------
-       AR
-    ----------------------------------------------------- */
-
-    const arViewer =
-        document.getElementById(
-            "arViewer"
-        );
-
-
-    async function launchAR() {
-
-        arViewer.style.display =
-            "block";
-
-
-        try {
-
-            await arViewer.activateAR();
-
-        } catch (error) {
-
-            console.log(
-                "AR could not be launched:",
-                error
-            );
-
-            /*
-             * Keep the model visible if
-             * AR isn't available.
-             */
 
         }
+    );
 
-    }
 
+    /* =========================
+       AR BUTTON
+    ========================== */
 
-    document
-        .getElementById("arButton")
-        .addEventListener(
-            "click",
-            launchAR
+    const arButton =
+        document.getElementById(
+            "ar-button"
         );
 
 
-    document
-        .getElementById("finalAR")
-        .addEventListener(
-            "click",
-            launchAR
+    const arModel =
+        document.getElementById(
+            "ar-model"
         );
+
+
+    arButton.addEventListener(
+        "click",
+        async () => {
+
+            try {
+
+                arModel.style.display =
+                    "block";
+
+
+                await arModel.updateComplete;
+
+
+                if (
+                    arModel.canActivateAR
+                ) {
+
+                    await arModel.activateAR();
+
+                } else {
+
+                    alert(
+                        "AR is not supported on this device."
+                    );
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "AR Error:",
+                    error
+                );
+
+                alert(
+                    "Unable to launch AR on this device."
+                );
+
+            }
+
+        }
+    );
 
 }
