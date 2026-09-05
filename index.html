@@ -1,15 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Condo AR Experience</title>
-
-    <!-- Model Viewer -->
-    <script type="module"
-        src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
-    </script>
+    <title>Condo 3D + AR Experience</title>
 
     <style>
         * {
@@ -19,12 +15,12 @@
         }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #0d1117;
+            font-family: Arial, sans-serif;
+            background: #0b0f14;
             color: white;
         }
 
-        /* NAVBAR */
+        /* NAVIGATION */
 
         nav {
             position: fixed;
@@ -40,13 +36,13 @@
             padding: 0 6%;
 
             background: rgba(0,0,0,0.65);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
 
-            z-index: 100;
+            z-index: 1000;
         }
 
         .logo {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
             letter-spacing: 2px;
         }
@@ -54,7 +50,7 @@
         nav a {
             color: white;
             text-decoration: none;
-            margin-left: 30px;
+            margin-left: 25px;
             font-size: 14px;
         }
 
@@ -71,8 +67,8 @@
             background:
                 linear-gradient(
                     90deg,
-                    rgba(0,0,0,0.85),
-                    rgba(0,0,0,0.35)
+                    rgba(0,0,0,.8),
+                    rgba(0,0,0,.2)
                 ),
                 url("https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=2000&q=80");
 
@@ -85,114 +81,114 @@
         }
 
         .hero h1 {
-            font-size: clamp(45px, 7vw, 85px);
-            line-height: 0.95;
+            font-size: clamp(45px, 7vw, 80px);
+            line-height: .95;
             margin-bottom: 25px;
         }
 
         .hero p {
+            color: #ddd;
             font-size: 18px;
             line-height: 1.6;
-            color: #ddd;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
 
-        .buttons {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
+        .button {
+            display: inline-block;
 
-        button {
-            border: none;
             padding: 16px 25px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-        }
 
-        .primary {
+            border-radius: 8px;
+
             background: white;
             color: black;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            margin-right: 10px;
         }
 
-        .secondary {
+        .button.outline {
             background: transparent;
-            color: white;
             border: 1px solid white;
+            color: white;
         }
 
-        /* WALKTHROUGH */
+        /* 3D SECTION */
 
         #walkthrough {
             min-height: 100vh;
-            padding: 100px 6%;
+            padding: 100px 5%;
+
             background: #111820;
         }
 
-        .section-title {
+        .title {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
-        .section-title h2 {
+        .title h2 {
             font-size: 45px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
-        .section-title p {
+        .title p {
             color: #aaa;
         }
 
-        .viewer-container {
-            position: relative;
-
-            max-width: 1300px;
-            height: 650px;
+        #scene-container {
+            width: 100%;
+            max-width: 1400px;
+            height: 700px;
 
             margin: auto;
 
-            border-radius: 20px;
+            position: relative;
+
             overflow: hidden;
 
-            background: #202833;
+            border-radius: 20px;
 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            background: #8ecae6;
+
+            box-shadow: 0 20px 70px rgba(0,0,0,.4);
         }
 
-        model-viewer {
-            width: 100%;
-            height: 100%;
-
-            background: #202833;
+        #scene-container canvas {
+            display: block;
         }
 
         /* INFO PANEL */
 
-        .info-panel {
+        .info {
             position: absolute;
 
-            top: 25px;
-            left: 25px;
+            top: 20px;
+            left: 20px;
+
+            width: 260px;
 
             padding: 20px;
 
-            width: 250px;
+            background: rgba(0,0,0,.7);
 
-            background: rgba(0,0,0,0.7);
             backdrop-filter: blur(10px);
 
             border-radius: 12px;
+
+            z-index: 10;
         }
 
-        .info-panel h3 {
+        .info h3 {
             margin-bottom: 10px;
         }
 
-        .info-panel p {
+        .info p {
             color: #ccc;
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.5;
         }
 
@@ -201,7 +197,7 @@
         .controls {
             position: absolute;
 
-            bottom: 25px;
+            bottom: 20px;
             left: 50%;
 
             transform: translateX(-50%);
@@ -209,105 +205,108 @@
             display: flex;
             gap: 10px;
 
-            background: rgba(0,0,0,0.7);
-
             padding: 10px;
 
-            border-radius: 12px;
+            background: rgba(0,0,0,.7);
+
+            border-radius: 10px;
+
+            z-index: 20;
         }
 
         .controls button {
-            padding: 10px 15px;
-            background: #fff;
-            color: #000;
+            border: none;
+
+            padding: 10px 16px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-weight: bold;
         }
 
-        /* AR SECTION */
+        /* AR */
 
         #ar {
-            min-height: 80vh;
+            min-height: 70vh;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            padding: 80px 6%;
+            text-align: center;
+
+            padding: 80px 20px;
 
             background: #080b0f;
         }
 
-        .ar-box {
-            max-width: 900px;
-            text-align: center;
+        .ar-content {
+            max-width: 700px;
         }
 
-        .ar-box h2 {
+        .ar-content h2 {
             font-size: 50px;
             margin-bottom: 20px;
         }
 
-        .ar-box p {
+        .ar-content p {
             color: #aaa;
-            line-height: 1.6;
-            margin-bottom: 35px;
+            line-height: 1.7;
+            margin-bottom: 30px;
         }
 
         .ar-button {
-            background: white;
-            color: black;
+            padding: 18px 30px;
 
-            padding: 18px 35px;
+            border: none;
 
             border-radius: 10px;
 
-            font-size: 17px;
+            background: white;
+
+            color: black;
+
+            font-size: 16px;
+
             font-weight: bold;
 
             cursor: pointer;
         }
 
-        /* FOOTER */
-
         footer {
             padding: 30px;
             text-align: center;
-
             background: #050608;
             color: #777;
         }
 
-        /* MOBILE */
-
-        @media(max-width: 700px) {
+        @media(max-width:700px) {
 
             nav {
                 padding: 0 20px;
             }
 
             nav a {
-                margin-left: 12px;
+                margin-left: 10px;
                 font-size: 12px;
             }
 
-            .hero {
-                padding: 100px 25px;
+            #scene-container {
+                height: 550px;
             }
 
-            .viewer-container {
-                height: 500px;
-            }
-
-            .info-panel {
+            .info {
                 width: 200px;
                 padding: 15px;
             }
 
-            .section-title h2,
-            .ar-box h2 {
+            .title h2,
+            .ar-content h2 {
                 font-size: 35px;
             }
         }
-
     </style>
 </head>
 
@@ -318,11 +317,11 @@
 <nav>
 
     <div class="logo">
-        YOUR CONDO
+        SKYLINE RESIDENCES
     </div>
 
     <div>
-        <a href="#walkthrough">Walkthrough</a>
+        <a href="#walkthrough">3D Walkthrough</a>
         <a href="#ar">AR</a>
     </div>
 
@@ -336,37 +335,23 @@
     <div class="hero-content">
 
         <h1>
-            Experience<br>
-            Your Future Home
+            Explore Your<br>
+            Future Home
         </h1>
 
         <p>
-            Explore the condominium in an interactive
-            3D environment or experience it directly
-            in your own space using augmented reality.
+            Explore our condominium development
+            through an interactive 3D site model
+            and experience it in augmented reality.
         </p>
 
-        <div class="buttons">
+        <a href="#walkthrough" class="button">
+            Explore 3D Site
+        </a>
 
-            <button
-                class="primary"
-                onclick="document.getElementById('walkthrough')
-                .scrollIntoView({behavior:'smooth'})">
-
-                Explore 3D
-
-            </button>
-
-            <button
-                class="secondary"
-                onclick="document.getElementById('ar')
-                .scrollIntoView({behavior:'smooth'})">
-
-                View in AR
-
-            </button>
-
-        </div>
+        <a href="#ar" class="button outline">
+            View in AR
+        </a>
 
     </div>
 
@@ -377,59 +362,38 @@
 
 <section id="walkthrough">
 
-    <div class="section-title">
+    <div class="title">
 
-        <h2>3D Walkthrough</h2>
+        <h2>3D Site Walkthrough</h2>
 
         <p>
-            Explore the condominium site interactively.
-            Rotate, zoom and inspect the development.
+            Drag to rotate. Scroll to zoom.
+            Explore the sample development.
         </p>
 
     </div>
 
 
-    <div class="viewer-container">
+    <div id="scene-container">
 
-        <!--
-        REPLACE THIS MODEL WITH YOUR CONDO MODEL
+        <div class="info">
 
-        Example:
-
-        models/condo.glb
-        -->
-
-        <model-viewer
-            id="condoModel"
-
-            src="models/condo.glb"
-
-            camera-controls
-            touch-action="pan-y"
-
-            shadow-intensity="1"
-
-            exposure="1"
-
-            environment-image="neutral"
-
-            camera-orbit="45deg 65deg 100%"
-
-            min-camera-orbit="auto auto 20%"
-
-            max-camera-orbit="auto auto 200%">
-
-        </model-viewer>
-
-
-        <div class="info-panel">
-
-            <h3>Condominium Site</h3>
+            <h3>Sample Development</h3>
 
             <p>
-                Explore the entire development,
-                including towers, amenities,
-                landscaping and surrounding areas.
+                This is a simple procedural 3D
+                condominium site created directly
+                in the browser.
+            </p>
+
+            <br>
+
+            <p>
+                🏢 Towers<br>
+                🏊 Swimming Pool<br>
+                🌳 Landscaped Areas<br>
+                🚗 Parking<br>
+                🛣️ Roads
             </p>
 
         </div>
@@ -441,8 +405,12 @@
                 Reset
             </button>
 
-            <button onclick="toggleAutoRotate()">
+            <button onclick="toggleRotation()">
                 Auto Rotate
+            </button>
+
+            <button onclick="topView()">
+                Site Plan
             </button>
 
         </div>
@@ -456,54 +424,21 @@
 
 <section id="ar">
 
-    <div class="ar-box">
+    <div class="ar-content">
 
-        <h2>See It In Your Space</h2>
+        <h2>
+            See The Development In AR
+        </h2>
 
         <p>
-            Use your smartphone to place the
-            condominium model in your environment
-            using augmented reality.
+            Scan the QR code or open this page
+            on your phone to experience the
+            condominium development in your
+            actual surroundings.
         </p>
 
-
-        <model-viewer
-
-            id="arModel"
-
-            src="models/condo.glb"
-
-            ar
-
-            ar-modes="webxr scene-viewer quick-look"
-
-            camera-controls
-
-            shadow-intensity="1"
-
-            style="
-                width: 1px;
-                height: 1px;
-                position: absolute;
-                opacity: 0;
-            ">
-
-            <button
-                slot="ar-button"
-                class="ar-button">
-
-                📱 View Condominium in AR
-
-            </button>
-
-        </model-viewer>
-
-        <button
-            class="ar-button"
-            onclick="launchAR()">
-
-            📱 View Condominium in AR
-
+        <button class="ar-button" onclick="launchAR()">
+            📱 View in AR
         </button>
 
     </div>
@@ -511,53 +446,610 @@
 </section>
 
 
-<!-- FOOTER -->
-
 <footer>
 
-    © 2026 Your Condominium Project
+    © 2026 Skyline Residences
 
 </footer>
 
 
-<script>
+<!-- THREE.JS -->
 
-    const model =
-        document.getElementById("condoModel");
+<script type="module">
+
+    import * as THREE
+        from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+
+    import { OrbitControls }
+        from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js";
 
 
-    function resetCamera() {
+    /* ------------------------------------------------
+       SCENE
+    ------------------------------------------------ */
 
-        model.cameraOrbit =
-            "45deg 65deg 100%";
+    const container =
+        document.getElementById("scene-container");
+
+    const scene =
+        new THREE.Scene();
+
+    scene.background =
+        new THREE.Color(0x8ecae6);
+
+
+    /* ------------------------------------------------
+       CAMERA
+    ------------------------------------------------ */
+
+    const camera =
+        new THREE.PerspectiveCamera(
+            45,
+            container.clientWidth /
+            container.clientHeight,
+            0.1,
+            1000
+        );
+
+    camera.position.set(
+        55,
+        45,
+        55
+    );
+
+
+    /* ------------------------------------------------
+       RENDERER
+    ------------------------------------------------ */
+
+    const renderer =
+        new THREE.WebGLRenderer({
+            antialias: true
+        });
+
+    renderer.setSize(
+        container.clientWidth,
+        container.clientHeight
+    );
+
+    renderer.setPixelRatio(
+        Math.min(window.devicePixelRatio, 2)
+    );
+
+    renderer.shadowMap.enabled = true;
+
+    container.appendChild(renderer.domElement);
+
+
+    /* ------------------------------------------------
+       CONTROLS
+    ------------------------------------------------ */
+
+    const controls =
+        new OrbitControls(
+            camera,
+            renderer.domElement
+        );
+
+    controls.enableDamping = true;
+
+    controls.target.set(
+        0,
+        0,
+        0
+    );
+
+
+    /* ------------------------------------------------
+       LIGHTING
+    ------------------------------------------------ */
+
+    const ambient =
+        new THREE.HemisphereLight(
+            0xffffff,
+            0x444444,
+            2
+        );
+
+    scene.add(ambient);
+
+
+    const sun =
+        new THREE.DirectionalLight(
+            0xffffff,
+            3
+        );
+
+    sun.position.set(
+        30,
+        60,
+        20
+    );
+
+    sun.castShadow = true;
+
+    scene.add(sun);
+
+
+    /* ------------------------------------------------
+       MATERIALS
+    ------------------------------------------------ */
+
+    const grassMaterial =
+        new THREE.MeshStandardMaterial({
+            color: 0x4f9d69
+        });
+
+    const roadMaterial =
+        new THREE.MeshStandardMaterial({
+            color: 0x333333
+        });
+
+    const buildingMaterial =
+        new THREE.MeshStandardMaterial({
+            color: 0xe8e3d5
+        });
+
+    const glassMaterial =
+        new THREE.MeshStandardMaterial({
+            color: 0x4da6c8,
+            metalness: .2,
+            roughness: .15
+        });
+
+    const poolMaterial =
+        new THREE.MeshStandardMaterial({
+            color: 0x299ed0
+        });
+
+    const treeMaterial =
+        new THREE.MeshStandardMaterial({
+            color: 0x247a3b
+        });
+
+
+    /* ------------------------------------------------
+       HELPER: BOX
+    ------------------------------------------------ */
+
+    function box(
+        x,
+        y,
+        z,
+        width,
+        height,
+        depth,
+        material
+    ) {
+
+        const geometry =
+            new THREE.BoxGeometry(
+                width,
+                height,
+                depth
+            );
+
+        const mesh =
+            new THREE.Mesh(
+                geometry,
+                material
+            );
+
+        mesh.position.set(
+            x,
+            y,
+            z
+        );
+
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+
+        scene.add(mesh);
+
+        return mesh;
+    }
+
+
+    /* ------------------------------------------------
+       GROUND
+    ------------------------------------------------ */
+
+    box(
+        0,
+        -1,
+        0,
+        100,
+        2,
+        100,
+        grassMaterial
+    );
+
+
+    /* ------------------------------------------------
+       ROADS
+    ------------------------------------------------ */
+
+    box(
+        0,
+        .05,
+        0,
+        100,
+        .1,
+        10,
+        roadMaterial
+    );
+
+    box(
+        0,
+        .06,
+        0,
+        10,
+        .11,
+        100,
+        roadMaterial
+    );
+
+
+    /* ------------------------------------------------
+       BUILDING FUNCTION
+    ------------------------------------------------ */
+
+    function building(
+        x,
+        z,
+        width,
+        depth,
+        floors
+    ) {
+
+        const height =
+            floors * 2.5;
+
+        const building =
+            box(
+                x,
+                height / 2,
+                z,
+                width,
+                height,
+                depth,
+                buildingMaterial
+            );
+
+
+        /* WINDOWS */
+
+        for (
+            let floor = 0;
+            floor < floors;
+            floor++
+        ) {
+
+            for (
+                let i = -1;
+                i <= 1;
+                i++
+            ) {
+
+                const window =
+                    box(
+                        x + i * 2,
+                        floor * 2.5 + 1.2,
+                        z - depth / 2 - .05,
+                        1.2,
+                        1,
+                        .1,
+                        glassMaterial
+                    );
+
+            }
+
+        }
+
+        return building;
+    }
+
+
+    /* ------------------------------------------------
+       CONDO TOWERS
+    ------------------------------------------------ */
+
+    building(
+        -18,
+        -15,
+        12,
+        12,
+        12
+    );
+
+    building(
+        18,
+        -15,
+        12,
+        12,
+        15
+    );
+
+
+    /* ------------------------------------------------
+       CLUBHOUSE
+    ------------------------------------------------ */
+
+    building(
+        0,
+        22,
+        15,
+        8,
+        2
+    );
+
+
+    /* ------------------------------------------------
+       SWIMMING POOL
+    ------------------------------------------------ */
+
+    box(
+        0,
+        .15,
+        8,
+        22,
+        .3,
+        10,
+        poolMaterial
+    );
+
+
+    /* ------------------------------------------------
+       POOL DECK
+    ------------------------------------------------ */
+
+    const deckMaterial =
+        new THREE.MeshStandardMaterial({
+            color: 0xd8c7a1
+        });
+
+    box(
+        0,
+        .1,
+        8,
+        27,
+        .2,
+        15,
+        deckMaterial
+    );
+
+    box(
+        0,
+        .25,
+        8,
+        22,
+        .3,
+        10,
+        poolMaterial
+    );
+
+
+    /* ------------------------------------------------
+       TREE FUNCTION
+    ------------------------------------------------ */
+
+    function tree(x, z) {
+
+        const trunk =
+            new THREE.Mesh(
+                new THREE.CylinderGeometry(
+                    .3,
+                    .4,
+                    2,
+                    8
+                ),
+                new THREE.MeshStandardMaterial({
+                    color: 0x704214
+                })
+            );
+
+        trunk.position.set(
+            x,
+            1,
+            z
+        );
+
+        scene.add(trunk);
+
+
+        const leaves =
+            new THREE.Mesh(
+                new THREE.SphereGeometry(
+                    1.8,
+                    12,
+                    12
+                ),
+                treeMaterial
+            );
+
+        leaves.position.set(
+            x,
+            3,
+            z
+        );
+
+        leaves.castShadow = true;
+
+        scene.add(leaves);
 
     }
 
 
-    function toggleAutoRotate() {
+    /* ------------------------------------------------
+       TREES
+    ------------------------------------------------ */
 
-        model.autoRotate =
-            !model.autoRotate;
+    tree(-35, 25);
+    tree(-30, 30);
+    tree(35, 25);
+    tree(30, 30);
+
+    tree(-35, -30);
+    tree(-30, -35);
+
+    tree(35, -30);
+    tree(30, -35);
+
+    tree(-8, 32);
+    tree(8, 32);
+
+
+    /* ------------------------------------------------
+       PARKING
+    ------------------------------------------------ */
+
+    const parkingMaterial =
+        new THREE.MeshStandardMaterial({
+            color: 0x555555
+        });
+
+    for (
+        let i = -3;
+        i <= 3;
+        i++
+    ) {
+
+        box(
+            i * 3,
+            .08,
+            -30,
+            2.5,
+            .15,
+            5,
+            parkingMaterial
+        );
 
     }
 
 
-    function launchAR() {
+    /* ------------------------------------------------
+       AUTO ROTATION
+    ------------------------------------------------ */
 
-        const arModel =
-            document.getElementById("arModel");
+    let autoRotate = true;
 
-        if (arModel.activateAR) {
 
-            arModel.activateAR();
+    window.toggleRotation =
+        function () {
 
-        } else {
+            autoRotate =
+                !autoRotate;
 
-            alert(
-                "AR is not available on this device/browser."
+        };
+
+
+    /* ------------------------------------------------
+       RESET
+    ------------------------------------------------ */
+
+    window.resetCamera =
+        function () {
+
+            camera.position.set(
+                55,
+                45,
+                55
+            );
+
+            controls.target.set(
+                0,
+                0,
+                0
+            );
+
+        };
+
+
+    /* ------------------------------------------------
+       TOP VIEW
+    ------------------------------------------------ */
+
+    window.topView =
+        function () {
+
+            camera.position.set(
+                0,
+                85,
+                0
+            );
+
+            controls.target.set(
+                0,
+                0,
+                0
+            );
+
+        };
+
+
+    /* ------------------------------------------------
+       ANIMATION
+    ------------------------------------------------ */
+
+    function animate() {
+
+        requestAnimationFrame(
+            animate
+        );
+
+        if (autoRotate) {
+
+            scene.rotation.y +=
+                0.0015;
+
+        }
+
+        controls.update();
+
+        renderer.render(
+            scene,
+            camera
+        );
+
+    }
+
+    animate();
+
+
+    /* ------------------------------------------------
+       RESPONSIVE
+    ------------------------------------------------ */
+
+    window.addEventListener(
+        "resize",
+        () => {
+
+            camera.aspect =
+                container.clientWidth /
+                container.clientHeight;
+
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(
+                container.clientWidth,
+                container.clientHeight
             );
 
         }
+    );
+
+</script>
+
+
+<!-- SIMPLE AR PLACEHOLDER -->
+
+<script>
+
+    function launchAR() {
+
+        alert(
+            "AR will open here once your optimized condo GLB model is connected."
+        );
 
     }
 
@@ -565,3 +1057,4 @@
 
 </body>
 </html>
+```
