@@ -1,957 +1,1863 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Skyline Residences | 3D & AR</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <title>Skyline Residences | 3D & AR</title>
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    <!-- =========================================================
+         MODEL VIEWER
+         Used for the AR experience
+    ========================================================== -->
+    <script type="module"
+        src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js">
+    </script>
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f5f5f5;
-    color: #111;
-    overflow: hidden;
-}
 
-/* =========================
-   HEADER
-========================= */
+    <!-- =========================================================
+         THREE.JS
+         Used for the 3D preview
+    ========================================================== -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 
-.header {
-    height: 72px;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 28px;
-    position: relative;
-    z-index: 20;
-    border-bottom: 1px solid #ddd;
-}
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
-.logo {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 2px;
-}
 
-.logo span {
-    display: block;
-    font-size: 10px;
-    font-weight: 400;
-    letter-spacing: 3px;
-    color: #777;
-    margin-top: 3px;
-}
+    <!-- =========================================================
+         STYLES
+    ========================================================== -->
+    <style>
 
-.ar-button {
-    border: none;
-    background: #111;
-    color: white;
-    padding: 13px 22px;
-    border-radius: 7px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: .5px;
-    transition: .2s;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.ar-button:hover {
-    background: #333;
-    transform: translateY(-1px);
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-/* =========================
-   3D VIEWER
-========================= */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f6f5f2;
+            color: #1b1b1b;
+        }
 
-.viewer-wrapper {
-    position: relative;
-    height: calc(100vh - 72px);
-    width: 100%;
-    background: #dfe5e8;
-}
 
-#viewer {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
+        /* =====================================================
+           HEADER
+        ====================================================== */
 
-/* =========================
-   VIEWER CONTROLS
-========================= */
+        header {
+            height: 82px;
+            background: #ffffff;
 
-.viewer-top {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    z-index: 10;
-}
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
-.viewer-title {
-    background: rgba(255,255,255,.92);
-    padding: 14px 18px;
-    border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.12);
-}
+            padding: 0 6%;
 
-.viewer-title strong {
-    font-size: 14px;
-}
+            border-bottom: 1px solid #e8e8e8;
 
-.viewer-title small {
-    display: block;
-    color: #777;
-    margin-top: 4px;
-}
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-/* Bottom controls */
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
 
-.controls {
-    position: absolute;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-    z-index: 10;
-    background: rgba(255,255,255,.94);
-    padding: 8px;
-    border-radius: 10px;
-    box-shadow: 0 6px 25px rgba(0,0,0,.15);
-}
+        .logo span {
+            font-weight: 400;
+            color: #777;
+        }
 
-.control-button {
-    border: none;
-    background: #eee;
-    padding: 10px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 12px;
-}
+        nav {
+            display: flex;
+            gap: 35px;
+        }
 
-.control-button:hover {
-    background: #ddd;
-}
+        nav a {
+            text-decoration: none;
+            color: #333;
 
-/* Fullscreen */
+            font-size: 14px;
 
-.fullscreen-button {
-    position: absolute;
-    right: 25px;
-    bottom: 25px;
-    z-index: 10;
+            transition: 0.25s;
+        }
 
-    width: 48px;
-    height: 48px;
+        nav a:hover {
+            color: #8b6f47;
+        }
 
-    border: none;
-    border-radius: 8px;
 
-    background: rgba(255,255,255,.95);
-    cursor: pointer;
+        /* =====================================================
+           HERO
+        ====================================================== */
 
-    font-size: 22px;
+        .hero {
+            padding: 90px 6% 55px;
 
-    box-shadow: 0 5px 20px rgba(0,0,0,.15);
-}
+            max-width: 1500px;
+            margin: auto;
+        }
 
-.fullscreen-button:hover {
-    background: white;
-}
+        .hero-small {
+            color: #8b6f47;
 
-/* =========================
-   AR PANEL
-========================= */
+            font-size: 13px;
 
-#arPanel {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: white;
-    z-index: 100;
-}
+            text-transform: uppercase;
 
-.ar-header {
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-    border-bottom: 1px solid #ddd;
-}
+            letter-spacing: 3px;
 
-.close-ar {
-    border: none;
-    background: #eee;
-    padding: 10px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-}
+            margin-bottom: 18px;
+        }
 
-#arViewer {
-    width: 100%;
-    height: calc(100vh - 70px);
-}
+        .hero h1 {
+            font-size: clamp(42px, 6vw, 78px);
 
-/* =========================
-   RESPONSIVE
-========================= */
+            line-height: 0.95;
 
-@media (max-width: 600px) {
+            font-weight: 500;
 
-    .header {
-        padding: 0 15px;
-        height: 62px;
-    }
+            max-width: 900px;
 
-    .logo {
-        font-size: 16px;
-    }
+            letter-spacing: -3px;
 
-    .viewer-wrapper {
-        height: calc(100vh - 62px);
-    }
+            margin-bottom: 25px;
+        }
 
-    .viewer-title {
-        padding: 10px 13px;
-    }
+        .hero p {
+            max-width: 650px;
 
-    .controls {
-        bottom: 15px;
-        max-width: calc(100% - 30px);
-        overflow-x: auto;
-    }
+            color: #666;
 
-    .control-button {
-        white-space: nowrap;
-    }
+            font-size: 17px;
 
-    .fullscreen-button {
-        right: 15px;
-        bottom: 85px;
-    }
-}
-</style>
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           3D SECTION
+        ====================================================== */
+
+        .viewer-section {
+            padding: 20px 6% 80px;
+
+            max-width: 1500px;
+
+            margin: auto;
+        }
+
+        .viewer-card {
+            position: relative;
+
+            width: 100%;
+
+            height: min(70vh, 760px);
+
+            min-height: 500px;
+
+            background: #dedbd4;
+
+            border-radius: 24px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 25px 70px rgba(0,0,0,0.12);
+        }
+
+
+        /* =====================================================
+           THREE.JS CANVAS
+        ====================================================== */
+
+        #three-container {
+            position: absolute;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+        }
+
+        #three-container canvas {
+            display: block;
+
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+
+        /* =====================================================
+           VIEWER LABEL
+        ====================================================== */
+
+        .viewer-label {
+            position: absolute;
+
+            top: 25px;
+            left: 25px;
+
+            z-index: 10;
+
+            background: rgba(255,255,255,0.9);
+
+            padding: 12px 18px;
+
+            border-radius: 30px;
+
+            font-size: 12px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+
+            backdrop-filter: blur(10px);
+        }
+
+
+        /* =====================================================
+           FULLSCREEN BUTTON
+        ====================================================== */
+
+        .fullscreen-btn {
+            position: absolute;
+
+            top: 22px;
+            right: 22px;
+
+            z-index: 20;
+
+            width: 48px;
+            height: 48px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.92);
+
+            cursor: pointer;
+
+            font-size: 19px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            transition: 0.25s;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .fullscreen-btn:hover {
+            transform: scale(1.08);
+
+            background: #ffffff;
+        }
+
+
+        /* =====================================================
+           VIEWER CONTROLS
+        ====================================================== */
+
+        .viewer-controls {
+            position: absolute;
+
+            bottom: 22px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            z-index: 20;
+
+            display: flex;
+
+            gap: 10px;
+
+            background: rgba(255,255,255,0.9);
+
+            padding: 8px;
+
+            border-radius: 40px;
+
+            backdrop-filter: blur(12px);
+        }
+
+        .viewer-controls button {
+            border: none;
+
+            background: transparent;
+
+            padding: 12px 17px;
+
+            border-radius: 30px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            transition: 0.25s;
+        }
+
+        .viewer-controls button:hover {
+            background: #eee;
+        }
+
+        .viewer-controls button.active {
+            background: #1d1d1d;
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           AR BUTTON AREA
+        ====================================================== */
+
+        .ar-area {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-top: 28px;
+
+            gap: 30px;
+        }
+
+        .ar-description {
+            max-width: 600px;
+        }
+
+        .ar-description h2 {
+            font-size: 28px;
+
+            font-weight: 500;
+
+            margin-bottom: 8px;
+        }
+
+        .ar-description p {
+            color: #777;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+        .ar-button {
+            border: none;
+
+            background: #1c1c1c;
+
+            color: white;
+
+            padding: 18px 30px;
+
+            border-radius: 40px;
+
+            font-size: 14px;
+
+            letter-spacing: 1px;
+
+            cursor: pointer;
+
+            white-space: nowrap;
+
+            transition: 0.25s;
+        }
+
+        .ar-button:hover {
+            background: #8b6f47;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =====================================================
+           INFO SECTION
+        ====================================================== */
+
+        .info-section {
+            background: #1c1c1c;
+
+            color: white;
+
+            padding: 100px 6%;
+        }
+
+        .info-container {
+            max-width: 1500px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 80px;
+        }
+
+        .info-container h2 {
+            font-size: 45px;
+
+            font-weight: 400;
+
+            line-height: 1.1;
+        }
+
+        .info-container p {
+            color: #aaa;
+
+            line-height: 1.8;
+
+            font-size: 16px;
+        }
+
+        .features {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 30px;
+
+            margin-top: 30px;
+        }
+
+        .feature {
+            border-top: 1px solid #444;
+
+            padding-top: 18px;
+        }
+
+        .feature strong {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 15px;
+        }
+
+        .feature span {
+            color: #999;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        footer {
+            background: #111;
+
+            color: #777;
+
+            padding: 35px 6%;
+
+            font-size: 12px;
+
+            text-align: center;
+        }
+
+
+        /* =====================================================
+           AR MODAL
+        ====================================================== */
+
+        .ar-modal {
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0,0,0,0.8);
+
+            z-index: 5000;
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+        }
+
+        .ar-modal.active {
+            display: flex;
+        }
+
+        .ar-window {
+            width: min(900px, 100%);
+
+            height: min(85vh, 800px);
+
+            background: #eeeeee;
+
+            border-radius: 24px;
+
+            overflow: hidden;
+
+            position: relative;
+
+            box-shadow:
+                0 30px 100px rgba(0,0,0,0.4);
+        }
+
+        .ar-window-header {
+            height: 65px;
+
+            background: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 22px;
+
+            position: relative;
+
+            z-index: 10;
+        }
+
+        .ar-window-header strong {
+            font-size: 14px;
+
+            letter-spacing: 1px;
+        }
+
+        .close-ar {
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 50%;
+
+            border: none;
+
+            background: #eee;
+
+            cursor: pointer;
+
+            font-size: 18px;
+        }
+
+        .close-ar:hover {
+            background: #ddd;
+        }
+
+        model-viewer {
+            width: 100%;
+
+            height: calc(100% - 65px);
+
+            background: #eeeeee;
+        }
+
+        /* Custom AR button inside model-viewer */
+
+        .custom-ar-button {
+            position: absolute;
+
+            bottom: 25px;
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            background: #1c1c1c;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 40px;
+
+            padding: 16px 28px;
+
+            font-size: 14px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.2);
+        }
+
+
+        /* =====================================================
+           FULLSCREEN MODE
+        ====================================================== */
+
+        .viewer-card.fullscreen {
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 4000;
+
+            width: 100vw;
+
+            height: 100vh;
+
+            max-width: none;
+
+            min-height: 0;
+
+            border-radius: 0;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 800px) {
+
+            header {
+                height: 70px;
+
+                padding: 0 5%;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .hero {
+                padding: 60px 5% 35px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+
+                letter-spacing: -2px;
+            }
+
+            .viewer-section {
+                padding: 15px 5% 60px;
+            }
+
+            .viewer-card {
+                height: 65vh;
+
+                min-height: 420px;
+
+                border-radius: 18px;
+            }
+
+            .viewer-controls {
+                width: calc(100% - 30px);
+
+                justify-content: center;
+            }
+
+            .viewer-controls button {
+                padding: 10px 12px;
+
+                font-size: 11px;
+            }
+
+            .ar-area {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+            .ar-button {
+                width: 100%;
+            }
+
+            .info-section {
+                padding: 70px 5%;
+            }
+
+            .info-container {
+                grid-template-columns: 1fr;
+
+                gap: 40px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .ar-window {
+                height: 90vh;
+
+                border-radius: 18px;
+            }
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<!-- =========================
-     HEADER
-========================= -->
 
-<header class="header">
+    <!-- =========================================================
+         HEADER
+    ========================================================== -->
 
-    <div class="logo">
-        SKYLINE RESIDENCES
-        <span>CONDOMINIUM PROJECT</span>
-    </div>
+    <header>
 
-    <!-- AR IS OUTSIDE THE 3D VIEWER -->
-    <button class="ar-button" onclick="openAR()">
-        View in AR
-    </button>
+        <div class="logo">
+            SKYLINE <span>RESIDENCES</span>
+        </div>
 
-</header>
+        <nav>
+
+            <a href="#home">Home</a>
+
+            <a href="#experience">Experience</a>
+
+            <a href="#amenities">Amenities</a>
+
+            <a href="#contact">Contact</a>
+
+        </nav>
+
+    </header>
 
 
-<!-- =========================
-     3D VIEW
-========================= -->
 
-<main class="viewer-wrapper">
+    <!-- =========================================================
+         HERO
+    ========================================================== -->
 
-    <canvas id="viewer"></canvas>
+    <section class="hero" id="home">
 
-    <div class="viewer-top">
+        <div class="hero-small">
+            Discover your future home
+        </div>
 
-        <div class="viewer-title">
-            <strong>3D SITE VIEW</strong>
-            <small>Drag to rotate • Scroll to zoom</small>
+        <h1>
+            Experience the space<br>
+            before you arrive.
+        </h1>
+
+        <p>
+            Explore our property in interactive 3D,
+            discover the surroundings and experience
+            the development through augmented reality.
+        </p>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         3D VIEWER
+    ========================================================== -->
+
+    <section class="viewer-section" id="experience">
+
+        <div class="viewer-card" id="viewerCard">
+
+            <!-- Label -->
+
+            <div class="viewer-label">
+                Interactive 3D View
+            </div>
+
+
+            <!-- Fullscreen button -->
+
+            <button
+                class="fullscreen-btn"
+                id="fullscreenBtn"
+                title="Fullscreen">
+
+                ⛶
+
+            </button>
+
+
+            <!-- Three.js -->
+
+            <div id="three-container"></div>
+
+
+            <!-- Viewer controls -->
+
+            <div class="viewer-controls">
+
+                <button
+                    id="rotateBtn"
+                    class="active">
+
+                    Auto Rotate
+
+                </button>
+
+                <button id="resetBtn">
+
+                    Reset View
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             AR BUTTON IS OUTSIDE THE 3D BOX
+        ====================================================== -->
+
+        <div class="ar-area">
+
+            <div class="ar-description">
+
+                <h2>
+                    See it in your space.
+                </h2>
+
+                <p>
+                    Use your phone to place the property
+                    model in your surroundings using
+                    augmented reality.
+                </p>
+
+            </div>
+
+
+            <button
+                class="ar-button"
+                id="openAR">
+
+                VIEW IN AR&nbsp; ↗
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         INFORMATION
+    ========================================================== -->
+
+    <section class="info-section" id="amenities">
+
+        <div class="info-container">
+
+            <div>
+
+                <h2>
+                    Designed for modern living.
+                </h2>
+
+            </div>
+
+
+            <div>
+
+                <p>
+                    Skyline Residences brings together
+                    thoughtful architecture, modern
+                    amenities and carefully planned spaces
+                    designed around the way people live today.
+                </p>
+
+
+                <div class="features">
+
+                    <div class="feature">
+
+                        <strong>
+                            Prime Location
+                        </strong>
+
+                        <span>
+                            Convenient access to key destinations.
+                        </span>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            Modern Architecture
+                        </strong>
+
+                        <span>
+                            Contemporary spaces designed for comfort.
+                        </span>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            Lifestyle Amenities
+                        </strong>
+
+                        <span>
+                            Spaces designed for relaxation and recreation.
+                        </span>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            Secure Community
+                        </strong>
+
+                        <span>
+                            Designed with residents in mind.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer id="contact">
+
+        © 2026 Skyline Residences.
+        All rights reserved.
+
+    </footer>
+
+
+
+    <!-- =========================================================
+         AR MODAL
+    ========================================================== -->
+
+    <div class="ar-modal" id="arModal">
+
+        <div class="ar-window">
+
+
+            <div class="ar-window-header">
+
+                <strong>
+                    AUGMENTED REALITY
+                </strong>
+
+                <button
+                    class="close-ar"
+                    id="closeAR">
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 TEMPORARY GLB
+                 
+                 This is Google's public Astronaut.glb.
+                 
+                 Later replace the src with:
+                 
+                 src="models/condo-ar.glb"
+            ================================================== -->
+
+            <model-viewer
+                id="arViewer"
+
+                src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+
+                alt="Temporary 3D astronaut model for AR testing"
+
+                camera-controls
+
+                auto-rotate
+
+                ar
+
+                ar-modes="webxr scene-viewer quick-look"
+
+                shadow-intensity="1"
+
+                exposure="1"
+
+                environment-image="neutral"
+
+                touch-action="pan-y">
+
+
+                <button
+                    slot="ar-button"
+                    class="custom-ar-button">
+
+                    📱 PLACE IN YOUR SPACE
+
+                </button>
+
+
+            </model-viewer>
+
         </div>
 
     </div>
 
 
-    <!-- Viewer controls -->
 
-    <div class="controls">
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
 
-        <button class="control-button" onclick="resetCamera()">
-            Reset
-        </button>
+    <script>
 
-        <button class="control-button" onclick="sitePlan()">
-            Site Plan
-        </button>
+        /* =====================================================
+           THREE.JS SETUP
+        ====================================================== */
 
-        <button class="control-button" onclick="toggleRotate()">
-            Auto Rotate
-        </button>
-
-    </div>
+        const container =
+            document.getElementById("three-container");
 
 
-    <!-- FULLSCREEN BUTTON -->
-
-    <button
-        class="fullscreen-button"
-        onclick="toggleFullscreen()"
-        title="Fullscreen">
-        ⛶
-    </button>
-
-</main>
+        const scene =
+            new THREE.Scene();
 
 
-<!-- =========================
-     AR PANEL
-========================= -->
-
-<div id="arPanel">
-
-    <div class="ar-header">
-
-        <strong>View in AR</strong>
-
-        <button
-            class="close-ar"
-            onclick="closeAR()">
-            Close
-        </button>
-
-    </div>
-
-    <!--
-        Replace this GLB with your actual AR model.
-
-        Example:
-        models/condo-ar.glb
-    -->
-
-    <model-viewer
-        id="arViewer"
-        src="models/sample-condo.glb"
-        camera-controls
-        auto-rotate
-        ar
-        ar-modes="webxr scene-viewer quick-look"
-        shadow-intensity="1"
-        exposure="1"
-        environment-image="neutral">
-
-    </model-viewer>
-
-</div>
+        scene.background =
+            new THREE.Color(0xdedbd4);
 
 
-<!-- Model Viewer for AR -->
+        /* =====================================================
+           CAMERA
+        ====================================================== */
 
-<script type="module"
-src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js">
-</script>
-
-
-<script>
-
-/* =====================================================
-   THREE.JS SETUP
-===================================================== */
-
-const canvas = document.getElementById("viewer");
-
-const scene = new THREE.Scene();
-
-scene.background = new THREE.Color(0xdfe5e8);
+        const camera =
+            new THREE.PerspectiveCamera(
+                45,
+                container.clientWidth /
+                container.clientHeight,
+                0.1,
+                1000
+            );
 
 
-/* CAMERA */
-
-const camera = new THREE.PerspectiveCamera(
-    55,
-    window.innerWidth / (window.innerHeight - 72),
-    0.1,
-    1000
-);
-
-camera.position.set(
-    65,
-    55,
-    75
-);
-
-
-/* RENDERER */
-
-const renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
-    antialias: true
-});
-
-renderer.setPixelRatio(
-    Math.min(window.devicePixelRatio, 2)
-);
-
-renderer.setSize(
-    window.innerWidth,
-    window.innerHeight - 72
-);
-
-renderer.shadowMap.enabled = true;
-
-
-/* =====================================================
-   LIGHTING
-===================================================== */
-
-const ambientLight = new THREE.AmbientLight(
-    0xffffff,
-    1.2
-);
-
-scene.add(ambientLight);
-
-
-const sun = new THREE.DirectionalLight(
-    0xffffff,
-    2
-);
-
-sun.position.set(
-    40,
-    80,
-    40
-);
-
-sun.castShadow = true;
-
-scene.add(sun);
-
-
-/* =====================================================
-   GROUND
-===================================================== */
-
-const groundGeometry =
-    new THREE.PlaneGeometry(
-        220,
-        220
-    );
-
-const groundMaterial =
-    new THREE.MeshStandardMaterial({
-        color: 0xbfc6c9
-    });
-
-const ground =
-    new THREE.Mesh(
-        groundGeometry,
-        groundMaterial
-    );
-
-ground.rotation.x = -Math.PI / 2;
-
-ground.receiveShadow = true;
-
-scene.add(ground);
-
-
-/* =====================================================
-   ROADS
-===================================================== */
-
-function createRoad(
-    x,
-    z,
-    width,
-    length
-) {
-
-    const geometry =
-        new THREE.BoxGeometry(
-            width,
-            .12,
-            length
+        camera.position.set(
+            28,
+            20,
+            32
         );
 
-    const material =
-        new THREE.MeshStandardMaterial({
-            color: 0x555555
-        });
 
-    const road =
-        new THREE.Mesh(
-            geometry,
-            material
+        /* =====================================================
+           RENDERER
+        ====================================================== */
+
+        const renderer =
+            new THREE.WebGLRenderer({
+                antialias: true
+            });
+
+
+        renderer.setPixelRatio(
+            Math.min(
+                window.devicePixelRatio,
+                2
+            )
         );
 
-    road.position.set(
-        x,
-        .06,
-        z
-    );
 
-    scene.add(road);
-}
-
-
-createRoad(
-    0,
-    0,
-    20,
-    190
-);
-
-createRoad(
-    0,
-    0,
-    190,
-    20
-);
-
-
-/* =====================================================
-   BUILDINGS
-===================================================== */
-
-function createTower(
-    x,
-    z,
-    height,
-    color,
-    label
-) {
-
-    const geometry =
-        new THREE.BoxGeometry(
-            18,
-            height,
-            18
+        renderer.setSize(
+            container.clientWidth,
+            container.clientHeight
         );
 
-    const material =
-        new THREE.MeshStandardMaterial({
-            color: color
-        });
 
-    const tower =
-        new THREE.Mesh(
-            geometry,
-            material
+        renderer.shadowMap.enabled = true;
+
+
+        renderer.shadowMap.type =
+            THREE.PCFSoftShadowMap;
+
+
+        container.appendChild(
+            renderer.domElement
         );
 
-    tower.position.set(
-        x,
-        height / 2,
-        z
-    );
 
-    tower.castShadow = true;
-    tower.receiveShadow = true;
+        /* =====================================================
+           ORBIT CONTROLS
+        ====================================================== */
 
-    scene.add(tower);
+        const controls =
+            new THREE.OrbitControls(
+                camera,
+                renderer.domElement
+            );
 
 
-    /* Windows */
+        controls.enableDamping = true;
 
-    for (
-        let y = 5;
-        y < height - 2;
-        y += 4
-    ) {
+        controls.dampingFactor = 0.05;
+
+        controls.minDistance = 15;
+
+        controls.maxDistance = 80;
+
+        controls.maxPolarAngle =
+            Math.PI / 2.05;
+
+
+        controls.target.set(
+            0,
+            5,
+            0
+        );
+
+
+        /* =====================================================
+           LIGHTING
+        ====================================================== */
+
+        const ambientLight =
+            new THREE.AmbientLight(
+                0xffffff,
+                1.2
+            );
+
+
+        scene.add(
+            ambientLight
+        );
+
+
+        const sun =
+            new THREE.DirectionalLight(
+                0xffffff,
+                2
+            );
+
+
+        sun.position.set(
+            30,
+            50,
+            20
+        );
+
+
+        sun.castShadow = true;
+
+
+        sun.shadow.mapSize.width = 2048;
+
+        sun.shadow.mapSize.height = 2048;
+
+
+        scene.add(sun);
+
+
+
+        /* =====================================================
+           GROUND
+        ====================================================== */
+
+        const groundGeometry =
+            new THREE.PlaneGeometry(
+                120,
+                120
+            );
+
+
+        const groundMaterial =
+            new THREE.MeshStandardMaterial({
+                color: 0xbdb9b0,
+                roughness: 0.9
+            });
+
+
+        const ground =
+            new THREE.Mesh(
+                groundGeometry,
+                groundMaterial
+            );
+
+
+        ground.rotation.x =
+            -Math.PI / 2;
+
+
+        ground.receiveShadow = true;
+
+
+        scene.add(
+            ground
+        );
+
+
+
+        /* =====================================================
+           CREATE SAMPLE BUILDING
+           
+           This is only a temporary procedural
+           3D model for the website preview.
+           
+           Later we can replace this entire section
+           with your actual GLB model.
+        ====================================================== */
+
+
+        const buildingGroup =
+            new THREE.Group();
+
+
+        scene.add(
+            buildingGroup
+        );
+
+
+        /* Main tower */
+
+        const towerGeometry =
+            new THREE.BoxGeometry(
+                15,
+                25,
+                12
+            );
+
+
+        const towerMaterial =
+            new THREE.MeshStandardMaterial({
+                color: 0xe8e3da,
+                roughness: 0.75
+            });
+
+
+        const tower =
+            new THREE.Mesh(
+                towerGeometry,
+                towerMaterial
+            );
+
+
+        tower.position.y =
+            12.5;
+
+
+        tower.castShadow = true;
+
+        tower.receiveShadow = true;
+
+
+        buildingGroup.add(
+            tower
+        );
+
+
+        /* =====================================================
+           WINDOWS
+        ====================================================== */
+
+        const windowMaterial =
+            new THREE.MeshStandardMaterial({
+                color: 0x30383d,
+                roughness: 0.25,
+                metalness: 0.15
+            });
+
 
         for (
-            let side = -1;
-            side <= 1;
-            side += 2
+            let floor = 0;
+            floor < 7;
+            floor++
         ) {
 
-            const windowGeometry =
-                new THREE.BoxGeometry(
-                    3,
-                    2,
-                    .2
+            for (
+                let column = -2;
+                column <= 2;
+                column++
+            ) {
+
+                const windowGeometry =
+                    new THREE.BoxGeometry(
+                        1.6,
+                        2,
+                        0.15
+                    );
+
+
+                const window =
+                    new THREE.Mesh(
+                        windowGeometry,
+                        windowMaterial
+                    );
+
+
+                window.position.set(
+                    column * 2.5,
+                    4 + floor * 3,
+                    6.08
                 );
 
-            const windowMaterial =
+
+                buildingGroup.add(
+                    window
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           BALCONIES
+        ====================================================== */
+
+        const balconyMaterial =
+            new THREE.MeshStandardMaterial({
+                color: 0xd0ccc4,
+                roughness: 0.8
+            });
+
+
+        for (
+            let floor = 0;
+            floor < 6;
+            floor++
+        ) {
+
+            const balconyGeometry =
+                new THREE.BoxGeometry(
+                    14,
+                    0.35,
+                    2.2
+                );
+
+
+            const balcony =
+                new THREE.Mesh(
+                    balconyGeometry,
+                    balconyMaterial
+                );
+
+
+            balcony.position.set(
+                0,
+                3.2 + floor * 3,
+                6.9
+            );
+
+
+            balcony.castShadow = true;
+
+
+            buildingGroup.add(
+                balcony
+            );
+
+        }
+
+
+        /* =====================================================
+           SIDE WING
+        ====================================================== */
+
+        const wingGeometry =
+            new THREE.BoxGeometry(
+                9,
+                13,
+                10
+            );
+
+
+        const wing =
+            new THREE.Mesh(
+                wingGeometry,
+                towerMaterial
+            );
+
+
+        wing.position.set(
+            -12,
+            6.5,
+            0
+        );
+
+
+        wing.castShadow = true;
+
+
+        buildingGroup.add(
+            wing
+        );
+
+
+        /* =====================================================
+           ROOF
+        ====================================================== */
+
+        const roofGeometry =
+            new THREE.BoxGeometry(
+                16,
+                0.7,
+                13
+            );
+
+
+        const roofMaterial =
+            new THREE.MeshStandardMaterial({
+                color: 0x494846,
+                roughness: 0.8
+            });
+
+
+        const roof =
+            new THREE.Mesh(
+                roofGeometry,
+                roofMaterial
+            );
+
+
+        roof.position.y =
+            25.35;
+
+
+        roof.castShadow = true;
+
+
+        buildingGroup.add(
+            roof
+        );
+
+
+        /* =====================================================
+           TREES
+        ====================================================== */
+
+        function createTree(
+            x,
+            z
+        ) {
+
+            const trunkGeometry =
+                new THREE.CylinderGeometry(
+                    0.35,
+                    0.45,
+                    3,
+                    12
+                );
+
+
+            const trunkMaterial =
                 new THREE.MeshStandardMaterial({
-                    color: 0x87b7c9,
-                    metalness: .2,
-                    roughness: .2
+                    color: 0x654a35
                 });
 
-            const window =
+
+            const trunk =
                 new THREE.Mesh(
-                    windowGeometry,
-                    windowMaterial
+                    trunkGeometry,
+                    trunkMaterial
                 );
 
-            window.position.set(
-                x + side * 9.05,
-                y,
+
+            trunk.position.set(
+                x,
+                1.5,
                 z
             );
 
-            scene.add(window);
+
+            const leavesGeometry =
+                new THREE.SphereGeometry(
+                    2.3,
+                    16,
+                    16
+                );
+
+
+            const leavesMaterial =
+                new THREE.MeshStandardMaterial({
+                    color: 0x596b52
+                });
+
+
+            const leaves =
+                new THREE.Mesh(
+                    leavesGeometry,
+                    leavesMaterial
+                );
+
+
+            leaves.position.set(
+                x,
+                4.3,
+                z
+            );
+
+
+            scene.add(
+                trunk
+            );
+
+
+            scene.add(
+                leaves
+            );
+
         }
-    }
-
-    return tower;
-}
 
 
-createTower(
-    -35,
-    -30,
-    50,
-    0xe4e0d7,
-    "Tower A"
-);
-
-createTower(
-    35,
-    -30,
-    65,
-    0xd5dce2,
-    "Tower B"
-);
+        createTree(
+            15,
+            5
+        );
 
 
-/* =====================================================
-   CLUBHOUSE
-===================================================== */
-
-const clubhouseGeometry =
-    new THREE.BoxGeometry(
-        30,
-        8,
-        18
-    );
-
-const clubhouseMaterial =
-    new THREE.MeshStandardMaterial({
-        color: 0xd8c8b0
-    });
-
-const clubhouse =
-    new THREE.Mesh(
-        clubhouseGeometry,
-        clubhouseMaterial
-    );
-
-clubhouse.position.set(
-    0,
-    4,
-    45
-);
-
-clubhouse.castShadow = true;
-
-scene.add(clubhouse);
-
-
-/* =====================================================
-   POOL
-===================================================== */
-
-const poolGeometry =
-    new THREE.BoxGeometry(
-        30,
-        .5,
-        15
-    );
-
-const poolMaterial =
-    new THREE.MeshStandardMaterial({
-        color: 0x4fa8c7,
-        roughness: .15
-    });
-
-const pool =
-    new THREE.Mesh(
-        poolGeometry,
-        poolMaterial
-    );
-
-pool.position.set(
-    0,
-    .3,
-    25
-);
-
-scene.add(pool);
-
-
-/* =====================================================
-   TREES
-===================================================== */
-
-function createTree(x, z) {
-
-    const trunkGeometry =
-        new THREE.CylinderGeometry(
-            .7,
-            .9,
-            5,
+        createTree(
+            -17,
             8
         );
 
-    const trunkMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0x654321
-        });
 
-    const trunk =
-        new THREE.Mesh(
-            trunkGeometry,
-            trunkMaterial
+        createTree(
+            17,
+            -10
         );
 
-    trunk.position.set(
-        x,
-        2.5,
-        z
-    );
 
-    scene.add(trunk);
-
-
-    const leavesGeometry =
-        new THREE.SphereGeometry(
-            4,
-            12,
-            12
+        createTree(
+            -15,
+            -12
         );
 
-    const leavesMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0x477a4b
-        });
 
-    const leaves =
-        new THREE.Mesh(
-            leavesGeometry,
-            leavesMaterial
+        /* =====================================================
+           PATH
+        ====================================================== */
+
+        const pathGeometry =
+            new THREE.BoxGeometry(
+                7,
+                0.12,
+                35
+            );
+
+
+        const pathMaterial =
+            new THREE.MeshStandardMaterial({
+                color: 0xaaa59c
+            });
+
+
+        const path =
+            new THREE.Mesh(
+                pathGeometry,
+                pathMaterial
+            );
+
+
+        path.position.set(
+            0,
+            0.06,
+            20
         );
 
-    leaves.position.set(
-        x,
-        7,
-        z
-    );
 
-    leaves.castShadow = true;
-
-    scene.add(leaves);
-}
-
-
-for (
-    let i = 0;
-    i < 30;
-    i++
-) {
-
-    const x =
-        (Math.random() - .5) * 160;
-
-    const z =
-        (Math.random() - .5) * 150;
-
-    createTree(x, z);
-}
-
-
-/* =====================================================
-   ORBIT CONTROLS
-===================================================== */
-
-const controls =
-    new THREE.OrbitControls(
-        camera,
-        renderer.domElement
-    );
-
-controls.enableDamping = true;
-
-controls.dampingFactor = .08;
-
-controls.minDistance = 25;
-
-controls.maxDistance = 180;
-
-controls.maxPolarAngle =
-    Math.PI / 2.05;
-
-controls.target.set(
-    0,
-    15,
-    0
-);
-
-
-/* =====================================================
-   CAMERA FUNCTIONS
-===================================================== */
-
-function resetCamera() {
-
-    camera.position.set(
-        65,
-        55,
-        75
-    );
-
-    controls.target.set(
-        0,
-        15,
-        0
-    );
-
-    controls.update();
-}
-
-
-function sitePlan() {
-
-    camera.position.set(
-        0,
-        150,
-        0
-    );
-
-    controls.target.set(
-        0,
-        0,
-        0
-    );
-
-    controls.update();
-}
-
-
-/* =====================================================
-   AUTO ROTATE
-===================================================== */
-
-let rotating = false;
-
-function toggleRotate() {
-
-    rotating = !rotating;
-
-    controls.autoRotate = rotating;
-
-    controls.autoRotateSpeed = 1.5;
-}
-
-
-/* =====================================================
-   FULLSCREEN
-===================================================== */
-
-function toggleFullscreen() {
-
-    const viewer =
-        document.querySelector(
-            ".viewer-wrapper"
+        scene.add(
+            path
         );
 
-    if (!document.fullscreenElement) {
 
-        viewer.requestFullscreen();
+        /* =====================================================
+           AUTO ROTATION
+        ====================================================== */
 
-    } else {
-
-        document.exitFullscreen();
-
-    }
-}
+        let autoRotate =
+            true;
 
 
-/* =====================================================
-   AR
-===================================================== */
-
-function openAR() {
-
-    document.getElementById(
-        "arPanel"
-    ).style.display = "block";
-
-}
+        const rotateBtn =
+            document.getElementById(
+                "rotateBtn"
+            );
 
 
-function closeAR() {
+        rotateBtn.addEventListener(
+            "click",
+            function () {
 
-    document.getElementById(
-        "arPanel"
-    ).style.display = "none";
-
-}
+                autoRotate =
+                    !autoRotate;
 
 
-/* =====================================================
-   RESIZE
-===================================================== */
+                rotateBtn.classList.toggle(
+                    "active",
+                    autoRotate
+                );
 
-window.addEventListener(
-    "resize",
-    () => {
-
-        const height =
-            window.innerHeight -
-            72;
-
-        camera.aspect =
-            window.innerWidth /
-            height;
-
-        camera.updateProjectionMatrix();
-
-        renderer.setSize(
-            window.innerWidth,
-            height
+            }
         );
 
-    }
-);
+
+        /* =====================================================
+           RESET CAMERA
+        ====================================================== */
+
+        const resetBtn =
+            document.getElementById(
+                "resetBtn"
+            );
 
 
-/* =====================================================
-   ANIMATION
-===================================================== */
+        resetBtn.addEventListener(
+            "click",
+            function () {
 
-function animate() {
+                camera.position.set(
+                    28,
+                    20,
+                    32
+                );
 
-    requestAnimationFrame(
-        animate
-    );
 
-    controls.update();
+                controls.target.set(
+                    0,
+                    5,
+                    0
+                );
 
-    renderer.render(
-        scene,
-        camera
-    );
 
-}
+                controls.update();
 
-animate();
+            }
+        );
 
-</script>
+
+        /* =====================================================
+           FULLSCREEN
+        ====================================================== */
+
+        const fullscreenBtn =
+            document.getElementById(
+                "fullscreenBtn"
+            );
+
+
+        const viewerCard =
+            document.getElementById(
+                "viewerCard"
+            );
+
+
+        fullscreenBtn.addEventListener(
+            "click",
+            function () {
+
+                viewerCard.classList.toggle(
+                    "fullscreen"
+                );
+
+
+                if (
+                    viewerCard.classList.contains(
+                        "fullscreen"
+                    )
+                ) {
+
+                    fullscreenBtn.innerHTML =
+                        "✕";
+
+                } else {
+
+                    fullscreenBtn.innerHTML =
+                        "⛶";
+
+                }
+
+
+                setTimeout(
+                    resizeViewer,
+                    100
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           AR MODAL
+        ====================================================== */
+
+        const arModal =
+            document.getElementById(
+                "arModal"
+            );
+
+
+        const openAR =
+            document.getElementById(
+                "openAR"
+            );
+
+
+        const closeAR =
+            document.getElementById(
+                "closeAR"
+            );
+
+
+        openAR.addEventListener(
+            "click",
+            function () {
+
+                arModal.classList.add(
+                    "active"
+                );
+
+                document.body.style.overflow =
+                    "hidden";
+
+            }
+        );
+
+
+        closeAR.addEventListener(
+            "click",
+            function () {
+
+                arModal.classList.remove(
+                    "active"
+                );
+
+                document.body.style.overflow =
+                    "";
+
+            }
+        );
+
+
+        /* Close when clicking outside */
+
+        arModal.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target === arModal
+                ) {
+
+                    arModal.classList.remove(
+                        "active"
+                    );
+
+                    document.body.style.overflow =
+                        "";
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           RESIZE
+        ====================================================== */
+
+        function resizeViewer() {
+
+            const width =
+                container.clientWidth;
+
+            const height =
+                container.clientHeight;
+
+
+            camera.aspect =
+                width / height;
+
+
+            camera.updateProjectionMatrix();
+
+
+            renderer.setSize(
+                width,
+                height
+            );
+
+        }
+
+
+        window.addEventListener(
+            "resize",
+            resizeViewer
+        );
+
+
+        /* =====================================================
+           ANIMATION
+        ====================================================== */
+
+        function animate() {
+
+            requestAnimationFrame(
+                animate
+            );
+
+
+            if (autoRotate) {
+
+                buildingGroup.rotation.y
+                    += 0.0015;
+
+            }
+
+
+            controls.update();
+
+
+            renderer.render(
+                scene,
+                camera
+            );
+
+        }
+
+
+        animate();
+
+
+    </script>
+
 
 </body>
 </html>
