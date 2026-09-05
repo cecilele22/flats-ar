@@ -6,110 +6,510 @@
 
     <title>Flats AR</title>
 
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap"
+        rel="stylesheet"
+    >
 
-    <link rel="stylesheet" href="style.css">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
-
-    <script type="module"
+    <!-- Model Viewer -->
+    <script
+        type="module"
         src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
     </script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: #f5f3ef;
+            color: #1d1d1b;
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           INTRO
+        ========================= */
+
+        #intro {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+
+            background: #f5f3ef;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transition:
+                opacity 1s ease,
+                visibility 1s ease;
+        }
+
+        #intro.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .logo {
+            text-align: center;
+            animation: logoReveal 2s ease forwards;
+        }
+
+        .logo h1 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(42px, 8vw, 80px);
+            font-weight: 500;
+            letter-spacing: 8px;
+        }
+
+        .logo p {
+            margin-top: 12px;
+            font-size: 11px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            opacity: 0.55;
+        }
+
+        @keyframes logoReveal {
+
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        /* =========================
+           MAIN SITE
+        ========================= */
+
+        #site {
+            min-height: 100vh;
+
+            opacity: 0;
+
+            transition:
+                opacity 1.2s ease;
+        }
+
+        #site.show {
+            opacity: 1;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .top {
+            text-align: center;
+            padding: 60px 20px 25px;
+        }
+
+        .top small {
+            display: block;
+
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+
+            opacity: 0.45;
+
+            margin-bottom: 15px;
+        }
+
+        .top h2 {
+            font-family: "Playfair Display", serif;
+
+            font-size: clamp(32px, 6vw, 58px);
+
+            font-weight: 500;
+        }
+
+        .top p {
+            max-width: 520px;
+
+            margin: 15px auto 0;
+
+            line-height: 1.7;
+
+            font-size: 14px;
+
+            opacity: 0.65;
+        }
+
+        /* =========================
+           3D VIEWER
+        ========================= */
+
+        .viewer-wrapper {
+
+            width: min(1100px, 92%);
+
+            height: min(650px, 70vh);
+
+            margin: 35px auto 0;
+
+            position: relative;
+
+            background: #dedbd5;
+
+            border-radius: 4px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 25px 80px rgba(0,0,0,0.08);
+        }
+
+        model-viewer {
+
+            width: 100%;
+            height: 100%;
+
+            background: #dedbd5;
+
+            --poster-color: transparent;
+
+            --progress-bar-color: #1d1d1b;
+            --progress-mask: #dedbd5;
+
+            --ar-button-display: none;
+        }
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+
+            position: absolute;
+
+            inset: 0;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #dedbd5;
+
+            z-index: 5;
+
+            pointer-events: none;
+
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+        }
+
+        .loading-inner {
+            text-align: center;
+        }
+
+        .loading-inner span {
+
+            display: block;
+
+            font-size: 10px;
+
+            letter-spacing: 4px;
+
+            text-transform: uppercase;
+
+            opacity: 0.5;
+
+            margin-bottom: 15px;
+        }
+
+        .loader {
+
+            width: 140px;
+
+            height: 1px;
+
+            background: rgba(0,0,0,0.15);
+
+            overflow: hidden;
+        }
+
+        .loader-line {
+
+            width: 30%;
+
+            height: 100%;
+
+            background: #1d1d1b;
+
+            animation: loading 1.3s infinite ease-in-out;
+        }
+
+        @keyframes loading {
+
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(450%);
+            }
+
+        }
+
+        /* =========================
+           FULLSCREEN
+        ========================= */
+
+        #fullscreen {
+
+            position: absolute;
+
+            right: 18px;
+            bottom: 18px;
+
+            z-index: 10;
+
+            border: 0;
+
+            background: rgba(255,255,255,0.85);
+
+            backdrop-filter: blur(10px);
+
+            padding: 12px 16px;
+
+            font-family: "DM Sans", sans-serif;
+
+            font-size: 10px;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+
+            cursor: pointer;
+
+            transition: all 0.25s ease;
+        }
+
+        #fullscreen:hover {
+
+            background: #fff;
+
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           AR BUTTON
+        ========================= */
+
+        .ar-section {
+
+            text-align: center;
+
+            padding: 35px 20px 70px;
+        }
+
+        #arButton {
+
+            border: 1px solid #1d1d1b;
+
+            background: #1d1d1b;
+
+            color: white;
+
+            padding: 17px 34px;
+
+            font-family: "DM Sans", sans-serif;
+
+            font-size: 11px;
+
+            letter-spacing: 3px;
+
+            text-transform: uppercase;
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;
+        }
+
+        #arButton:hover {
+
+            background: transparent;
+
+            color: #1d1d1b;
+
+        }
+
+        .ar-note {
+
+            margin-top: 12px;
+
+            font-size: 11px;
+
+            opacity: 0.45;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .top {
+                padding-top: 40px;
+            }
+
+            .viewer-wrapper {
+
+                width: 94%;
+
+                height: 58vh;
+
+                min-height: 400px;
+
+            }
+
+            .top p {
+
+                font-size: 13px;
+
+            }
+
+        }
+
+    </style>
 </head>
 
 <body>
 
+
     <!-- =========================
-         LOGO INTRO
-    ========================== -->
+         INTRO
+    ========================= -->
 
-    <div id="intro-screen" class="intro-screen">
+    <section id="intro">
 
-        <div class="intro-content">
+        <div class="logo">
 
-            <div class="logo-mark">
-                YOUR LOGO
-            </div>
+            <h1>FLATS</h1>
 
-            <div class="logo-line"></div>
-
-            <p class="intro-tagline">
-                A new way of seeing home.
-            </p>
+            <p>Experience the space</p>
 
         </div>
 
-    </div>
+    </section>
 
 
     <!-- =========================
-         MAIN EXPERIENCE
-    ========================== -->
+         MAIN SITE
+    ========================= -->
 
-    <main id="main-site" class="main-site">
+    <main id="site">
 
-        <!-- 3D PREVIEW -->
+        <section class="top">
 
-        <section class="property-preview">
+            <small>Discover the development</small>
 
-            <div class="preview-header">
+            <h2>Your Future Home</h2>
 
-                <div>
-                    <p class="eyebrow">EXPLORE THE DEVELOPMENT</p>
+            <p>
+                Explore the property in three dimensions.
+                Rotate, zoom and view the development from every angle.
+            </p>
 
-                    <h1>
-                        Your Property
-                    </h1>
+        </section>
+
+
+        <!-- =========================
+             3D VIEWER
+        ========================= -->
+
+        <section class="viewer-wrapper">
+
+            <div class="loading" id="loading">
+
+                <div class="loading-inner">
+
+                    <span>Loading experience</span>
+
+                    <div class="loader">
+                        <div class="loader-line"></div>
+                    </div>
+
                 </div>
 
             </div>
 
 
-            <!-- 3D VIEWER -->
+            <model-viewer
+                id="modelViewer"
 
-            <div id="viewer-container" class="viewer-container">
+                src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
 
-                <div id="loading-screen" class="loading-screen">
-                    <div class="loading-spinner"></div>
-                    <span>Loading experience...</span>
-                </div>
+                camera-controls
 
-                <canvas id="three-canvas"></canvas>
+                auto-rotate
+
+                auto-rotate-delay="1000"
+
+                rotation-per-second="20deg"
+
+                shadow-intensity="1"
+
+                exposure="1"
+
+                environment-image="neutral"
+
+                camera-orbit="0deg 75deg 2.5m"
+
+                min-camera-orbit="auto auto 1m"
+
+                max-camera-orbit="auto auto 10m"
+
+                ar
+
+                ar-modes="webxr scene-viewer quick-look"
+
+                alt="3D property preview">
+
+            </model-viewer>
 
 
-                <!-- FULLSCREEN BUTTON -->
+            <button id="fullscreen">
+                Fullscreen
+            </button>
 
-                <button
-                    id="fullscreen-btn"
-                    class="fullscreen-btn"
-                    aria-label="Fullscreen">
-
-                    ⛶
-
-                </button>
-
-            </div>
+        </section>
 
 
-            <!-- AR BUTTON -->
+        <!-- =========================
+             AR
+        ========================= -->
 
-            <div class="ar-section">
+        <section class="ar-section">
 
-                <p>
-                    See the development in your surroundings.
-                </p>
+            <button id="arButton">
+                View in AR
+            </button>
 
-                <button id="ar-button" class="ar-button">
-
-                    <span>VIEW IN AR</span>
-
-                    <span class="arrow">↗</span>
-
-                </button>
-
+            <div class="ar-note">
+                Best experienced on a mobile device
             </div>
 
         </section>
@@ -117,24 +517,127 @@
     </main>
 
 
-    <!-- =========================
-         AR MODEL
-    ========================== -->
+    <script>
 
-    <model-viewer
-        id="ar-model"
-        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-        ar
-        ar-modes="scene-viewer webxr quick-look"
-        camera-controls
-        shadow-intensity="1"
-        exposure="1"
-        style="display:none;">
+        const intro = document.getElementById("intro");
+        const site = document.getElementById("site");
 
-    </model-viewer>
+        const viewer = document.getElementById("modelViewer");
+
+        const loading = document.getElementById("loading");
+
+        const fullscreen = document.getElementById("fullscreen");
+
+        const arButton = document.getElementById("arButton");
 
 
-    <script src="script.js"></script>
+        /* =========================
+           INTRO
+        ========================= */
+
+        window.addEventListener("load", () => {
+
+            setTimeout(() => {
+
+                intro.classList.add("hide");
+
+                site.classList.add("show");
+
+            }, 3000);
+
+        });
+
+
+        /* =========================
+           MODEL LOADING
+        ========================= */
+
+        viewer.addEventListener("load", () => {
+
+            console.log("3D model loaded successfully.");
+
+            loading.classList.add("hidden");
+
+        });
+
+
+        viewer.addEventListener("error", (event) => {
+
+            console.error("3D MODEL ERROR:", event);
+
+            loading.innerHTML = `
+                <div class="loading-inner">
+                    <span>Unable to load 3D model</span>
+                </div>
+            `;
+
+        });
+
+
+        /* =========================
+           FULLSCREEN
+        ========================= */
+
+        fullscreen.addEventListener("click", async () => {
+
+            const wrapper = document.querySelector(".viewer-wrapper");
+
+            try {
+
+                if (!document.fullscreenElement) {
+
+                    await wrapper.requestFullscreen();
+
+                } else {
+
+                    await document.exitFullscreen();
+
+                }
+
+            } catch (error) {
+
+                console.error("Fullscreen error:", error);
+
+            }
+
+        });
+
+
+        /* =========================
+           AR
+        ========================= */
+
+        arButton.addEventListener("click", async () => {
+
+            console.log("AR button clicked.");
+
+            try {
+
+                if (!viewer.canActivateAR) {
+
+                    alert(
+                        "AR is not available on this device. Please open this page on a compatible iPhone or Android phone."
+                    );
+
+                    return;
+
+                }
+
+                await viewer.activateAR();
+
+            } catch (error) {
+
+                console.error("AR ERROR:", error);
+
+                alert(
+                    "AR could not be launched. Please try opening the website on a compatible mobile device."
+                );
+
+            }
+
+        });
+
+    </script>
 
 </body>
 </html>
