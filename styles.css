@@ -33,7 +33,156 @@
             overflow-x: hidden;
         }
 
+/* =========================
+   LANDING PAGE
+========================= */
 
+#landing {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+
+    background-image: url("aerial-shot.jpg");
+    background-size: cover;
+    background-position: center;
+
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        opacity 0.8s ease,
+        visibility 0.8s ease;
+}
+
+
+/* DARK OVERLAY */
+
+.landing-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.25);
+}
+
+
+/* CONTENT */
+
+.landing-content {
+    position: relative;
+    z-index: 2;
+
+    width: min(90%, 650px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+
+    padding: 40px 20px;
+}
+
+
+/* CAMPAIGN PNG */
+
+.campaign-message {
+    width: min(90%, 550px);
+    max-height: 45vh;
+
+    object-fit: contain;
+
+    margin-bottom: 25px;
+}
+
+
+/* SUPPORTING TEXT */
+
+.landing-text {
+    max-width: 500px;
+
+    margin: 0 0 30px;
+
+    color: white;
+
+    font-family:
+        "Plus Jakarta Sans",
+        sans-serif;
+
+    font-size: 15px;
+    line-height: 1.7;
+
+    text-shadow:
+        0 2px 10px rgba(0,0,0,0.35);
+}
+
+
+/* BUTTON */
+
+.landing-button {
+    border: 1px solid rgba(255,255,255,0.7);
+
+    background: rgba(255,255,255,0.95);
+
+    color: #274535;
+
+    padding: 15px 26px;
+
+    border-radius: 100px;
+
+    font-family:
+        "Plus Jakarta Sans",
+        sans-serif;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease;
+}
+
+
+.landing-button span {
+    font-size: 18px;
+
+    transition:
+        transform 0.3s ease;
+}
+
+
+.landing-button:hover {
+    transform: translateY(-2px);
+
+    background: white;
+}
+
+
+.landing-button:hover span {
+    transform: translate(3px, -3px);
+}
+
+
+/* HIDE LANDING */
+
+#landing.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
         /* =========================
            INTRO
         ========================= */
