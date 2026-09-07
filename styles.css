@@ -720,27 +720,19 @@
 
 .footer {
     border-top: 1px solid rgba(255,255,255,0.12);
-
-    padding:
-        35px
-        20px
-        30px;
-
-    text-align: center;
+    padding: 13px 20px;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
 }
 
 .footer-logo {
-    width: 70px;
-    height: auto;
+    max-width: 48px;
+    width: 100%;
+    max-height: 16px;
 
     display: block;
-
-    margin:
-        0
-        auto
-        18px;
-
-    opacity: 0.8;
+    opacity: 1;
 }
 
 .footer p {
