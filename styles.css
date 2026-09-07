@@ -39,13 +39,11 @@
 
 .landing-top-image {
     position: absolute;
-    top: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    width: 300px;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: auto;
-max-height: 200px;
+    max-height: 200px;
 
     z-index: 1;
 }
