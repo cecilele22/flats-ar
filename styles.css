@@ -196,9 +196,7 @@
         ========================= */
 
         .top h2 {
-            font-family:
-                "MyImportedFont",
-                sans-serif;
+            font-family: "Plus Jakarta Sans", sans-serif;
 
             font-size:
                 clamp(
