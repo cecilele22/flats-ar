@@ -10,8 +10,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 
     <!-- Model Viewer -->
     <script
@@ -19,479 +19,7 @@
         src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
     </script>
 
-    <style>
-
-        /* =========================
-           RESET
-        ========================= */
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: "Plus Jakarta Sans", sans-serif;
-            background: #274535;
-            color: white;
-            overflow-x: hidden;
-        }
-
-
-        /* =========================
-           INTRO
-        ========================= */
-
-        #intro {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-
-            background: #274535;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            transition:
-                opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
-                visibility 1.2s ease;
-        }
-
-        #intro.hide {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-
-        /* =========================
-           LOGO
-        ========================= */
-
-        .logo {
-            width: 120px;
-            max-width: 60vw;
-
-            opacity: 0;
-
-            transform:
-                translateY(20px)
-                scale(0.94);
-
-            filter: blur(6px);
-
-            animation:
-                logoReveal
-                2s
-                cubic-bezier(0.22, 1, 0.36, 1)
-                forwards;
-        }
-
-        .logo img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        @keyframes logoReveal {
-
-            0% {
-                opacity: 0;
-
-                transform:
-                    translateY(20px)
-                    scale(0.94);
-
-                filter: blur(6px);
-            }
-
-            40% {
-                opacity: 0.7;
-                filter: blur(2px);
-            }
-
-            100% {
-                opacity: 1;
-
-                transform:
-                    translateY(0)
-                    scale(1);
-
-                filter: blur(0);
-            }
-
-        }
-
-
-        /* =========================
-           MAIN SITE
-        ========================= */
-
-        #site {
-            min-height: 100vh;
-
-            opacity: 0;
-
-            transform: translateY(10px);
-
-            transition:
-                opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        #site.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-
-        /* =========================
-           HEADER
-        ========================= */
-
-        .top {
-            text-align: center;
-
-            padding:
-                60px
-                20px
-                25px;
-        }
-
-        .top small {
-            display: block;
-
-            font-size: 10px;
-
-            letter-spacing: 4px;
-
-            text-transform: uppercase;
-
-            opacity: 0.45;
-
-            margin-bottom: 15px;
-        }
-
-        .top h2 {
-            font-family: "Playfair Display", serif;
-
-            font-size:
-                clamp(
-                    32px,
-                    6vw,
-                    58px
-                );
-
-            font-weight: 500;
-        }
-
-        .top p {
-            max-width: 520px;
-
-            margin:
-                15px
-                auto
-                0;
-
-            line-height: 1.7;
-
-            font-size: 14px;
-
-            opacity: 0.65;
-        }
-
-
-        /* =========================
-           3D VIEWER
-        ========================= */
-
-        .viewer-wrapper {
-
-            width:
-                min(
-                    1100px,
-                    92%
-                );
-
-            height:
-                min(
-                    650px,
-                    70vh
-                );
-
-            margin:
-                35px
-                auto
-                0;
-
-            position: relative;
-
-            background: #dedbd5;
-
-            border-radius: 4px;
-
-            overflow: hidden;
-
-            box-shadow:
-                0 25px
-                80px
-                rgba(0,0,0,0.08);
-        }
-
-        model-viewer {
-
-            width: 100%;
-            height: 100%;
-
-            background: #dedbd5;
-
-            --poster-color: transparent;
-
-            --progress-bar-color: white;
-
-            --progress-mask: #dedbd5;
-
-            --ar-button-display: none;
-        }
-
-
-        /* =========================
-           LOADING
-        ========================= */
-
-        .loading {
-
-            position: absolute;
-
-            inset: 0;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            background: #dedbd5;
-
-            z-index: 5;
-
-            pointer-events: none;
-
-            transition:
-                opacity 0.6s ease;
-        }
-
-        .loading.hidden {
-            opacity: 0;
-        }
-
-        .loading-inner {
-            text-align: center;
-        }
-
-        .loading-inner span {
-
-            display: block;
-
-            font-size: 10px;
-
-            letter-spacing: 4px;
-
-            text-transform: uppercase;
-
-            opacity: 0.5;
-
-            margin-bottom: 15px;
-        }
-
-        .loader {
-
-            width: 140px;
-
-            height: 1px;
-
-            background:
-                rgba(0,0,0,0.15);
-
-            overflow: hidden;
-        }
-
-        .loader-line {
-
-            width: 30%;
-
-            height: 100%;
-
-            background: #1d1d1b;
-
-            animation:
-                loading
-                1.3s
-                infinite
-                ease-in-out;
-        }
-
-        @keyframes loading {
-
-            0% {
-                transform:
-                    translateX(-100%);
-            }
-
-            100% {
-                transform:
-                    translateX(450%);
-            }
-
-        }
-
-
-        /* =========================
-           FULLSCREEN
-        ========================= */
-
-        #fullscreen {
-
-            position: absolute;
-
-            right: 18px;
-            bottom: 18px;
-
-            z-index: 10;
-
-            width: 42px;
-            height: 42px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            border: 0;
-
-            border-radius: 3px;
-
-            background:
-                rgba(255,255,255,0.88);
-
-            backdrop-filter:
-                blur(10px);
-
-            color: #274535;
-
-            font-size: 23px;
-
-            line-height: 1;
-
-            cursor: pointer;
-
-            transition:
-                all 0.25s ease;
-        }
-
-        #fullscreen:hover {
-
-            background: #fff;
-
-            transform:
-                scale(1.05);
-        }
-
-
-        /* =========================
-           AR BUTTON
-        ========================= */
-
-        .ar-section {
-
-            text-align: center;
-
-            padding:
-                35px
-                20px
-                70px;
-        }
-
-        #arButton {
-
-            border:
-                1px solid white;
-
-            background: white;
-
-            color: #274535;
-
-            padding:
-                17px
-                34px;
-
-            font-family:
-                "Plus Jakarta Sans",
-                sans-serif;
-
-            font-size: 11px;
-
-            letter-spacing: 3px;
-
-            text-transform: uppercase;
-
-            cursor: pointer;
-
-            transition:
-                all 0.3s ease;
-        }
-
-        #arButton:hover {
-
-            background: transparent;
-
-            color: white;
-        }
-
-        .ar-note {
-
-            margin-top: 12px;
-
-            font-size: 11px;
-
-            opacity: 0.45;
-        }
-
-
-        /* =========================
-           MOBILE
-        ========================= */
-
-        @media (max-width: 700px) {
-
-            .top {
-
-                padding-top: 40px;
-            }
-
-            .viewer-wrapper {
-
-                width: 94%;
-
-                height: 58vh;
-
-                min-height: 400px;
-            }
-
-            .top p {
-
-                font-size: 13px;
-            }
-
-            .logo {
-
-                width: 110px;
-            }
-
-        }
-
-    </style>
+    
 </head>
 
 
@@ -522,15 +50,28 @@
     <main id="site">
 
 
+        <!-- =========================
+             HEADER
+        ========================= -->
+
         <section class="top">
+
+            <!-- SMALL PNG -->
+            <img
+                src="section-icon.png"
+                alt=""
+                class="section-icon">
+
 
             <small>
                 Discover the development
             </small>
 
+
             <h2>
                 Lorem Ipsum Lorem Ipsum
             </h2>
+
 
             <p>
                 Explore the property in three dimensions.
@@ -611,6 +152,7 @@
 
             </button>
 
+
             <div class="ar-note">
 
                 Best experienced on a mobile device
@@ -633,17 +175,22 @@
         const intro =
             document.getElementById("intro");
 
+
         const site =
             document.getElementById("site");
+
 
         const viewer =
             document.getElementById("modelViewer");
 
+
         const loading =
             document.getElementById("loading");
 
+
         const fullscreen =
             document.getElementById("fullscreen");
+
 
         const arButton =
             document.getElementById("arButton");
@@ -681,6 +228,7 @@
                     "3D model loaded successfully."
                 );
 
+
                 loading.classList.add(
                     "hidden"
                 );
@@ -697,6 +245,7 @@
                     "3D MODEL ERROR:",
                     event
                 );
+
 
                 loading.innerHTML = `
 
@@ -726,6 +275,7 @@
                     document.querySelector(
                         ".viewer-wrapper"
                     );
+
 
                 try {
 
@@ -766,6 +316,7 @@
                     "AR button clicked."
                 );
 
+
                 try {
 
                     if (
@@ -780,6 +331,7 @@
 
                     }
 
+
                     await viewer.activateAR();
 
                 } catch (error) {
@@ -788,6 +340,7 @@
                         "AR ERROR:",
                         error
                     );
+
 
                     alert(
                         "AR could not be launched. Please try opening the website on a compatible mobile device."
@@ -804,4 +357,3 @@
 
 </body>
 </html>
-
