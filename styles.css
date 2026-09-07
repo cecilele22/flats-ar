@@ -1,5 +1,292 @@
 
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            background: #8b9b78;
+            font-family: "DM Sans", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page {
+            width: min(100%, 386px);
+            min-height: 100vh;
+            background: #244b3b;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* =========================
+           IMAGE SECTION
+        ========================= */
+
+        .hero {
+            position: relative;
+            height: 720px;
+            overflow: hidden;
+        }
+
+        .building-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        /* Slight green tint over image */
+        .image-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(20, 55, 42, 0.08);
+            pointer-events: none;
+        }
+
+        /* =========================
+           WHITE CURVED HEADER
+        ========================= */
+
+        .top-shape {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 170px;
+            background: #ffffff;
+
+            /*
+                Large rounded lower-right corner
+                creates the curved shape in the reference.
+            */
+            border-bottom-right-radius: 145px 95px;
+
+            z-index: 2;
+        }
+
+        /*
+            Dark green curved band underneath
+        */
+        .green-curve {
+            position: absolute;
+            top: 91px;
+            left: -40px;
+            width: 470px;
+            height: 105px;
+
+            background: #244b3b;
+
+            border-radius: 50%;
+
+            transform: rotate(-10deg);
+
+            z-index: 3;
+        }
+
+        /*
+            White section extending into the
+            top-right corner.
+        */
+        .top-right-cut {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 130px;
+            height: 140px;
+            background: #ffffff;
+
+            border-bottom-left-radius: 100%;
+            z-index: 4;
+        }
+
+        /* =========================
+           LOGO
+        ========================= */
+
+        .logo {
+            position: absolute;
+            top: 7px;
+            left: 0;
+            width: 100%;
+
+            text-align: center;
+
+            font-family: "Cormorant Garamond", serif;
+            font-size: 65px;
+            font-weight: 400;
+            letter-spacing: -4px;
+
+            color: #51665d;
+
+            z-index: 10;
+        }
+
+        /* =========================
+           BOTTOM GREEN SECTION
+        ========================= */
+
+        .bottom-section {
+            position: relative;
+            margin-top: -1px;
+
+            min-height: 280px;
+
+            background: #244b3b;
+
+            color: white;
+
+            text-align: center;
+
+            padding:
+                10px
+                30px
+                35px;
+        }
+
+        /* =========================
+           LIVE FORWARD
+        ========================= */
+
+        .headline {
+            position: relative;
+
+            margin-top: -58px;
+
+            z-index: 5;
+
+            white-space: nowrap;
+        }
+
+        .live {
+            display: inline-block;
+
+            font-family: "Great Vibes", cursive;
+
+            font-size: 86px;
+            line-height: 0.8;
+
+            color: #ffffff;
+
+            transform: rotate(-3deg);
+
+            position: relative;
+            left: -5px;
+        }
+
+        .forward {
+            display: inline-block;
+
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: 25px;
+            font-weight: 500;
+
+            letter-spacing: 1px;
+
+            color: #c6ca6e;
+
+            position: relative;
+            top: 13px;
+            left: -8px;
+        }
+
+        /* =========================
+           DESCRIPTION
+        ========================= */
+
+        .description {
+            max-width: 310px;
+
+            margin: 42px auto 0;
+
+            font-size: 10.5px;
+            line-height: 1.45;
+
+            font-weight: 300;
+
+            color: rgba(255,255,255,0.92);
+        }
+
+        /* =========================
+           BOTTOM LINK
+        ========================= */
+
+        .space-link {
+            display: block;
+
+            margin-top: 32px;
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            font-size: 8px;
+
+            font-weight: 300;
+        }
+
+        .space-link span {
+            font-size: 14px;
+            margin-left: 3px;
+            position: relative;
+            top: 2px;
+        }
+
+        /* =========================
+           DESKTOP
+        ========================= */
+
+        @media (min-width: 600px) {
+
+            body {
+                padding: 22px 0;
+            }
+
+            .page {
+                min-height: 810px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+            }
+
+        }
+
+        /* =========================
+           SMALL PHONES
+        ========================= */
+
+        @media (max-width: 360px) {
+
+            .hero {
+                height: 650px;
+            }
+
+            .logo {
+                font-size: 57px;
+            }
+
+            .live {
+                font-size: 75px;
+            }
+
+            .forward {
+                font-size: 22px;
+            }
+
+        }
         /* =========================
            IMPORTED FONT
 
