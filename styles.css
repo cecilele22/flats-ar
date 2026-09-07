@@ -45,6 +45,7 @@
 
     width: 300px;
     height: auto;
+max-height: 200px;
 
     z-index: 1;
 }
