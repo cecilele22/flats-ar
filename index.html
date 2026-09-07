@@ -1,288 +1,412 @@
-* {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        html,
-        body {
-            width: 100%;
-            min-height: 100%;
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            background: #8b9b78;
-            font-family: "DM Sans", sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
+    <title>Flats</title>
 
-        /* =========================
-           PAGE
-        ========================= */
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 
-        .page {
-            width: min(100%, 386px);
-            min-height: 100vh;
-            background: #244b3b;
-            position: relative;
-            overflow: hidden;
-        }
+<!-- Font Awesome -->
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-        /* =========================
-           IMAGE SECTION
-        ========================= */
+    <link rel="stylesheet" href="styles.css">
 
-        .hero {
-            position: relative;
-            height: 720px;
-            overflow: hidden;
-        }
+    <!-- Model Viewer -->
+    <script
+        type="module"
+        src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
+    </script>
 
-        .building-image {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center top;
-        }
+    
+</head>
 
-        /* Slight green tint over image */
-        .image-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(20, 55, 42, 0.08);
-            pointer-events: none;
-        }
 
-        /* =========================
-           WHITE CURVED HEADER
-        ========================= */
+<body>
 
-        .top-shape {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 170px;
-            background: #ffffff;
 
-            /*
-                Large rounded lower-right corner
-                creates the curved shape in the reference.
-            */
-            border-bottom-right-radius: 145px 95px;
+    <!-- =========================
+         INTRO
+    ========================= -->
 
-            z-index: 2;
-        }
+    <section id="intro">
 
-        /*
-            Dark green curved band underneath
-        */
-        .green-curve {
-            position: absolute;
-            top: 91px;
-            left: -40px;
-            width: 470px;
-            height: 105px;
+        <div class="logo">
 
-            background: #244b3b;
+            <img
+                src="logo.png"
+                alt="FLATS">
 
-            border-radius: 50%;
+        </div>
 
-            transform: rotate(-10deg);
+    </section>
 
-            z-index: 3;
-        }
 
-        /*
-            White section extending into the
-            top-right corner.
-        */
-        .top-right-cut {
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 130px;
-            height: 140px;
-            background: #ffffff;
+    <!-- =========================
+         MAIN SITE
+    ========================= -->
 
-            border-bottom-left-radius: 100%;
-            z-index: 4;
-        }
+    <main id="site">
 
-        /* =========================
-           LOGO
-        ========================= */
 
-        .logo {
-            position: absolute;
-            top: 7px;
-            left: 0;
-            width: 100%;
+        <!-- =========================
+             HEADER
+        ========================= -->
 
-            text-align: center;
+        <section class="top">
 
-            font-family: "Cormorant Garamond", serif;
-            font-size: 65px;
-            font-weight: 400;
-            letter-spacing: -4px;
+            <!-- SMALL PNG -->
+            <img
+                src="FORWARD.png"
+                alt=""
+                class="section-icon">
 
-            color: #51665d;
 
-            z-index: 10;
-        }
+            <small>
+                Discover the development
+            </small>
 
-        /* =========================
-           BOTTOM GREEN SECTION
-        ========================= */
 
-        .bottom-section {
-            position: relative;
-            margin-top: -1px;
+            <h2>
+                Lorem Ipsum
+            </h2>
 
-            min-height: 280px;
 
-            background: #244b3b;
+            <p>
+                Explore the property in three dimensions.
+                Rotate, zoom and view the development from every angle.
+            </p>
 
-            color: white;
+        </section>
 
-            text-align: center;
 
-            padding:
-                10px
-                30px
-                35px;
-        }
+        <!-- =========================
+             3D VIEWER
+        ========================= -->
 
-        /* =========================
-           LIVE FORWARD
-        ========================= */
+        <section class="viewer-wrapper">
 
-        .headline {
-            position: relative;
 
-            margin-top: -58px;
+            <div
+                class="loading"
+                id="loading">
 
-            z-index: 5;
+                <div class="loading-inner">
 
-            white-space: nowrap;
-        }
+                    <span>
+                        Loading experience
+                    </span>
 
-        .live {
-            display: inline-block;
+                    <div class="loader">
 
-            font-family: "Great Vibes", cursive;
+                        <div
+                            class="loader-line">
+                        </div>
 
-            font-size: 86px;
-            line-height: 0.8;
+                    </div>
 
-            color: #ffffff;
+                </div>
 
-            transform: rotate(-3deg);
+            </div>
 
-            position: relative;
-            left: -5px;
-        }
 
-        .forward {
-            display: inline-block;
+            <model-viewer
+                id="modelViewer"
+                src="models/building.glb"
+                camera-controls
+                auto-rotate
+                auto-rotate-delay="1000"
+                rotation-per-second="20deg"
+                shadow-intensity="1"
+                exposure="1"
+                environment-image="neutral"
+                ar
+                ar-modes="webxr scene-viewer quick-look"
+                alt="Condominium building">
+            </model-viewer>
 
-            font-family: "Cormorant Garamond", serif;
 
-            font-size: 25px;
-            font-weight: 500;
+            <button
+                id="fullscreen"
+                aria-label="Enter fullscreen"
+                title="Fullscreen">
 
-            letter-spacing: 1px;
+                ⛶
 
-            color: #c6ca6e;
+            </button>
 
-            position: relative;
-            top: 13px;
-            left: -8px;
-        }
 
-        /* =========================
-           DESCRIPTION
-        ========================= */
+        </section>
 
-        .description {
-            max-width: 310px;
 
-            margin: 42px auto 0;
+        <!-- =========================
+             AR
+        ========================= -->
 
-            font-size: 10.5px;
-            line-height: 1.45;
+        <section class="ar-section">
 
-            font-weight: 300;
+            <button id="arButton">
 
-            color: rgba(255,255,255,0.92);
-        }
+                View in AR
 
-        /* =========================
-           BOTTOM LINK
-        ========================= */
+            </button>
 
-        .space-link {
-            display: block;
 
-            margin-top: 32px;
+            <div class="ar-note">
 
-            color: #ffffff;
+                Best experienced on a mobile device
 
-            text-decoration: none;
+            </div>
 
-            font-size: 8px;
+        </section>
 
-            font-weight: 300;
-        }
+<!-- =========================
+     FOOTER
+========================= -->
 
-        .space-link span {
-            font-size: 14px;
-            margin-left: 3px;
-            position: relative;
-            top: 2px;
-        }
+<footer class="footer">
+
+    <img
+        src="logo.png"
+        alt="FLATS"
+        class="footer-logo">
+
+
+    <!-- SOCIAL MEDIA -->
+    <div class="socials">
+
+        <a
+            href="https://www.instagram.com/"
+            target="_blank"
+            rel="noopener"
+            aria-label="Instagram">
+
+            <i class="fa-brands fa-instagram" style="color: rgb(255, 255, 255);"></i>
+
+        </a>
+
+        <a
+            href="https://www.facebook.com/"
+            target="_blank"
+            rel="noopener"
+            aria-label="Facebook">
+
+            <i class="fa-brands fa-facebook-f" style="color: rgb(255, 255, 255);"></i>
+
+        </a>
+
+
+
+    </div>
+ <!-- =========================
+              <div class="footer-credit">
+        © 2026 All Rights Reserved
+    </div>
+        ========================= -->
+   
+
+</footer>
+
+
+    </main>
+
+
+    <script>
+
 
         /* =========================
-           DESKTOP
+           ELEMENTS
         ========================= */
 
-        @media (min-width: 600px) {
+        const intro =
+            document.getElementById("intro");
 
-            body {
-                padding: 22px 0;
+
+        const site =
+            document.getElementById("site");
+
+
+        const viewer =
+            document.getElementById("modelViewer");
+
+
+        const loading =
+            document.getElementById("loading");
+
+
+        const fullscreen =
+            document.getElementById("fullscreen");
+
+
+        const arButton =
+            document.getElementById("arButton");
+
+
+        /* =========================
+           INTRO
+        ========================= */
+
+        window.addEventListener(
+            "load",
+            () => {
+
+                setTimeout(() => {
+
+                    intro.classList.add("hide");
+
+                    site.classList.add("show");
+
+                }, 2500);
+
             }
+        );
 
-            .page {
-                min-height: 810px;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.12);
-            }
-
-        }
 
         /* =========================
-           SMALL PHONES
+           MODEL LOADING
         ========================= */
 
-        @media (max-width: 360px) {
+        viewer.addEventListener(
+            "load",
+            () => {
 
-            .hero {
-                height: 650px;
+                console.log(
+                    "3D model loaded successfully."
+                );
+
+
+                loading.classList.add(
+                    "hidden"
+                );
+
             }
+        );
 
-            .logo {
-                font-size: 57px;
+
+        viewer.addEventListener(
+            "error",
+            (event) => {
+
+                console.error(
+                    "3D MODEL ERROR:",
+                    event
+                );
+
+
+                loading.innerHTML = `
+
+                    <div class="loading-inner">
+
+                        <span>
+                            Unable to load 3D model
+                        </span>
+
+                    </div>
+
+                `;
+
             }
+        );
 
-            .live {
-                font-size: 75px;
+
+        /* =========================
+           FULLSCREEN
+        ========================= */
+
+        fullscreen.addEventListener(
+            "click",
+            async () => {
+
+                const wrapper =
+                    document.querySelector(
+                        ".viewer-wrapper"
+                    );
+
+
+                try {
+
+                    if (
+                        !document.fullscreenElement
+                    ) {
+
+                        await wrapper.requestFullscreen();
+
+                    } else {
+
+                        await document.exitFullscreen();
+
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "Fullscreen error:",
+                        error
+                    );
+
+                }
+
             }
+        );
 
-            .forward {
-                font-size: 22px;
+
+        /* =========================
+           AR
+        ========================= */
+
+        arButton.addEventListener(
+            "click",
+            async () => {
+
+                console.log(
+                    "AR button clicked."
+                );
+
+
+                try {
+
+                    if (
+                        !viewer.canActivateAR
+                    ) {
+
+                        alert(
+                            "AR is not available on this device. Please open this page on a compatible iPhone or Android phone."
+                        );
+
+                        return;
+
+                    }
+
+
+                    await viewer.activateAR();
+
+                } catch (error) {
+
+                    console.error(
+                        "AR ERROR:",
+                        error
+                    );
+
+
+                    alert(
+                        "AR could not be launched. Please try opening the website on a compatible mobile device."
+                    );
+
+                }
+
             }
+        );
 
-        }
+
+    </script>
+
+
+</body>
+</html>
