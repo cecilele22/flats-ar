@@ -458,7 +458,7 @@
 
             --progress-bar-color: white;
 
-            --progress-mask: #dedbd5;
+            --progress-mask: white;
 
             --ar-button-display: none;
         }
