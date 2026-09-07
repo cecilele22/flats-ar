@@ -289,10 +289,10 @@
                 opacity: 0;
 
                 transform:
-                    translateY(20px)
-                    scale(0.94);
+                    translateY(40px)
+                    scale(1);
 
-                filter: blur(6px);
+                filter: blur(4px);
             }
 
             40% {
@@ -479,7 +479,7 @@
             align-items: center;
             justify-content: center;
 
-            background: #dedbd5;
+            background: white;
 
             z-index: 5;
 
