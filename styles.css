@@ -162,7 +162,7 @@
 
         /* SMALL PNG ABOVE DISCOVER */
         .section-icon {
-            width:  70%;
+            width:  70px;
             height: auto;
 
             object-fit: contain;
