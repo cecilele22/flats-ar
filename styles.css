@@ -44,7 +44,7 @@
     height: 100vh;
     height: 100svh;
 
-    background-image: url("aerial-shot.jpg");
+    background-image: url("flats_aerial.jpg");
     background-size: cover;
     background-position: center;
 
@@ -59,7 +59,27 @@
         visibility 0.8s ease;
 }
 
+#landing::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
 
+    height: 55%;
+
+    background: linear-gradient(
+        to top,
+        rgba(39, 69, 53, 1) 0%,
+        rgba(39, 69, 53, 0.85) 25%,
+        rgba(39, 69, 53, 0.45) 55%,
+        rgba(39, 69, 53, 0) 100%
+    );
+
+    z-index: 1;
+
+    pointer-events: none;
+}
 /* DARK OVERLAY */
 
 .landing-overlay {
