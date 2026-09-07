@@ -32,7 +32,9 @@
             color: white;
             overflow-x: hidden;
         }
-
+html {
+    scroll-behavior: smooth;
+}
 /* =========================
    LANDING PAGE
 ========================= */
