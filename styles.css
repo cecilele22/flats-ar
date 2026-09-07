@@ -342,7 +342,7 @@
             text-align: center;
 
             padding:
-                60px
+                0
                 20px
                 25px;
         }
@@ -679,13 +679,6 @@
         ========================= */
 
         @media (max-width: 700px) {
-
-            .top {
-
-                padding-top: 40px;
-            }
-
-
             .viewer-wrapper {
 
                 width: 94%;
