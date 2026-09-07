@@ -536,3 +536,51 @@
 
         }
 
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    border-top: 1px solid rgba(255,255,255,0.12);
+
+    padding:
+        35px
+        20px
+        40px;
+
+    text-align: center;
+}
+
+.footer-logo {
+    width: 70px;
+    height: auto;
+
+    display: block;
+
+    margin:
+        0
+        auto
+        18px;
+
+    opacity: 0.8;
+}
+
+.footer p {
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    opacity: 0.4;
+}
+
+.footer-credit {
+    margin-top: 10px;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    opacity: 0.25;
+}
