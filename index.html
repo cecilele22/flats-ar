@@ -140,7 +140,7 @@
 
 
 
-            <!-- =========================
+<!-- =========================
              3D VIEWER
         ========================= -->
 
@@ -172,7 +172,7 @@
 
             <model-viewer
                 id="modelViewer"
-                src="models/flats-optimized.glb"
+                src="models/building.glb"
                 camera-controls
                 auto-rotate
                 auto-rotate-delay="1000"
@@ -198,7 +198,8 @@
 
         </section>
 
- <!-- =========================
+
+        <!-- =========================
              AR
         ========================= -->
 
@@ -218,6 +219,7 @@
             </div>
 
         </section>
+
 
 
     <!-- =========================
@@ -392,113 +394,97 @@ viewer.addEventListener(
 
 
 
-/* =========================
-   FULLSCREEN
-========================= */
+  /* =========================
+           FULLSCREEN
+        ========================= */
 
-fullscreen.addEventListener(
-    "click",
-    async () => {
+        fullscreen.addEventListener(
+            "click",
+            async () => {
 
-        const wrapper =
-            document.querySelector(
-                ".viewer-wrapper"
-            );
+                const wrapper =
+                    document.querySelector(
+                        ".viewer-wrapper"
+                    );
 
 
-        try {
+                try {
 
-            if (
-                !document.fullscreenElement
-            ) {
+                    if (
+                        !document.fullscreenElement
+                    ) {
 
-                await wrapper.requestFullscreen();
+                        await wrapper.requestFullscreen();
+
+                    } else {
+
+                        await document.exitFullscreen();
+
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "Fullscreen error:",
+                        error
+                    );
+
+                }
 
             }
-
-            else {
-
-                await document.exitFullscreen();
-
-            }
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "Fullscreen error:",
-                error
-            );
-
-        }
-
-    }
-);
-
-
-
-/* =========================
-   AR BUTTON
-========================= */
-
-arButton.addEventListener(
-    "click",
-    async () => {
-
-        console.log(
-            "AR button clicked."
         );
 
 
-        try {
+        /* =========================
+           AR
+        ========================= */
 
-            /*
-             * Make sure the model has loaded
-             * before trying to launch AR.
-             */
-
-            if (!viewer.loaded) {
+        arButton.addEventListener(
+            "click",
+            async () => {
 
                 console.log(
-                    "Waiting for model to load..."
+                    "AR button clicked."
                 );
 
-                await viewer.updateComplete;
+
+                try {
+
+                    if (
+                        !viewer.canActivateAR
+                    ) {
+
+                        alert(
+                            "AR is not available on this device. Please open this page on a compatible iPhone or Android phone."
+                        );
+
+                        return;
+
+                    }
+
+
+                    await viewer.activateAR();
+
+                } catch (error) {
+
+                    console.error(
+                        "AR ERROR:",
+                        error
+                    );
+
+
+                    alert(
+                        "AR could not be launched. Please try opening the website on a compatible mobile device."
+                    );
+
+                }
 
             }
+        );
 
 
-            /*
-             * Launch AR
-             */
+    </script>
 
-            await viewer.activateAR();
-
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "AR ERROR:",
-                error
-            );
-
-
-            alert(
-                "AR could not be launched. " +
-                "Please open this website on a compatible " +
-                "Android or iPhone device."
-            );
-
-        }
-
-    }
-);
-
-
-</script>
 
 
 </body>
