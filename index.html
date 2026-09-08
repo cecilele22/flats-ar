@@ -1,7 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,13 +10,17 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 
-<!-- Font Awesome -->
-<link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+        rel="stylesheet">
 
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Your CSS -->
     <link rel="stylesheet" href="styles.css">
 
     <!-- Model Viewer -->
@@ -25,431 +29,500 @@
         src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
     </script>
 
-    
 </head>
 
 
 <body>
+
 
 <!-- =========================
      LANDING PAGE
 ========================= -->
 
 <section id="landing">
- <img
+
+    <img
         src="container.png"
         alt=""
         class="landing-top-image">
+
     <img
         src="FLATS - Olive Green (PNG).png"
-        alt=""
+        alt="FLATS"
         class="logo-image">
-    
-    <div class="landing-overlay"></div>
-    
+
     <div class="landing-overlay"></div>
 
     <div class="landing-content">
 
         <!-- CAMPAIGN MESSAGE -->
+
         <img
             src="FORWARD.png"
             alt="Campaign Message"
             class="campaign-message">
 
+
         <!-- SUPPORTING TEXT -->
+
         <p class="landing-text">
             Experience FLATS from a whole new perspective.
             Explore the development in 3D and discover it in AR.
         </p>
 
+
         <!-- CTA -->
-  <button
-    id="enterExperience"
-    class="landing-button"
-    onclick="location.href='#footer'">
 
-    Explore More
+        <button
+            id="enterExperience"
+            class="landing-button"
+            onclick="location.href='#site'">
 
-    <span>↗</span>
-</button>
+            Explore More
+
+            <span>↗</span>
+
+        </button>
 
     </div>
 
 </section>
+
+
+
+<!-- =========================
+     INTRO
+========================= -->
+
+<section id="intro">
+
+    <div class="logo">
+
+        <img
+            src="logo.png"
+            alt="FLATS">
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     MAIN SITE
+========================= -->
+
+<main id="site">
+
+
     <!-- =========================
-         INTRO
+         HEADER
     ========================= -->
 
-    <section id="intro">
+    <section class="top" id="top">
 
-        <div class="logo">
+        <small>
+            Discover the development
+        </small>
 
-            <img
-                src="logo.png"
-                alt="FLATS">
 
-        </div>
+        <h2>
+            Lorem Ipsum
+        </h2>
+
+
+        <p>
+            Explore the property in three dimensions.
+            Rotate, zoom and view the development from every angle.
+        </p>
 
     </section>
 
 
+
     <!-- =========================
-         MAIN SITE
+         3D VIEWER
     ========================= -->
 
-    <main id="site">
+    <section class="viewer-wrapper">
 
 
-        <!-- =========================
-             HEADER
-        ========================= -->
+        <!-- LOADING -->
 
-        <section class="top" id="top">
+        <div
+            class="loading"
+            id="loading">
 
-          
+            <div class="loading-inner">
 
+                <span>
+                    Loading experience
+                </span>
 
-            <small>
-                Discover the development
-            </small>
+                <div class="loader">
 
-
-            <h2>
-                Lorem Ipsum
-            </h2>
-
-
-            <p>
-                Explore the property in three dimensions.
-                Rotate, zoom and view the development from every angle.
-            </p>
-
-        </section>
-
-
-        <!-- =========================
-             3D VIEWER
-        ========================= -->
-
-        <section class="viewer-wrapper">
-
-
-            <div
-                class="loading"
-                id="loading">
-
-                <div class="loading-inner">
-
-                    <span>
-                        Loading experience
-                    </span>
-
-                    <div class="loader">
-
-                        <div
-                            class="loader-line">
-                        </div>
-
-                    </div>
+                    <div class="loader-line"></div>
 
                 </div>
 
             </div>
 
-
-            <model-viewer
-                id="modelViewer"
-                src="models/BLDG 3.glb"
-                camera-controls
-                auto-rotate
-                auto-rotate-delay="1000"
-                rotation-per-second="20deg"
-                shadow-intensity="1"
-                exposure="1"
-                environment-image="neutral"
-                ar
-                ar-modes="webxr scene-viewer quick-look"
-                alt="Condominium building">
-            </model-viewer>
+        </div>
 
 
-            <button
-                id="fullscreen"
-                aria-label="Enter fullscreen"
-                title="Fullscreen">
 
-                ⛶
+        <!-- MODEL VIEWER -->
 
-            </button>
+        <model-viewer
+
+            id="modelViewer"
+
+            src="models/bldg3.glb"
+
+            camera-controls
+
+            auto-rotate
+            auto-rotate-delay="1000"
+            rotation-per-second="20deg"
+
+            shadow-intensity="1"
+
+            exposure="1"
+
+            environment-image="neutral"
+
+            ar
+
+            ar-modes="webxr scene-viewer quick-look"
+
+            alt="FLATS condominium building">
+
+        </model-viewer>
 
 
-        </section>
+
+        <!-- FULLSCREEN -->
+
+        <button
+            id="fullscreen"
+            aria-label="Enter fullscreen"
+            title="Fullscreen">
+
+            ⛶
+
+        </button>
 
 
-        <!-- =========================
-             AR
-        ========================= -->
-
-        <section class="ar-section">
-
-            <button id="arButton">
-
-                View in AR
-
-            </button>
+    </section>
 
 
-            <div class="ar-note">
 
-                Best experienced on a mobile device
+    <!-- =========================
+         AR
+    ========================= -->
 
-            </div>
+    <section class="ar-section">
 
-        </section>
 
-          
+        <button
+            id="arButton"
+            type="button">
+
+            View in AR
+
+        </button>
+
+
+        <div class="ar-note">
+
+            Best experienced on a mobile device
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer
+        class="footer"
+        id="footer">
+
+
+        <img
+            src="logo.png"
+            alt="FLATS"
+            class="footer-logo">
+
+
+        <!-- SOCIAL MEDIA -->
+
+        <div class="socials">
+
+
+            <!-- INSTAGRAM -->
+
+            <a
+                href="https://www.instagram.com/"
+                target="_blank"
+                rel="noopener"
+                aria-label="Instagram">
+
+                <i
+                    class="fa-brands fa-instagram"
+                    style="color: rgb(255, 255, 255);">
+                </i>
+
+            </a>
+
+
+
+            <!-- FACEBOOK -->
+
+            <a
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noopener"
+                aria-label="Facebook">
+
+                <i
+                    class="fa-brands fa-facebook-f"
+                    style="color: rgb(255, 255, 255);">
+                </i>
+
+            </a>
+
+
+        </div>
+
+
+    </footer>
+
+
+</main>
+
 
 
 <!-- =========================
-     FOOTER
+     JAVASCRIPT
 ========================= -->
 
-<footer class="footer" id="footer">
-
-    <img
-        src="logo.png"
-        alt="FLATS"
-        class="footer-logo">
+<script>
 
 
-    <!-- SOCIAL MEDIA -->
-    <div class="socials">
+/* =========================
+   ELEMENTS
+========================= */
 
-        <a
-            href="https://www.instagram.com/"
-            target="_blank"
-            rel="noopener"
-            aria-label="Instagram">
+const intro =
+    document.getElementById("intro");
 
-            <i class="fa-brands fa-instagram" style="color: rgb(255, 255, 255);"></i>
+const site =
+    document.getElementById("site");
 
-        </a>
+const viewer =
+    document.getElementById("modelViewer");
 
-        <a
-            href="https://www.facebook.com/"
-            target="_blank"
-            rel="noopener"
-            aria-label="Facebook">
+const loading =
+    document.getElementById("loading");
 
-            <i class="fa-brands fa-facebook-f" style="color: rgb(255, 255, 255);"></i>
+const fullscreen =
+    document.getElementById("fullscreen");
 
-        </a>
+const arButton =
+    document.getElementById("arButton");
 
 
 
-    </div>
- <!-- =========================
-              <div class="footer-credit">
-        © 2026 All Rights Reserved
-    </div>
-        ========================= -->
-   
+/* =========================
+   INTRO
+========================= */
 
-</footer>
+window.addEventListener(
+    "load",
+    () => {
 
+        setTimeout(() => {
 
-    </main>
-
-
-    <script>
-
-
-        /* =========================
-           ELEMENTS
-        ========================= */
-
-        const intro =
-            document.getElementById("intro");
-
-
-        const site =
-            document.getElementById("site");
-
-
-        const viewer =
-            document.getElementById("modelViewer");
-
-
-        const loading =
-            document.getElementById("loading");
-
-
-        const fullscreen =
-            document.getElementById("fullscreen");
-
-
-        const arButton =
-            document.getElementById("arButton");
-
-
-        /* =========================
-           INTRO
-        ========================= */
-
-        window.addEventListener(
-            "load",
-            () => {
-
-                setTimeout(() => {
-
-                    intro.classList.add("hide");
-
-                    site.classList.add("show");
-
-                }, 2500);
-
+            if (intro) {
+                intro.classList.add("hide");
             }
+
+            if (site) {
+                site.classList.add("show");
+            }
+
+        }, 2500);
+
+    }
+);
+
+
+
+/* =========================
+   MODEL LOADING
+========================= */
+
+viewer.addEventListener(
+    "load",
+    () => {
+
+        console.log(
+            "3D model loaded successfully."
         );
 
 
-        /* =========================
-           MODEL LOADING
-        ========================= */
+        loading.classList.add(
+            "hidden"
+        );
 
-        viewer.addEventListener(
-            "load",
-            () => {
+    }
+);
+
+
+
+/* =========================
+   MODEL ERROR
+========================= */
+
+viewer.addEventListener(
+    "error",
+    (event) => {
+
+        console.error(
+            "3D MODEL ERROR:",
+            event
+        );
+
+
+        loading.innerHTML = `
+
+            <div class="loading-inner">
+
+                <span>
+                    Unable to load 3D model
+                </span>
+
+            </div>
+
+        `;
+
+    }
+);
+
+
+
+/* =========================
+   FULLSCREEN
+========================= */
+
+fullscreen.addEventListener(
+    "click",
+    async () => {
+
+        const wrapper =
+            document.querySelector(
+                ".viewer-wrapper"
+            );
+
+
+        try {
+
+            if (
+                !document.fullscreenElement
+            ) {
+
+                await wrapper.requestFullscreen();
+
+            }
+
+            else {
+
+                await document.exitFullscreen();
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Fullscreen error:",
+                error
+            );
+
+        }
+
+    }
+);
+
+
+
+/* =========================
+   AR BUTTON
+========================= */
+
+arButton.addEventListener(
+    "click",
+    async () => {
+
+        console.log(
+            "AR button clicked."
+        );
+
+
+        try {
+
+            /*
+             * Make sure the model has loaded
+             * before trying to launch AR.
+             */
+
+            if (!viewer.loaded) {
 
                 console.log(
-                    "3D model loaded successfully."
+                    "Waiting for model to load..."
                 );
 
-
-                loading.classList.add(
-                    "hidden"
-                );
+                await viewer.updateComplete;
 
             }
-        );
 
 
-        viewer.addEventListener(
-            "error",
-            (event) => {
+            /*
+             * Launch AR
+             */
 
-                console.error(
-                    "3D MODEL ERROR:",
-                    event
-                );
+            await viewer.activateAR();
 
 
-                loading.innerHTML = `
+        }
 
-                    <div class="loading-inner">
+        catch (error) {
 
-                        <span>
-                            Unable to load 3D model
-                        </span>
-
-                    </div>
-
-                `;
-
-            }
-        );
+            console.error(
+                "AR ERROR:",
+                error
+            );
 
 
-        /* =========================
-           FULLSCREEN
-        ========================= */
+            alert(
+                "AR could not be launched. " +
+                "Please open this website on a compatible " +
+                "Android or iPhone device."
+            );
 
-        fullscreen.addEventListener(
-            "click",
-            async () => {
+        }
 
-                const wrapper =
-                    document.querySelector(
-                        ".viewer-wrapper"
-                    );
+    }
+);
 
 
-                try {
-
-                    if (
-                        !document.fullscreenElement
-                    ) {
-
-                        await wrapper.requestFullscreen();
-
-                    } else {
-
-                        await document.exitFullscreen();
-
-                    }
-
-                } catch (error) {
-
-                    console.error(
-                        "Fullscreen error:",
-                        error
-                    );
-
-                }
-
-            }
-        );
-
-
-        /* =========================
-           AR
-        ========================= */
-
-        arButton.addEventListener(
-            "click",
-            async () => {
-
-                console.log(
-                    "AR button clicked."
-                );
-
-
-                try {
-
-                    if (
-                        !viewer.canActivateAR
-                    ) {
-
-                        alert(
-                            "AR is not available on this device. Please open this page on a compatible iPhone or Android phone."
-                        );
-
-                        return;
-
-                    }
-
-
-                    await viewer.activateAR();
-
-                } catch (error) {
-
-                    console.error(
-                        "AR ERROR:",
-                        error
-                    );
-
-
-                    alert(
-                        "AR could not be launched. Please try opening the website on a compatible mobile device."
-                    );
-
-                }
-
-            }
-        );
-
-
-    </script>
+</script>
 
 
 </body>
