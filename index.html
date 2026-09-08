@@ -140,108 +140,84 @@
 
 
 
-    <!-- =========================
-         3D VIEWER
-    ========================= -->
+            <!-- =========================
+             3D VIEWER
+        ========================= -->
 
-    <section class="viewer-wrapper">
+        <section class="viewer-wrapper">
 
 
-        <!-- LOADING -->
+            <div
+                class="loading"
+                id="loading">
 
-        <div
-            class="loading"
-            id="loading">
+                <div class="loading-inner">
 
-            <div class="loading-inner">
+                    <span>
+                        Loading experience
+                    </span>
 
-                <span>
-                    Loading experience
-                </span>
+                    <div class="loader">
 
-                <div class="loader">
+                        <div
+                            class="loader-line">
+                        </div>
 
-                    <div class="loader-line"></div>
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
+
+            <model-viewer
+                id="modelViewer"
+                src="models/flats-optimized.glb"
+                camera-controls
+                auto-rotate
+                auto-rotate-delay="1000"
+                rotation-per-second="20deg"
+                shadow-intensity="1"
+                exposure="1"
+                environment-image="neutral"
+                ar
+                ar-modes="webxr scene-viewer quick-look"
+                alt="Condominium building">
+            </model-viewer>
 
 
+            <button
+                id="fullscreen"
+                aria-label="Enter fullscreen"
+                title="Fullscreen">
 
-        <!-- MODEL VIEWER -->
+                ⛶
 
-        <model-viewer
-
-            id="modelViewer"
-
-            src="models/bldg3.glb"
-
-            camera-controls
-
-            auto-rotate
-            auto-rotate-delay="1000"
-            rotation-per-second="20deg"
-
-            shadow-intensity="1"
-
-            exposure="1"
-
-            environment-image="neutral"
-
-            ar
-
-            ar-modes="webxr scene-viewer quick-look"
-
-            alt="FLATS condominium building">
-
-        </model-viewer>
+            </button>
 
 
+        </section>
 
-        <!-- FULLSCREEN -->
+ <!-- =========================
+             AR
+        ========================= -->
 
-        <button
-            id="fullscreen"
-            aria-label="Enter fullscreen"
-            title="Fullscreen">
+        <section class="ar-section">
 
-            ⛶
+            <button id="arButton">
 
-        </button>
+                View in AR
 
-
-    </section>
-
+            </button>
 
 
-    <!-- =========================
-         AR
-    ========================= -->
+            <div class="ar-note">
 
-    <section class="ar-section">
+                Best experienced on a mobile device
 
+            </div>
 
-        <button
-            id="arButton"
-            type="button">
-
-            View in AR
-
-        </button>
-
-
-        <div class="ar-note">
-
-            Best experienced on a mobile device
-
-        </div>
-
-
-    </section>
-
+        </section>
 
 
     <!-- =========================
