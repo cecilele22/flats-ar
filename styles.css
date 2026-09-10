@@ -1,66 +1,33 @@
+/* =========================================================
+   FLATS — MAIN STYLESHEET
+========================================================= */
 
 
-        /* =========================
-           IMPORTED FONT
+/* =========================================================
+   RESET
+========================================================= */
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        @font-face {
-            font-family: "MyImportedFont";
-            src: url("fonts/YourFont.woff2") format("woff2");
-            font-weight: 100 900;
-            font-style: normal;
-            font-display: swap;
-        }
-        ========================= */
-
-
-
-        /* =========================
-           RESET
-        ========================= */
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-
-        body {
-            font-family: "Plus Jakarta Sans", sans-serif;
-            background: #274535;
-            color: white;
-            overflow-x: hidden;
-        }
 html {
     scroll-behavior: smooth;
 }
-/* =========================
+
+body {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    background: #274535;
+    color: white;
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
    LANDING PAGE
-========================= */
-
-.landing-top-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 109%;
-    height: auto;
-    max-height: 250px;
-
-    z-index: 1;
-}
-
-.logo-image {
-        
-    max-width: 132px;
-    width: 100%;
-    height: 45px;
-    position: absolute;
-    top: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
-}
+========================================================= */
 
 #landing {
     position: relative;
@@ -71,16 +38,64 @@ html {
     background-image: url("flats_aerial.png");
     background-size: cover;
     background-repeat: no-repeat;
-        background-position: 35%;
+    background-position: 35%;
 
     display: flex;
-    align-items: left;
+    align-items: center;
     justify-content: center;
 
     overflow: hidden;
 }
+
+
+/* Top decorative image */
+
+.landing-top-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 109%;
+    height: auto;
+    max-height: 250px;
+
+    z-index: 1;
+}
+
+
+/* Logo */
+
+.logo-image {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+
+    width: 132px;
+    height: auto;
+
+    transform: translateX(-50%);
+
+    z-index: 3;
+}
+
+
+/* Dark overlay */
+
+.landing-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.25);
+
+    z-index: 0;
+}
+
+
+/* Bottom green gradient */
+
 #landing::after {
     content: "";
+
     position: absolute;
     left: 0;
     right: 0;
@@ -97,41 +112,31 @@ html {
     );
 
     z-index: 1;
-
     pointer-events: none;
 }
-/* DARK OVERLAY */
-
-.landing-overlay {
-    position: absolute;
-    inset: 0;
-
-    background: rgba(0, 0, 0, 0.25);
-}
 
 
-/* CONTENT */
+/* Landing content */
 
 .landing-content {
     position: relative;
     z-index: 2;
 
     width: min(90%, 700px);
+    height: 100%;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-end;
 
     text-align: center;
 
     padding: 50px 20px;
- 
-    justify-content: flex-end;
-    height: 100%;
 }
 
 
-/* CAMPAIGN PNG */
+/* Campaign PNG */
 
 .campaign-message {
     width: min(90%, 550px);
@@ -143,7 +148,7 @@ html {
 }
 
 
-/* SUPPORTING TEXT */
+/* Supporting text */
 
 .landing-text {
     max-width: 900px;
@@ -152,35 +157,29 @@ html {
 
     color: white;
 
-    font-family:
-        "Plus Jakarta Sans",
-        sans-serif;
-
     font-size: 15px;
     line-height: 1.7;
 
-    text-shadow:
-        0 2px 10px rgba(0,0,0,0.35);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
 }
 
 
-/* BUTTON */
+/* Landing button */
 
 .landing-button {
-    border: 1px solid rgba(255,255,255,0.7);
-
-    background: rgba(255,255,255,0.95);
-
-    color: #274535;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 
     padding: 15px 26px;
 
+    border: 1px solid rgba(255, 255, 255, 0.7);
     border-radius: 100px;
 
-    font-family:
-        "Plus Jakarta Sans",
-        sans-serif;
+    background: rgba(255, 255, 255, 0.95);
+    color: #274535;
 
+    font-family: inherit;
     font-size: 13px;
     font-weight: 700;
 
@@ -189,589 +188,466 @@ html {
 
     cursor: pointer;
 
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
     transition:
         transform 0.3s ease,
         background 0.3s ease;
 }
 
-
 .landing-button span {
     font-size: 18px;
 
-    transition:
-        transform 0.3s ease;
+    transition: transform 0.3s ease;
 }
-
 
 .landing-button:hover {
     transform: translateY(-2px);
-
     background: white;
 }
-
 
 .landing-button:hover span {
     transform: translate(3px, -3px);
 }
 
 
-/* HIDE LANDING */
+/* Hide landing page */
 
 #landing.hide {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
 }
-        /* =========================
-           INTRO
-        ========================= */
 
-        #intro {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
 
-            background: #274535;
+/* =========================================================
+   INTRO
+========================================================= */
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+#intro {
+    position: fixed;
+    inset: 0;
 
-            transition:
-                opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
-                visibility 1.2s ease;
-        }
+    z-index: 1000;
 
+    background: #274535;
 
-        #intro.hide {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-
-        /* =========================
-           LOGO
-        ========================= */
-
-        .logo {
-            width: 120px;
-            max-width: 60vw;
-
-            opacity: 0;
-
-            transform:
-                translateY(20px)
-                scale(0.94);
-
-            filter: blur(6px);
-
-            animation:
-                logoReveal
-                2s
-                cubic-bezier(0.22, 1, 0.36, 1)
-                forwards;
-        }
-
-
-        .logo img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-
-        @keyframes logoReveal {
-
-            0% {
-                opacity: 0;
-
-                transform:
-                    translateY(40px)
-                    scale(1);
-
-                filter: blur(4px);
-            }
-
-            40% {
-                opacity: 0.7;
-                filter: blur(2px);
-            }
-
-            100% {
-                opacity: 1;
-
-                transform:
-                    translateY(0)
-                    scale(1);
-
-                filter: blur(0);
-            }
-
-        }
-
-
-        /* =========================
-           MAIN SITE
-        ========================= */
-
-        #site {
-            opacity: 0;
-
-            transform: translateY(10px);
-
-            transition:
-                opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-
-        #site.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-
-        /* =========================
-           HEADER
-        ========================= */
-
-        .top {
-            text-align: center;
-
-            padding:
-                0
-                20px
-                25px;
-        }
-
-
-        /* SMALL PNG ABOVE DISCOVER */
-        .section-icon {
-            width:  50px;
-            height: auto;
-
-            object-fit: contain;
-
-            display: block;
-
-            margin:
-                0
-                auto
-                18px;
-        }
-
-
-        .top small {
-            display: block;
-
-            font-size: 10px;
-
-            letter-spacing: 4px;
-
-            text-transform: uppercase;
-
-            opacity: 0.45;
-
-            margin-bottom: 15px;
-        }
-
-
-        /* =========================
-           LOREM IPSUM FONT
-        ========================= */
-
-        .top h2 {
-            font-family: "Plus Jakarta Sans", sans-serif;
-
-            font-size:
-                clamp(
-                    32px,
-                    6vw,
-                    58px
-                );
-
-            font-weight: 500;
-        }
-
-
-        .top p {
-            max-width: 520px;
-
-            margin:
-                15px
-                auto
-                0;
-
-            line-height: 1.7;
-
-            font-size: 14px;
-
-            opacity: 0.65;
-        }
-
-
-        /* =========================
-           3D VIEWER
-        ========================= */
-
-        .viewer-wrapper {
-
-            width:
-                min(
-                    1100px,
-                    92%
-                );
-
-            height:
-                min(
-                    650px,
-                    70vh
-                );
-           margin: 0 auto;
-
-            position: relative;
-
-            background: white;
-
-            border-radius: 4px;
-
-            overflow: hidden;
-
-            box-shadow:
-                0 25px
-                80px
-                rgba(0,0,0,0.08);
-        }
-
-
-        model-viewer {
-
-            width: 100%;
-            height: 100%;
-
-            background: white;
-
-            --poster-color: transparent;
-
-            --progress-bar-color: white;
-
-            --progress-mask: white;
-
-            --ar-button-display: none;
-        }
-
-
-        /* =========================
-           LOADING
-        ========================= */
-
-        .loading {
-
-            position: absolute;
-
-            inset: 0;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            background: white;
-
-            z-index: 5;
-
-            pointer-events: none;
-
-            transition:
-                opacity 0.6s ease;
-        }
-
-
-        .loading.hidden {
-            opacity: 0;
-        }
-
-
-        .loading-inner {
-            text-align: center;
-        }
-
-
-        .loading-inner span {
-
-            display: block;
-
-            font-size: 10px;
-
-            letter-spacing: 4px;
-
-            text-transform: uppercase;
-
-            opacity: 0.5;
-
-            margin-bottom: 15px;
-        }
-
-
-        .loader {
-
-            width: 140px;
-
-            height: 1px;
-
-            background:
-                rgba(0,0,0,0.15);
-
-            overflow: hidden;
-        }
-
-
-        .loader-line {
-
-            width: 30%;
-
-            height: 100%;
-
-            background: #1d1d1b;
-
-            animation:
-                loading
-                1.3s
-                infinite
-                ease-in-out;
-        }
-
-
-        @keyframes loading {
-
-            0% {
-                transform:
-                    translateX(-100%);
-            }
-
-            100% {
-                transform:
-                    translateX(450%);
-            }
-
-        }
-
-
-        /* =========================
-           FULLSCREEN
-        ========================= */
-
-        #fullscreen {
-
-            position: absolute;
-
-            right: 18px;
-            bottom: 18px;
-
-            z-index: 10;
-
-            width: 42px;
-            height: 42px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            border: 0;
-
-            border-radius: 3px;
-
-            background:
-                rgba(255,255,255,0.88);
-
-            backdrop-filter:
-                blur(10px);
-
-            color: #274535;
-
-            font-size: 23px;
-
-            line-height: 1;
-
-            cursor: pointer;
-
-            transition:
-                all 0.25s ease;
-        }
-
-
-        #fullscreen:hover {
-
-            background: #fff;
-
-            transform:
-                scale(1.05);
-        }
-
-
-        /* =========================
-           AR BUTTON
-        ========================= */
-
-        .ar-section {
-
-            text-align: center;
-
-            padding:
-                20px;
-        }
-
-
-        #arButton {
-
-            border:
-                1px solid white;
-
-            background: white;
-
-            color: #274535;
-
-            padding:
-                17px
-                34px;
-
-            font-family:
-                "Plus Jakarta Sans",
-                sans-serif;
-
-            font-size: 11px;
-
-            letter-spacing: 3px;
-
-            text-transform: uppercase;
-
-            cursor: pointer;
-
-            transition:
-                all 0.3s ease;
-        }
-
-
-        #arButton:hover {
-
-            background: transparent;
-
-            color: white;
-        }
-
-
-        .ar-note {
-
-            margin-top: 12px;
-
-            font-size: 11px;
-
-            opacity: 0.45;
-        }
-
-
-        /* =========================
-           MOBILE
-        ========================= */
-
-        @media (max-width: 700px) {
-            .viewer-wrapper {
-
-                width: 94%;
-
-                height: 58vh;
-
-                min-height: 400px;
-            }
-
-
-            .top p {
-
-                font-size: 13px;
-            }
-
-
-            .logo {
-
-                width: 110px;
-            }
-
-
-            .section-icon {
-
-                width: 28px;
-                height: 28px;
-
-                margin-bottom: 15px;
-            }
-
-        }
-
-/* =========================
-   FOOTER
-========================= */
-
-.footer {
-    border-top: 1px solid rgba(255,255,255,0.12);
-    padding: 13px 20px;
-    align-items: center;
-    justify-content: space-between;
     display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 1.2s ease;
 }
 
-.footer-logo {
-    max-width: 48px;
+#intro.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   INTRO LOGO
+========================================================= */
+
+.logo {
+    width: 120px;
+    max-width: 60vw;
+
+    opacity: 0;
+
+    transform:
+        translateY(20px)
+        scale(0.94);
+
+    filter: blur(6px);
+
+    animation:
+        logoReveal
+        2s
+        cubic-bezier(0.22, 1, 0.36, 1)
+        forwards;
+}
+
+.logo img {
+    display: block;
+
     width: 100%;
+    height: auto;
+}
+
+
+/* Logo animation */
+
+@keyframes logoReveal {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(40px)
+            scale(1);
+
+        filter: blur(4px);
+    }
+
+    40% {
+        opacity: 0.7;
+        filter: blur(2px);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+        filter: blur(0);
+    }
+}
+
+
+/* =========================================================
+   MAIN SITE
+========================================================= */
+
+#site {
+    opacity: 0;
+
+    transform: translateY(10px);
+
+    transition:
+        opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#site.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.top {
+    padding: 0 20px 25px;
+
+    text-align: center;
+}
+
+
+/* Small PNG above Discover */
+
+.section-icon {
+    display: block;
+
+    width: 50px;
+    height: auto;
+
+    margin: 0 auto 18px;
+
+    object-fit: contain;
+}
+
+
+/* Small label */
+
+.top small {
+    display: block;
+
+    margin-bottom: 15px;
+
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+
+    opacity: 0.45;
+}
+
+
+/* Main heading */
+
+.top h2 {
+    font-size: clamp(32px, 6vw, 58px);
+    font-weight: 500;
+}
+
+
+/* Supporting paragraph */
+
+.top p {
+    max-width: 520px;
+
+    margin: 15px auto 0;
+
+    font-size: 14px;
+    line-height: 1.7;
+
+    opacity: 0.65;
+}
+
+
+/* =========================================================
+   3D VIEWER
+========================================================= */
+
+.viewer-wrapper {
+    position: relative;
+
+    width: min(1100px, 92%);
+    height: min(650px, 70vh);
+
+    margin: 0 auto;
+
+    background: white;
+
+    border-radius: 4px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.08);
+}
+
+
+/* Model Viewer */
+
+model-viewer {
+    width: 100%;
+    height: 100%;
+
+    background: white;
+
+    --poster-color: transparent;
+    --progress-bar-color: white;
+    --progress-mask: white;
+    --ar-button-display: none;
+}
+
+
+/* =========================================================
+   LOADING SCREEN
+========================================================= */
+
+.loading {
+    position: absolute;
+    inset: 0;
+
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+
+    pointer-events: none;
+
+    transition: opacity 0.6s ease;
+}
+
+.loading.hidden {
+    opacity: 0;
+}
+
+.loading-inner {
+    text-align: center;
+}
+
+.loading-inner span {
+    display: block;
+
+    margin-bottom: 15px;
+
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+
+    opacity: 0.5;
+}
+
+
+/* Loading line */
+
+.loader {
+    width: 140px;
+    height: 1px;
+
+    background: rgba(0, 0, 0, 0.15);
+
+    overflow: hidden;
+}
+
+.loader-line {
+    width: 30%;
+    height: 100%;
+
+    background: #1d1d1b;
+
+    animation:
+        loading
+        1.3s
+        infinite
+        ease-in-out;
+}
+
+@keyframes loading {
+
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(450%);
+    }
+}
+
+
+/* =========================================================
+   FULLSCREEN BUTTON
+========================================================= */
+
+#fullscreen {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+
+    z-index: 10;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 3px;
+
+    background: rgba(255, 255, 255, 0.88);
+
+    backdrop-filter: blur(10px);
+
+    color: #274535;
+
+    font-size: 23px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+#fullscreen:hover {
+    background: white;
+    transform: scale(1.05);
+}
+
+
+/* =========================================================
+   AR SECTION
+========================================================= */
+
+.ar-section {
+    padding: 20px;
+
+    text-align: center;
+}
+
+
+/* AR button */
+
+#arButton {
+    padding: 17px 34px;
+
+    border: 1px solid white;
+
+    background: white;
+    color: #274535;
+
+    font-family: inherit;
+    font-size: 11px;
+
+    letter-spacing: 3px;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+#arButton:hover {
+    background: transparent;
+    color: white;
+}
+
+
+/* AR note */
+
+.ar-note {
+    margin-top: 12px;
+
+    font-size: 11px;
+
+    opacity: 0.45;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 13px 20px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+
+/* Footer logo */
+
+.footer-logo {
+    display: block;
+
+    width: 48px;
+    height: auto;
     max-height: 16px;
 
-    display: block;
     opacity: 1;
 }
 
-.footer p {
-    font-size: 10px;
 
-    letter-spacing: 2px;
-
-    text-transform: uppercase;
-
-    opacity: 0.4;
-}
-
-.footer-credit {
-    margin-top: 10px;
-
-    font-size: 9px;
-
-    letter-spacing: 1px;
-
-    opacity: 0.25;
-}
-
-/* =========================
+/* =========================================================
    SOCIAL MEDIA
-========================= */
+========================================================= */
 
 .socials {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+
     gap: 10px;
 }
 
 .socials a {
     color: inherit;
+
     text-decoration: none;
+
     font-size: 12px;
     font-weight: 500;
+
     letter-spacing: 0.04em;
+
     opacity: 0.6;
+
     transition:
         opacity 0.3s ease,
         transform 0.3s ease;
@@ -779,5 +655,75 @@ html {
 
 .socials a:hover {
     opacity: 1;
+
     transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    /* 3D viewer */
+
+    .viewer-wrapper {
+        width: 94%;
+        height: 58vh;
+        min-height: 400px;
+    }
+
+
+    /* Header paragraph */
+
+    .top p {
+        font-size: 13px;
+    }
+
+
+    /* Intro logo */
+
+    .logo {
+        width: 110px;
+    }
+
+
+    /* Section icon */
+
+    .section-icon {
+        width: 28px;
+        height: 28px;
+
+        margin-bottom: 15px;
+    }
+
+
+    /* Landing content */
+
+    .landing-content {
+        padding: 40px 20px;
+    }
+
+
+    /* Campaign image */
+
+    .campaign-message {
+        width: min(90%, 450px);
+    }
+
+
+    /* Landing text */
+
+    .landing-text {
+        font-size: 13px;
+    }
+
+
+    /* Landing button */
+
+    .landing-button {
+        padding: 14px 23px;
+        font-size: 12px;
+    }
 }
